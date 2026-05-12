@@ -121,6 +121,26 @@ function Infraestrutura() {
         </div>
       </section>
 
+      {/* Diferenciais das salas */}
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="grid gap-6 md:grid-cols-3">
+            {amenities.map((a) => (
+              <div
+                key={a.title}
+                className="rounded-2xl border border-border bg-surface p-6 transition-smooth hover:border-primary/50 hover:shadow-glow"
+              >
+                <div className="inline-flex p-3 rounded-xl bg-gradient-brand text-primary-foreground shadow-glow mb-4">
+                  <a.icon size={20} />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{a.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{a.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Acordeão + Imagem */}
       <section className="pb-24 md:pb-32">
         <div className="max-w-7xl mx-auto px-6 md:px-10 grid gap-12 lg:grid-cols-[1.2fr_1fr] items-start">
