@@ -181,6 +181,66 @@ function Servicos() {
 
       <ContactForm />
       <Footer />
+
+      {/* Lightbox */}
+      <Dialog open={!!active} onOpenChange={(o) => !o && setActive(null)}>
+        <DialogContent className="max-w-5xl w-[95vw] p-0 border-border bg-background overflow-hidden [&>button]:hidden">
+          <DialogTitle className="sr-only">{active?.title ?? "Vídeo"}</DialogTitle>
+          <button
+            onClick={() => setActive(null)}
+            aria-label="Fechar"
+            className="absolute top-3 right-3 z-10 inline-flex items-center justify-center w-9 h-9 rounded-full bg-background/70 backdrop-blur border border-border text-foreground hover:bg-background transition-smooth"
+          >
+            <X size={18} />
+          </button>
+          {active && (
+            <>
+              <div className="aspect-video w-full bg-black">
+                <iframe
+                  key={active.id}
+                  src={`https://www.youtube.com/embed/${active.youtubeId}?autoplay=1&rel=0`}
+                  title={active.title}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <div className="px-6 py-4 border-t border-border">
+                <p className="text-xs uppercase tracking-wider text-primary">{active.category}</p>
+                <p className="text-lg font-bold">{active.title}</p>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
+  );
+}
+
+function PortfolioCard({ item, onPlay }: { item: PortfolioItem; onPlay: () => void }) {
+  return (
+    <button
+      onClick={onPlay}
+      className="group relative block w-full text-left rounded-2xl overflow-hidden border border-border bg-surface shadow-card hover:border-primary/50 hover:-translate-y-1 transition-smooth"
+    >
+      <div className="relative aspect-video overflow-hidden">
+        <img
+          src={item.thumb}
+          alt={item.title}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-smooth"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
+        <span className="absolute inset-0 flex items-center justify-center">
+          <span className="p-4 rounded-full bg-gradient-brand text-primary-foreground shadow-glow group-hover:scale-110 transition-smooth">
+            <Play size={22} fill="currentColor" />
+          </span>
+        </span>
+      </div>
+      <div className="p-5">
+        <p className="text-[11px] uppercase tracking-wider text-primary">{item.category}</p>
+        <p className="mt-1 font-bold leading-snug">{item.title}</p>
+      </div>
+    </button>
   );
 }
