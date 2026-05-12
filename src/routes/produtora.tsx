@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote, Sparkles, Music, Video, Mic, Award, Rocket } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
@@ -8,6 +8,28 @@ import { PageHero } from "@/components/PageHero";
 import { BrandX } from "@/components/BrandX";
 import heroProdutora from "@/assets/hero-produtora.jpg";
 import historia from "@/assets/historia.jpg";
+import equipmentGuitar from "@/assets/equipment-guitar.jpg";
+import heroInfra from "@/assets/hero-infra.jpg";
+import heroServicos from "@/assets/hero-servicos.jpg";
+import portfolioSinger from "@/assets/portfolio-singer.jpg";
+
+const timeline = [
+  { year: "2001", title: "O início", text: "Nasce a Flex Studio com foco em produção musical e audiovisual.", icon: Sparkles },
+  { year: "2008", title: "Expansão musical", text: "Novas salas de gravação e parcerias com artistas regionais.", icon: Music },
+  { year: "2014", title: "Era do vídeo", text: "Estruturamos a produtora para vídeo, publicidade e documentários.", icon: Video },
+  { year: "2019", title: "Estúdios premium", text: "Inauguração de cabines tratadas para locução e audiobooks.", icon: Mic },
+  { year: "2023", title: "Reconhecimento", text: "Projetos premiados ao lado de grandes marcas e instituições.", icon: Award },
+  { year: "2026", title: "Novo ciclo", text: "Renovação na direção, estrutura modernizada e visão de futuro.", icon: Rocket },
+];
+
+const gallery = [
+  { src: historia, alt: "Sessão no estúdio" },
+  { src: equipmentGuitar, alt: "Equipamentos de gravação" },
+  { src: heroInfra, alt: "Infraestrutura" },
+  { src: portfolioSinger, alt: "Artista em gravação" },
+  { src: heroServicos, alt: "Sessão de produção" },
+  { src: heroProdutora, alt: "Estúdio principal" },
+];
 
 export const Route = createFileRoute("/produtora")({
   component: Produtora,
