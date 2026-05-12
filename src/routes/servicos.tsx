@@ -143,33 +143,30 @@ function Servicos() {
             </p>
           </div>
 
-          <div className="mt-14 relative aspect-video max-w-5xl mx-auto rounded-3xl overflow-hidden border border-border shadow-card group">
-            <img
-              src={portfolioSinger}
-              alt="Cantor em sessão de gravação"
-              className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-smooth"
-              loading="lazy"
-              width={1280}
-              height={896}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
-            <button
-              className="absolute inset-0 flex items-center justify-center"
-              aria-label="Reproduzir vídeo"
-            >
-              <span className="p-6 rounded-full bg-gradient-brand text-primary-foreground shadow-glow group-hover:scale-110 transition-smooth">
-                <Play size={32} fill="currentColor" />
-              </span>
-            </button>
-            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between text-foreground">
-              <div>
-                <p className="text-xs uppercase tracking-wider text-primary">Sessão · 2025</p>
-                <p className="text-xl font-bold">Gravação ao vivo no Estúdio A</p>
-              </div>
-            </div>
+          {/* Desktop / tablet grid */}
+          <div className="mt-14 hidden sm:grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {portfolio.map((item) => (
+              <PortfolioCard key={item.id} item={item} onPlay={() => setActive(item)} />
+            ))}
           </div>
 
-          <div className="mt-10 text-center">
+          {/* Mobile carousel */}
+          <div className="mt-12 sm:hidden -mx-6">
+            <Carousel opts={{ align: "start", loop: true }} className="px-6">
+              <CarouselContent className="-ml-4">
+                {portfolio.map((item) => (
+                  <CarouselItem key={item.id} className="pl-4 basis-[85%]">
+                    <PortfolioCard item={item} onPlay={() => setActive(item)} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+            <p className="mt-4 text-center text-xs text-muted-foreground">
+              Arraste para o lado para ver mais
+            </p>
+          </div>
+
+          <div className="mt-12 text-center">
             <a
               href="https://youtube.com"
               target="_blank"
