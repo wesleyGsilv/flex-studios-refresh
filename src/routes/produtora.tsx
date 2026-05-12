@@ -355,20 +355,13 @@ function TimelineSection() {
           {/* Callout */}
           <div className="relative mt-10 md:mt-14 flex justify-center">
             <div
-              className="hidden md:block absolute -top-6 h-6 w-6 rotate-45 bg-background border-l border-t border-border shadow-card transition-all duration-500"
-              style={{
-                left: `calc(${((centerPos + 0.5) / VISIBLE) * 100}% - 0.75rem + ${
-                  // compensa o padding lateral (px-14 ≈ 56px) do grid
-                  0
-                }px)`,
-                transform: "translateX(-50%) rotate(45deg)",
-              }}
-              aria-hidden
-            />
-            <div
               key={current.year + current.month}
               className="relative max-w-2xl w-full bg-background border border-border rounded-2xl p-6 md:p-8 shadow-card animate-fade-up"
             >
+              <span
+                className="hidden md:block absolute -top-2 left-1/2 -translate-x-1/2 h-4 w-4 rotate-45 bg-background border-l border-t border-border"
+                aria-hidden
+              />
               <div className="flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-primary font-semibold">
                 <span className="h-px w-6 bg-primary" />
                 {current.month} · {current.year}
