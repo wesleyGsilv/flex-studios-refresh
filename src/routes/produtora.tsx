@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, Quote, Sparkles, Music, Video, Mic, Award, Rocket } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
@@ -14,12 +14,14 @@ import heroServicos from "@/assets/hero-servicos.jpg";
 import portfolioSinger from "@/assets/portfolio-singer.jpg";
 
 const timeline = [
-  { year: "2001", title: "O início", text: "Nasce a Flex Studio com foco em produção musical e audiovisual.", icon: Sparkles },
-  { year: "2008", title: "Expansão musical", text: "Novas salas de gravação e parcerias com artistas regionais.", icon: Music },
-  { year: "2014", title: "Era do vídeo", text: "Estruturamos a produtora para vídeo, publicidade e documentários.", icon: Video },
-  { year: "2019", title: "Estúdios premium", text: "Inauguração de cabines tratadas para locução e audiobooks.", icon: Mic },
-  { year: "2023", title: "Reconhecimento", text: "Projetos premiados ao lado de grandes marcas e instituições.", icon: Award },
-  { year: "2026", title: "Novo ciclo", text: "Renovação na direção, estrutura modernizada e visão de futuro.", icon: Rocket },
+  { year: "2001", month: "Janeiro", title: "O início", text: "Nasce a Flex Studio com foco em produção musical e audiovisual." },
+  { year: "2008", month: "Março", title: "Expansão musical", text: "Novas salas de gravação e parcerias com artistas regionais." },
+  { year: "2014", month: "Agosto", title: "Era do vídeo", text: "Estruturamos a produtora para vídeo, publicidade e documentários." },
+  { year: "2019", month: "Outubro", title: "Estúdios premium", text: "Inauguração de cabines tratadas para locução e audiobooks." },
+  { year: "2023", month: "Maio", title: "Reconhecimento", text: "Projetos premiados ao lado de grandes marcas e instituições." },
+  { year: "2024", month: "Dezembro", title: "Modernização", text: "Renovação completa da infraestrutura técnica e tratamento acústico." },
+  { year: "2025", month: "Julho", title: "Nova direção", text: "Início de um novo ciclo com gestão renovada e visão de futuro." },
+  { year: "2026", month: "Janeiro", title: "Novo ciclo", text: "Estrutura modernizada e experiência ainda mais profissional." },
 ];
 
 const gallery = [
@@ -156,60 +158,7 @@ function Produtora() {
       </section>
 
       {/* Linha do tempo */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-radial opacity-60 pointer-events-none" />
-        <div className="relative max-w-7xl mx-auto px-6 md:px-10">
-          <div className="text-center max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-              <span className="h-px w-8 bg-primary" /> Linha do tempo
-            </span>
-            <h2 className="mt-4 text-4xl md:text-5xl font-bold">
-              Uma <span className="text-gradient-brand">jornada</span> de mais de 20 anos
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Cada marco foi construído com técnica, paixão e parcerias que moldaram o que somos hoje.
-            </p>
-          </div>
-
-          <div className="relative mt-20">
-            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
-            <div className="md:hidden absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
-
-            <ul className="space-y-12 md:space-y-20">
-              {timeline.map((item, idx) => {
-                const Icon = item.icon;
-                const left = idx % 2 === 0;
-                return (
-                  <li
-                    key={item.year}
-                    className="relative md:grid md:grid-cols-2 md:gap-12 md:items-center"
-                  >
-                    <span className="absolute left-5 md:left-1/2 top-2 md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-gradient-brand text-primary-foreground shadow-glow">
-                      <Icon size={18} />
-                    </span>
-
-                    <div
-                      className={`pl-16 md:pl-0 ${
-                        left ? "md:pr-16 md:text-right" : "md:col-start-2 md:pl-16"
-                      }`}
-                    >
-                      <div className="glass rounded-2xl p-6 md:p-7 shadow-card hover:shadow-glow transition-smooth">
-                        <p className="text-3xl md:text-4xl font-bold text-gradient-brand font-display">
-                          {item.year}
-                        </p>
-                        <h3 className="mt-2 text-xl font-semibold">{item.title}</h3>
-                        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                          {item.text}
-                        </p>
-                      </div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-      </section>
+      <TimelineSection />
 
       {/* Galeria */}
       <section className="relative py-24 md:py-32 border-t border-border bg-surface/30">
@@ -306,3 +255,123 @@ function Produtora() {
     </div>
   );
 }
+
+function TimelineSection() {
+  const [active, setActive] = useState(Math.floor(timeline.length / 2));
+  const VISIBLE = 5;
+  const half = Math.floor(VISIBLE / 2);
+
+  // janela de itens visíveis (centrada no ativo, com clamp nas pontas)
+  let start = active - half;
+  if (start < 0) start = 0;
+  if (start + VISIBLE > timeline.length) start = Math.max(0, timeline.length - VISIBLE);
+  const visible = timeline.slice(start, start + VISIBLE).map((item, i) => ({
+    item,
+    index: start + i,
+  }));
+
+  const current = timeline[active];
+
+  return (
+    <section className="relative py-24 md:py-32 overflow-hidden bg-gradient-brand">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(1_0_0/0.08),transparent_55%)] pointer-events-none" />
+      <div className="relative max-w-7xl mx-auto px-6 md:px-10">
+        <div className="text-center max-w-2xl mx-auto">
+          <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary-foreground/80">
+            <span className="h-px w-8 bg-primary-foreground/60" /> Linha do tempo
+          </span>
+          <h2 className="mt-4 text-4xl md:text-6xl font-bold text-primary-foreground font-display">
+            Linha do <em className="not-italic text-primary">tempo</em>
+          </h2>
+          <p className="mt-3 text-primary-foreground/80 text-lg">da retomada</p>
+        </div>
+
+        {/* Carrossel */}
+        <div className="relative mt-16 md:mt-24">
+          {/* trilha */}
+          <div className="absolute left-0 right-0 top-1/2 h-px bg-primary-foreground/30 -translate-y-1/2" />
+
+          <div className="relative flex items-center justify-between gap-2 md:gap-4">
+            <button
+              type="button"
+              onClick={() => setActive((p) => Math.max(0, p - 1))}
+              disabled={active === 0}
+              aria-label="Anterior"
+              className="absolute -left-2 md:-left-6 z-20 grid place-items-center h-10 w-10 rounded-full bg-primary-foreground/15 text-primary-foreground border border-primary-foreground/30 backdrop-blur transition-smooth hover:bg-primary-foreground/25 disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft size={18} />
+            </button>
+
+            <div className="flex-1 grid grid-cols-5 gap-2 md:gap-4 px-10 md:px-14">
+              {visible.map(({ item, index }, i) => {
+                const isActive = index === active;
+                return (
+                  <button
+                    key={item.year + item.month}
+                    type="button"
+                    onClick={() => setActive(index)}
+                    className="group relative flex justify-center"
+                    aria-label={`${item.month} ${item.year}`}
+                  >
+                    <span
+                      className={`flex flex-col items-center justify-center rounded-full transition-smooth ${
+                        isActive
+                          ? "h-28 w-28 md:h-32 md:w-32 bg-background text-foreground shadow-card scale-100"
+                          : "h-20 w-20 md:h-24 md:w-24 bg-primary-foreground/15 text-primary-foreground/90 border border-primary-foreground/20 group-hover:bg-primary-foreground/25"
+                      }`}
+                    >
+                      <span
+                        className={`font-bold font-display leading-none ${
+                          isActive ? "text-3xl md:text-4xl text-gradient-brand" : "text-xl md:text-2xl"
+                        }`}
+                      >
+                        {item.year}
+                      </span>
+                      <span
+                        className={`mt-1 text-[11px] md:text-xs ${
+                          isActive ? "text-muted-foreground" : "text-primary-foreground/80"
+                        }`}
+                      >
+                        {item.month}
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setActive((p) => Math.min(timeline.length - 1, p + 1))}
+              disabled={active === timeline.length - 1}
+              aria-label="Próximo"
+              className="absolute -right-2 md:-right-6 z-20 grid place-items-center h-10 w-10 rounded-full bg-primary-foreground/15 text-primary-foreground border border-primary-foreground/30 backdrop-blur transition-smooth hover:bg-primary-foreground/25 disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+
+          {/* Callout */}
+          <div className="relative mt-10 md:mt-14 flex justify-center">
+            <div
+              key={current.year + current.month}
+              className="relative max-w-2xl w-full bg-background border border-border rounded-2xl p-6 md:p-8 shadow-card animate-fade-up"
+            >
+              <span
+                className="hidden md:block absolute -top-2 left-1/2 -translate-x-1/2 h-4 w-4 rotate-45 bg-background border-l border-t border-border"
+                aria-hidden
+              />
+              <div className="flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-primary font-semibold">
+                <span className="h-px w-6 bg-primary" />
+                {current.month} · {current.year}
+              </div>
+              <h3 className="mt-3 text-2xl md:text-3xl font-bold font-display">{current.title}</h3>
+              <p className="mt-3 text-muted-foreground leading-relaxed">{current.text}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
