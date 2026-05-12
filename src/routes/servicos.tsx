@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   GraduationCap,
   Video,
@@ -8,13 +9,38 @@ import {
   Radio,
   Play,
   Youtube,
+  X,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
 import { PageHero } from "@/components/PageHero";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import heroServicos from "@/assets/hero-servicos.jpg";
 import portfolioSinger from "@/assets/portfolio-singer.jpg";
+
+type PortfolioItem = {
+  id: string;
+  title: string;
+  category: string;
+  thumb: string;
+  youtubeId: string;
+};
+
+const portfolio: PortfolioItem[] = [
+  { id: "p1", title: "Gravação ao vivo no Estúdio A", category: "Sessão · 2025", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
+  { id: "p2", title: "Web clip — Banda autoral", category: "Web Clip · 2025", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
+  { id: "p3", title: "Transmissão multicâmera", category: "Live · 2024", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
+  { id: "p4", title: "Mixagem e masterização", category: "Áudio · 2024", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
+  { id: "p5", title: "Aula EAD em cenário virtual", category: "EAD · 2024", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
+  { id: "p6", title: "Captação externa de evento", category: "Unidade Móvel · 2023", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
+];
 
 export const Route = createFileRoute("/servicos")({
   component: Servicos,
