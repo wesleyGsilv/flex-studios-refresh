@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Music2, Lightbulb, Cpu, Camera, Mic2 } from "lucide-react";
+import { ChevronDown, Music2, Lightbulb, Cpu, Camera, Mic2, Snowflake, BookAudio, Video } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
@@ -50,6 +50,49 @@ const categories = [
     title: "Podcast",
     items: ["Cabine acústica", "Microfones Shure SM7B", "Mesa Rodecaster Pro II", "4 câmeras 4K", "Iluminação dedicada"],
   },
+  {
+    icon: BookAudio,
+    title: "Estúdio B — Audiobooks & locuções",
+    items: [
+      "Espaço compacto com excelente tratamento acústico",
+      "Ideal para gravação de audiobooks",
+      "Perfeito para locuções, narrações e dublagem",
+      "Cabine isolada com baixíssimo ruído de fundo",
+      "Microfones de alta sensibilidade",
+    ],
+  },
+  {
+    icon: Video,
+    title: "Salas para videocast & video aulas",
+    items: [
+      "Sala 1 — 16 m² para formatos enxutos",
+      "Sala 2 — 20 m² ideal para videocasts e video aulas",
+      "Cenografia e iluminação preparadas para vídeo",
+      "Estrutura para múltiplas câmeras",
+      "Ambiente confortável para convidados",
+    ],
+  },
+];
+
+const amenities = [
+  {
+    icon: Snowflake,
+    title: "Ar-condicionado em todas as salas",
+    description:
+      "Conforto térmico garantido em todos os ambientes — gravações longas sem perder qualidade nem rendimento.",
+  },
+  {
+    icon: BookAudio,
+    title: "Estúdio B para audiobooks",
+    description:
+      "Espaço menor com tratamento acústico de excelência, ideal para audiobooks, locuções e narrações.",
+  },
+  {
+    icon: Video,
+    title: "Duas salas para vídeo",
+    description:
+      "Uma sala de 16 m² e outra de 20 m², perfeitas para videocasts, video aulas e produções que pedem mais espaço.",
+  },
 ];
 
 function Infraestrutura() {
@@ -75,6 +118,26 @@ function Infraestrutura() {
             para oferecer conforto, qualidade técnica e versatilidade — o ambiente ideal para
             ensaios profissionais, gravações e projetos criativos com alto nível de produção.
           </p>
+        </div>
+      </section>
+
+      {/* Diferenciais das salas */}
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="grid gap-6 md:grid-cols-3">
+            {amenities.map((a) => (
+              <div
+                key={a.title}
+                className="rounded-2xl border border-border bg-surface p-6 transition-smooth hover:border-primary/50 hover:shadow-glow"
+              >
+                <div className="inline-flex p-3 rounded-xl bg-gradient-brand text-primary-foreground shadow-glow mb-4">
+                  <a.icon size={20} />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{a.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{a.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
