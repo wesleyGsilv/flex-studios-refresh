@@ -91,6 +91,8 @@ const services = [
 ];
 
 function Servicos() {
+  const [active, setActive] = useState<PortfolioItem | null>(null);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
