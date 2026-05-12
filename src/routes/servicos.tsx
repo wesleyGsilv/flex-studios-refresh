@@ -21,7 +21,6 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import heroServicos from "@/assets/hero-servicos.jpg";
 import portfolioSinger from "@/assets/portfolio-singer.jpg";
 
