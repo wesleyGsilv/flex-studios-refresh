@@ -19,7 +19,7 @@ import gSingerAcoustic from "@/assets/gallery/singer-acoustic.jpg";
 import gTrioRecording from "@/assets/gallery/trio-recording.jpg";
 
 const timeline = [
-  { year: "2001", month: "Janeiro", title: "O início", text: "Nasce a Flex Studio com foco em produção musical e audiovisual." },
+  { year: "2007", month: "Janeiro", title: "O início", text: "Nasce a Flex Studio com foco em produção musical e audiovisual." },
   { year: "2008", month: "Março", title: "Expansão musical", text: "Novas salas de gravação e parcerias com artistas regionais." },
   { year: "2014", month: "Agosto", title: "Era do vídeo", text: "Estruturamos a produtora para vídeo, publicidade e documentários." },
   { year: "2019", month: "Outubro", title: "Estúdios premium", text: "Inauguração de cabines tratadas para locução e audiobooks." },
@@ -228,7 +228,7 @@ function Produtora() {
             </h2>
             <div className="mt-8 space-y-5 text-muted-foreground leading-relaxed">
               <p>
-                Fundada em 2001, a Flex Studio nasceu com a proposta de oferecer soluções
+                Fundada em 2007, a Flex Studio nasceu com a proposta de oferecer soluções
                 profissionais em audiovisual, música e produção artística, tornando-se ao
                 longo dos anos um espaço reconhecido pela qualidade, criatividade e dedicação
                 em cada projeto realizado.
@@ -261,7 +261,7 @@ function Produtora() {
               <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
             </div>
             <div className="absolute -bottom-6 -left-6 glass rounded-2xl px-6 py-5 shadow-card">
-              <p className="text-3xl font-bold text-gradient-brand font-display">2001</p>
+              <p className="text-3xl font-bold text-gradient-brand font-display">2007</p>
               <p className="text-xs uppercase tracking-wider text-muted-foreground mt-1">
                 Início da nossa jornada
               </p>
