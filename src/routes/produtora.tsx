@@ -271,7 +271,6 @@ function TimelineSection() {
   }));
 
   const current = timeline[active];
-  const centerPos = active - start; // posição do ativo dentro da janela
 
   return (
     <section className="relative py-24 md:py-32 overflow-hidden bg-gradient-brand">
