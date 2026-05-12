@@ -158,60 +158,7 @@ function Produtora() {
       </section>
 
       {/* Linha do tempo */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-radial opacity-60 pointer-events-none" />
-        <div className="relative max-w-7xl mx-auto px-6 md:px-10">
-          <div className="text-center max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-              <span className="h-px w-8 bg-primary" /> Linha do tempo
-            </span>
-            <h2 className="mt-4 text-4xl md:text-5xl font-bold">
-              Uma <span className="text-gradient-brand">jornada</span> de mais de 20 anos
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Cada marco foi construído com técnica, paixão e parcerias que moldaram o que somos hoje.
-            </p>
-          </div>
-
-          <div className="relative mt-20">
-            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
-            <div className="md:hidden absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
-
-            <ul className="space-y-12 md:space-y-20">
-              {timeline.map((item, idx) => {
-                const Icon = item.icon;
-                const left = idx % 2 === 0;
-                return (
-                  <li
-                    key={item.year}
-                    className="relative md:grid md:grid-cols-2 md:gap-12 md:items-center"
-                  >
-                    <span className="absolute left-5 md:left-1/2 top-2 md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-gradient-brand text-primary-foreground shadow-glow">
-                      <Icon size={18} />
-                    </span>
-
-                    <div
-                      className={`pl-16 md:pl-0 ${
-                        left ? "md:pr-16 md:text-right" : "md:col-start-2 md:pl-16"
-                      }`}
-                    >
-                      <div className="glass rounded-2xl p-6 md:p-7 shadow-card hover:shadow-glow transition-smooth">
-                        <p className="text-3xl md:text-4xl font-bold text-gradient-brand font-display">
-                          {item.year}
-                        </p>
-                        <h3 className="mt-2 text-xl font-semibold">{item.title}</h3>
-                        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                          {item.text}
-                        </p>
-                      </div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-      </section>
+      <TimelineSection />
 
       {/* Galeria */}
       <section className="relative py-24 md:py-32 border-t border-border bg-surface/30">
