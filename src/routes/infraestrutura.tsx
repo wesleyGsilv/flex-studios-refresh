@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Music2, Lightbulb, Cpu, Camera, Mic2 } from "lucide-react";
+import { ChevronDown, Music2, Lightbulb, Cpu, Camera, Mic2, Snowflake, BookAudio, Video } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
@@ -49,6 +49,49 @@ const categories = [
     icon: Mic2,
     title: "Podcast",
     items: ["Cabine acústica", "Microfones Shure SM7B", "Mesa Rodecaster Pro II", "4 câmeras 4K", "Iluminação dedicada"],
+  },
+  {
+    icon: BookAudio,
+    title: "Estúdio B — Audiobooks & locuções",
+    items: [
+      "Espaço compacto com excelente tratamento acústico",
+      "Ideal para gravação de audiobooks",
+      "Perfeito para locuções, narrações e dublagem",
+      "Cabine isolada com baixíssimo ruído de fundo",
+      "Microfones de alta sensibilidade",
+    ],
+  },
+  {
+    icon: Video,
+    title: "Salas para videocast & video aulas",
+    items: [
+      "Sala 1 — 16 m² para formatos enxutos",
+      "Sala 2 — 20 m² ideal para videocasts e video aulas",
+      "Cenografia e iluminação preparadas para vídeo",
+      "Estrutura para múltiplas câmeras",
+      "Ambiente confortável para convidados",
+    ],
+  },
+];
+
+const amenities = [
+  {
+    icon: Snowflake,
+    title: "Ar-condicionado em todas as salas",
+    description:
+      "Conforto térmico garantido em todos os ambientes — gravações longas sem perder qualidade nem rendimento.",
+  },
+  {
+    icon: BookAudio,
+    title: "Estúdio B para audiobooks",
+    description:
+      "Espaço menor com tratamento acústico de excelência, ideal para audiobooks, locuções e narrações.",
+  },
+  {
+    icon: Video,
+    title: "Duas salas para vídeo",
+    description:
+      "Uma sala de 16 m² e outra de 20 m², perfeitas para videocasts, video aulas e produções que pedem mais espaço.",
   },
 ];
 
