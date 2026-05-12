@@ -35,23 +35,23 @@ export function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-1">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className="relative px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-smooth"
-              activeProps={{ className: "!text-foreground" }}
-            >
-              {({ isActive }) => (
-                <>
-                  {l.label}
-                  {isActive && (
-                    <span className="absolute left-4 right-4 -bottom-0.5 h-px bg-gradient-brand" />
-                  )}
-                </>
-              )}
-            </Link>
-          ))}
+          {links.map((l) => {
+            const isActive = pathname === l.to;
+            return (
+              <Link
+                key={l.to}
+                to={l.to}
+                className={`relative px-4 py-2 text-sm transition-smooth ${
+                  isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {l.label}
+                {isActive && (
+                  <span className="absolute left-4 right-4 -bottom-0.5 h-px bg-gradient-brand" />
+                )}
+              </Link>
+            );
+          })}
           <Link
             to="/"
             hash="contato"
