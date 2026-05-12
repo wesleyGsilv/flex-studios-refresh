@@ -14,12 +14,14 @@ import heroServicos from "@/assets/hero-servicos.jpg";
 import portfolioSinger from "@/assets/portfolio-singer.jpg";
 
 const timeline = [
-  { year: "2001", title: "O início", text: "Nasce a Flex Studio com foco em produção musical e audiovisual.", icon: Sparkles },
-  { year: "2008", title: "Expansão musical", text: "Novas salas de gravação e parcerias com artistas regionais.", icon: Music },
-  { year: "2014", title: "Era do vídeo", text: "Estruturamos a produtora para vídeo, publicidade e documentários.", icon: Video },
-  { year: "2019", title: "Estúdios premium", text: "Inauguração de cabines tratadas para locução e audiobooks.", icon: Mic },
-  { year: "2023", title: "Reconhecimento", text: "Projetos premiados ao lado de grandes marcas e instituições.", icon: Award },
-  { year: "2026", title: "Novo ciclo", text: "Renovação na direção, estrutura modernizada e visão de futuro.", icon: Rocket },
+  { year: "2001", month: "Janeiro", title: "O início", text: "Nasce a Flex Studio com foco em produção musical e audiovisual." },
+  { year: "2008", month: "Março", title: "Expansão musical", text: "Novas salas de gravação e parcerias com artistas regionais." },
+  { year: "2014", month: "Agosto", title: "Era do vídeo", text: "Estruturamos a produtora para vídeo, publicidade e documentários." },
+  { year: "2019", month: "Outubro", title: "Estúdios premium", text: "Inauguração de cabines tratadas para locução e audiobooks." },
+  { year: "2023", month: "Maio", title: "Reconhecimento", text: "Projetos premiados ao lado de grandes marcas e instituições." },
+  { year: "2024", month: "Dezembro", title: "Modernização", text: "Renovação completa da infraestrutura técnica e tratamento acústico." },
+  { year: "2025", month: "Julho", title: "Nova direção", text: "Início de um novo ciclo com gestão renovada e visão de futuro." },
+  { year: "2026", month: "Janeiro", title: "Novo ciclo", text: "Estrutura modernizada e experiência ainda mais profissional." },
 ];
 
 const gallery = [
