@@ -9,8 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as ProdutoraRouteImport } from './routes/produtora'
+import { Route as InfraestruturaRouteImport } from './routes/infraestrutura'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ServicosRoute = ServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProdutoraRoute = ProdutoraRouteImport.update({
+  id: '/produtora',
+  path: '/produtora',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InfraestruturaRoute = InfraestruturaRouteImport.update({
+  id: '/infraestrutura',
+  path: '/infraestrutura',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +37,61 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/infraestrutura': typeof InfraestruturaRoute
+  '/produtora': typeof ProdutoraRoute
+  '/servicos': typeof ServicosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/infraestrutura': typeof InfraestruturaRoute
+  '/produtora': typeof ProdutoraRoute
+  '/servicos': typeof ServicosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/infraestrutura': typeof InfraestruturaRoute
+  '/produtora': typeof ProdutoraRoute
+  '/servicos': typeof ServicosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/infraestrutura' | '/produtora' | '/servicos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/infraestrutura' | '/produtora' | '/servicos'
+  id: '__root__' | '/' | '/infraestrutura' | '/produtora' | '/servicos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  InfraestruturaRoute: typeof InfraestruturaRoute
+  ProdutoraRoute: typeof ProdutoraRoute
+  ServicosRoute: typeof ServicosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/servicos': {
+      id: '/servicos'
+      path: '/servicos'
+      fullPath: '/servicos'
+      preLoaderRoute: typeof ServicosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/produtora': {
+      id: '/produtora'
+      path: '/produtora'
+      fullPath: '/produtora'
+      preLoaderRoute: typeof ProdutoraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/infraestrutura': {
+      id: '/infraestrutura'
+      path: '/infraestrutura'
+      fullPath: '/infraestrutura'
+      preLoaderRoute: typeof InfraestruturaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,7 +104,20 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  InfraestruturaRoute: InfraestruturaRoute,
+  ProdutoraRoute: ProdutoraRoute,
+  ServicosRoute: ServicosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
