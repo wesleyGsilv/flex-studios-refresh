@@ -8,10 +8,15 @@ import { PageHero } from "@/components/PageHero";
 import { BrandX } from "@/components/BrandX";
 import heroProdutora from "@/assets/hero-produtora.jpg";
 import historia from "@/assets/historia.jpg";
-import equipmentGuitar from "@/assets/equipment-guitar.jpg";
-import heroInfra from "@/assets/hero-infra.jpg";
-import heroServicos from "@/assets/hero-servicos.jpg";
-import portfolioSinger from "@/assets/portfolio-singer.jpg";
+import gControlRoom from "@/assets/gallery/control-room-1.jpg";
+import gStudioMixer from "@/assets/gallery/studio-mixer.jpg";
+import gLiveRoom from "@/assets/gallery/live-room.jpg";
+import gDrumRoom from "@/assets/gallery/drum-room.jpg";
+import gGarden from "@/assets/gallery/garden.jpg";
+import gExterior from "@/assets/gallery/exterior.jpg";
+import gStudioB from "@/assets/gallery/studio-b.jpg";
+import gSingerAcoustic from "@/assets/gallery/singer-acoustic.jpg";
+import gTrioRecording from "@/assets/gallery/trio-recording.jpg";
 
 const timeline = [
   { year: "2001", month: "Janeiro", title: "O início", text: "Nasce a Flex Studio com foco em produção musical e audiovisual." },
@@ -25,12 +30,15 @@ const timeline = [
 ];
 
 const gallery = [
-  { src: historia, alt: "Sessão no estúdio" },
-  { src: equipmentGuitar, alt: "Equipamentos de gravação" },
-  { src: heroInfra, alt: "Infraestrutura" },
-  { src: portfolioSinger, alt: "Artista em gravação" },
-  { src: heroServicos, alt: "Sessão de produção" },
-  { src: heroProdutora, alt: "Estúdio principal" },
+  { src: gStudioMixer, alt: "Sala de controle com mesa de mixagem" },
+  { src: gLiveRoom, alt: "Sala de gravação ao vivo" },
+  { src: gControlRoom, alt: "Engenheiro em sessão de mix" },
+  { src: gDrumRoom, alt: "Sala de bateria com tratamento acústico" },
+  { src: gStudioB, alt: "Estúdio B — locução e audiobooks" },
+  { src: gSingerAcoustic, alt: "Cantor em sessão acústica" },
+  { src: gTrioRecording, alt: "Trio em gravação ao vivo" },
+  { src: gGarden, alt: "Área de convivência externa" },
+  { src: gExterior, alt: "Fachada e jardim do estúdio" },
 ];
 
 export const Route = createFileRoute("/produtora")({
