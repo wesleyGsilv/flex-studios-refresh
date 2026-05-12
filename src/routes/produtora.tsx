@@ -129,7 +129,7 @@ const TimelineSection = () => {
               <ChevronLeft size={18} />
             </button>
 
-            <div className="flex-1 grid grid-cols-5 gap-2 md:gap-4 px-12 md:px-16">
+            <div className={`flex-1 grid gap-2 md:gap-4 px-12 md:px-16 ${isMobile ? "grid-cols-3" : "grid-cols-5"}`}>
               {visible.map(({ item, index }) => {
                 const isActive = index === active;
                 return (
@@ -143,20 +143,20 @@ const TimelineSection = () => {
                     <span
                       className={`flex flex-col items-center justify-center rounded-full transition-smooth ${
                         isActive
-                          ? "h-28 w-28 md:h-32 md:w-32 bg-gradient-brand text-primary-foreground shadow-glow"
-                          : "h-20 w-20 md:h-24 md:w-24 bg-surface-elevated text-muted-foreground border border-border group-hover:border-primary/50 group-hover:text-foreground"
+                          ? "h-24 w-24 md:h-32 md:w-32 bg-gradient-brand text-primary-foreground shadow-glow"
+                          : "h-16 w-16 md:h-24 md:w-24 bg-surface-elevated text-muted-foreground border border-border group-hover:border-primary/50 group-hover:text-foreground"
                       }`}
                     >
                       <span
                         className={`font-bold font-display leading-none ${
-                          isActive ? "text-3xl md:text-4xl" : "text-xl md:text-2xl"
+                          isActive ? "text-2xl md:text-4xl" : "text-base md:text-2xl"
                         }`}
                       >
                         {item.year}
                       </span>
                       <span
-                        className={`mt-1 text-[11px] md:text-xs uppercase tracking-wider ${
-                          isActive ? "text-primary-foreground/80" : ""
+                        className={`mt-1 uppercase tracking-wider ${
+                          isActive ? "text-[10px] md:text-xs text-primary-foreground/80" : "text-[9px] md:text-xs"
                         }`}
                       >
                         {item.month}
