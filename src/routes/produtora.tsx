@@ -316,6 +316,9 @@ function Produtora() {
                 "col-span-2 aspect-[2/1]",
                 "aspect-square",
                 "aspect-square",
+                "aspect-square",
+                "aspect-square",
+                "col-span-2 aspect-[2/1]",
               ];
               return (
                 <figure
