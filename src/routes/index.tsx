@@ -71,7 +71,6 @@ function Home() {
 
         <BrandX className="absolute -right-32 -bottom-20 w-[640px] opacity-10 animate-float-slow" />
 
-        <Navbar />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 h-full flex flex-col justify-end pb-32">
           <div key={i} className="animate-fade-up max-w-3xl">
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
