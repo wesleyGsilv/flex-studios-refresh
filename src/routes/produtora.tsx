@@ -81,7 +81,8 @@ const testimonials = [
 
 const TimelineSection = () => {
   const [active, setActive] = useState(timeline.length - 1);
-  const VISIBLE = 5;
+  const isMobile = useIsMobile();
+  const VISIBLE = isMobile ? 3 : 5;
   const half = Math.floor(VISIBLE / 2);
 
   let start = active - half;
