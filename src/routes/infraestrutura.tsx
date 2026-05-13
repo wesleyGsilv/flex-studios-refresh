@@ -216,20 +216,39 @@ function Infraestrutura() {
 
           <div className="lg:sticky lg:top-28">
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-card">
-              <img
-                src={equipmentGuitar}
-                alt="Equipamentos do estúdio"
-                className="h-full w-full object-cover"
-                loading="lazy"
-                width={1280}
-                height={896}
-              />
+              {carouselSlides.map((s, idx) => (
+                <img
+                  key={s.src}
+                  src={s.src}
+                  alt={s.label}
+                  className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+                    idx === slide ? "opacity-100" : "opacity-0"
+                  }`}
+                  loading="lazy"
+                  width={1024}
+                  height={1280}
+                />
+              ))}
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6">
-                <p className="text-xs uppercase tracking-wider text-primary">Estúdio A</p>
-                <p className="text-xl font-bold text-foreground mt-1">
-                  Tratamento acústico profissional
-                </p>
+              <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4">
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-primary">Estúdio A</p>
+                  <p className="text-xl font-bold text-foreground mt-1">
+                    {carouselSlides[slide].label}
+                  </p>
+                </div>
+                <div className="flex gap-1.5 pb-1">
+                  {carouselSlides.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSlide(idx)}
+                      className={`h-1 rounded-full transition-smooth ${
+                        idx === slide ? "w-6 bg-gradient-brand" : "w-3 bg-muted"
+                      }`}
+                      aria-label={`Slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
