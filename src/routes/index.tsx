@@ -156,7 +156,7 @@ function Home() {
                   src={c.src}
                   alt={c.name}
                   loading="lazy"
-                  className="max-h-10 w-auto object-contain brightness-0 invert opacity-60 group-hover:opacity-100 transition-smooth"
+                  className="max-h-12 w-auto object-contain opacity-90 group-hover:opacity-100 transition-smooth"
                 />
               </div>
             ))}
