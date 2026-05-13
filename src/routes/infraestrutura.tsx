@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown, Music2, Lightbulb, Cpu, Camera, Mic2, Snowflake, BookAudio, Video } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -7,6 +7,16 @@ import { ContactForm } from "@/components/ContactForm";
 import { PageHero } from "@/components/PageHero";
 import heroInfra from "@/assets/hero-infra.jpg";
 import equipmentGuitar from "@/assets/equipment-guitar.jpg";
+import equipmentDrums from "@/assets/equipment-drums.jpg";
+import equipmentViolao from "@/assets/equipment-violao.jpg";
+import equipmentBass from "@/assets/equipment-bass.jpg";
+
+const carouselSlides = [
+  { src: equipmentDrums, label: "Bateria RMV" },
+  { src: equipmentGuitar, label: "Guitarra" },
+  { src: equipmentViolao, label: "Violão" },
+  { src: equipmentBass, label: "Baixo" },
+];
 
 export const Route = createFileRoute("/infraestrutura")({
   component: Infraestrutura,
@@ -97,6 +107,12 @@ const amenities = [
 
 function Infraestrutura() {
   const [open, setOpen] = useState<number | null>(0);
+  const [slide, setSlide] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setSlide((p) => (p + 1) % carouselSlides.length), 4000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
