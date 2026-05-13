@@ -110,10 +110,7 @@
 
 @layer utilities {
   .text-gradient-brand {
-    background: var(--gradient-brand);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: hsl(var(--foreground));
   }
   .bg-gradient-brand { background: var(--gradient-brand); }
   .bg-gradient-radial { background: var(--gradient-radial); }
