@@ -5,6 +5,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
 import { BrandX } from "@/components/BrandX";
+import { MotionReveal } from "@/components/MotionReveal";
+import { useParallax } from "@/hooks/use-parallax";
 import heroHome from "@/assets/hero-home.jpg";
 import heroProdutora from "@/assets/hero-produtora.jpg";
 import heroServicos from "@/assets/hero-servicos.jpg";
@@ -50,6 +52,10 @@ const clients = [
 
 function Home() {
   const [i, setI] = useState(0);
+  const heroOffset = useParallax(0.18);
+  const markOffset = useParallax(0.34);
+  const contentOffset = useParallax(0.1);
+
   useEffect(() => {
     const id = setInterval(() => setI((p) => (p + 1) % slides.length), 5500);
     return () => clearInterval(id);
@@ -71,19 +77,31 @@ function Home() {
             <img
               src={s.img}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover scale-105"
+              className="absolute inset-0 h-[126%] w-full object-cover will-change-transform"
+              style={{ transform: `translate3d(0, ${heroOffset}px, 0) scale(1.14)` }}
               width={1920}
               height={1080}
               loading={idx === 0 ? undefined : "lazy"}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/56 to-background/18" />
+            <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(29,245,192,0.16),transparent_28%,transparent_52%,rgba(41,170,225,0.2))] mix-blend-screen" />
           </div>
         ))}
 
-        <BrandX className="absolute -right-32 -bottom-20 w-[640px] opacity-10 animate-float-slow" />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ transform: `translate3d(0, ${-markOffset}px, 0)` }}
+        >
+          <BrandX className="absolute -right-28 -bottom-16 w-[760px] opacity-16 animate-float-slow" />
+        </div>
+
+        <div className="absolute left-[7%] top-[16%] h-44 w-44 rounded-full border border-primary/30 bg-primary/18 blur-3xl animate-pulse-soft" />
+        <div className="absolute right-[10%] top-[19%] h-56 w-56 rounded-full border border-secondary/30 bg-secondary/16 blur-3xl animate-pulse-soft [animation-delay:900ms]" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-[radial-gradient(circle_at_center,rgba(29,245,192,0.3),transparent_64%)] blur-3xl" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 h-full flex flex-col justify-end pb-32">
-          <div key={i} className="animate-fade-up max-w-3xl">
+          <MotionReveal key={i} className="max-w-3xl" distance={42}>
+            <div style={{ transform: `translate3d(0, ${-contentOffset}px, 0)` }}>
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
               <Sparkles size={14} /> Flex Studios · BH
             </span>
@@ -107,9 +125,10 @@ function Home() {
                 Nossa história
               </Link>
             </div>
-          </div>
+            </div>
+          </MotionReveal>
 
-          <div className="mt-12 flex items-center gap-3">
+          <MotionReveal className="mt-12 flex items-center gap-3" delay={140} distance={24}>
             <button
               onClick={() => setI((p) => (p - 1 + slides.length) % slides.length)}
               className="p-3 rounded-full glass hover:border-primary/50 transition-smooth"
@@ -136,12 +155,12 @@ function Home() {
             >
               <ChevronRight size={16} />
             </button>
-          </div>
+          </MotionReveal>
         </div>
       </section>
 
       {/* Clientes */}
-      <section className="py-20 border-y border-border bg-surface/40">
+      <MotionReveal as="section" className="py-20 border-y border-border bg-surface/40" distance={30}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground text-center">
             Clientes que confiam no nosso trabalho
@@ -162,10 +181,10 @@ function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </MotionReveal>
 
       {/* Onde estamos */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
+      <MotionReveal as="section" className="relative py-24 md:py-32 overflow-hidden" delay={120} distance={34}>
         <div className="absolute inset-0 grid-bg opacity-50" />
         <div className="relative max-w-7xl mx-auto px-6 md:px-10 grid gap-12 lg:grid-cols-2 items-center">
           <div>
@@ -203,7 +222,7 @@ function Home() {
             <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-primary/10 rounded-2xl" />
           </div>
         </div>
-      </section>
+      </MotionReveal>
 
       <ContactForm />
       <Footer />

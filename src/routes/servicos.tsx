@@ -23,6 +23,12 @@ import {
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import heroServicos from "@/assets/hero-servicos.jpg";
 import portfolioSinger from "@/assets/portfolio-singer.jpg";
+import belezaSemAlma from "@/assets/portfolio-img/beleza-sem-alma.png";
+import alemDoInfinito from "@/assets/portfolio-img/alem-do-infinito.webp";
+import diraDaniel from "@/assets/portfolio-img/dira-daniel.webp";
+import cassioGonzaga from "@/assets/portfolio-img/cassio-gonzaga.webp";
+import alexandrePeixe from "@/assets/portfolio-img/alexandre-peixe.webp";
+
 
 type PortfolioItem = {
   id: string;
@@ -33,12 +39,12 @@ type PortfolioItem = {
 };
 
 const portfolio: PortfolioItem[] = [
-  { id: "p1", title: "Gravação ao vivo no Estúdio A", category: "Sessão · 2025", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
-  { id: "p2", title: "Web clip — Banda autoral", category: "Web Clip · 2025", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
-  { id: "p3", title: "Transmissão multicâmera", category: "Live · 2024", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
-  { id: "p4", title: "Mixagem e masterização", category: "Áudio · 2024", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
-  { id: "p5", title: "Aula EAD em cenário virtual", category: "EAD · 2024", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
-  { id: "p6", title: "Captação externa de evento", category: "Unidade Móvel · 2023", thumb: portfolioSinger, youtubeId: "dQw4w9WgXcQ" },
+  { id: "p1", title: "Alexandre Peixe", category: "Gravação DVD · 2012", thumb: alexandrePeixe, youtubeId: "1Us695OcnRU" },
+
+  { id: "p2", title: "Beleza Sem Alma - Marcelo Bhering", category: "Web Clip · 2018", thumb: belezaSemAlma, youtubeId: "s6rnhZVufu4" },
+  { id: "p3", title: "Além do infinito - Lucas Costa", category: "Web Clip · 2018", thumb: alemDoInfinito, youtubeId: "nC6qLamq_LE" },
+  { id: "p4", title: "Julieta e Romeu - Dira Daniel", category: "Web Clip · 2018", thumb: diraDaniel, youtubeId: "ZQrNSnHbdmQ" },
+  { id: "p5", title: "Aonde Eu Sempre Quis Estar - Cássio Gonzaga", category: "Web Clip · 2018", thumb: cassioGonzaga, youtubeId: "yU5UZY7zIwA" },
 ];
 
 export const Route = createFileRoute("/servicos")({
@@ -168,7 +174,7 @@ function Servicos() {
 
           <div className="mt-12 text-center">
             <a
-              href="https://youtube.com"
+              href="https://www.youtube.com/@FlexStudios"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"

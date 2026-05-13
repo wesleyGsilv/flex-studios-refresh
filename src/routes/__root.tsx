@@ -4,12 +4,15 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 
 import appCss from "../styles.css?url";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { SiteLoader } from "@/components/SiteLoader";
 
 function NotFoundComponent() {
   return (
@@ -119,9 +122,86 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const isNavigating = useRouterState({
+    select: (state) => {
+      const resolvedPathname = state.resolvedLocation?.pathname ?? state.location.pathname;
+      const isRouteChange = state.location.pathname !== resolvedPathname;
+
+      if (!isRouteChange) {
+        return false;
+      }
+
+      return state.isLoading || state.isTransitioning || state.status === "pending";
+    },
+  });
+  const [isBooting, setIsBooting] = useState(true);
+  const [showRouteLoader, setShowRouteLoader] = useState(false);
+  const routeLoaderStartedAt = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    let timeout = 0;
+
+    const finishBoot = () => {
+      timeout = window.setTimeout(() => setIsBooting(false), 500);
+    };
+
+    if (document.readyState === "complete") {
+      finishBoot();
+    } else {
+      window.addEventListener("load", finishBoot, { once: true });
+    }
+
+    return () => {
+      window.removeEventListener("load", finishBoot);
+      if (timeout) {
+        window.clearTimeout(timeout);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    let timeout = 0;
+
+    if (isNavigating) {
+      if (routeLoaderStartedAt.current == null) {
+        routeLoaderStartedAt.current = Date.now();
+      }
+
+      setShowRouteLoader(true);
+      return;
+    }
+
+    if (routeLoaderStartedAt.current == null) {
+      setShowRouteLoader(false);
+      return;
+    }
+
+    const elapsed = Date.now() - routeLoaderStartedAt.current;
+    const remaining = Math.max(1000 - elapsed, 0);
+
+    timeout = window.setTimeout(() => {
+      setShowRouteLoader(false);
+      routeLoaderStartedAt.current = null;
+    }, remaining);
+
+    return () => {
+      if (timeout) {
+        window.clearTimeout(timeout);
+      }
+    };
+  }, [isNavigating]);
 
   return (
     <QueryClientProvider client={queryClient}>
+      <SiteLoader active={isBooting || showRouteLoader} />
       <Outlet />
       <WhatsAppButton />
     </QueryClientProvider>
