@@ -150,13 +150,13 @@ function Home() {
             {clients.map((c) => (
               <div
                 key={c.name}
-                className="h-20 rounded-xl border border-border bg-background/40 flex items-center justify-center px-4 hover:border-primary/40 transition-smooth group"
+                className="h-20 rounded-xl border border-border bg-white flex items-center justify-center px-4 hover:border-primary/40 transition-smooth group"
               >
                 <img
                   src={c.src}
                   alt={c.name}
                   loading="lazy"
-                  className="max-h-12 w-auto object-contain opacity-90 group-hover:opacity-100 transition-smooth"
+                  className="max-h-12 w-auto object-contain"
                 />
               </div>
             ))}
