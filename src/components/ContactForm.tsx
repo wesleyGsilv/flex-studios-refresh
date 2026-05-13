@@ -124,23 +124,6 @@ export function ContactForm() {
           </div>
           <label className="block mt-4">
             <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-              Assunto
-            </span>
-            <select
-              name="assunto"
-              value={formData.assunto}
-              onChange={(e) => updateField("assunto", e.target.value)}
-              className="w-full rounded-xl bg-background/60 border border-input px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition-smooth"
-            >
-              <option value="orcamento">Orcamento</option>
-              <option value="agendamento">Agendamento de visita</option>
-              <option value="planos">Planos e assinaturas</option>
-              <option value="podcast">Podcast e producao</option>
-              <option value="outro">Outro assunto</option>
-            </select>
-          </label>
-          <label className="block mt-4">
-            <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
               Mensagem
             </span>
             <textarea

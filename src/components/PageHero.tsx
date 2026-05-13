@@ -18,7 +18,7 @@ export function PageHero({
   const contentOffset = useParallax(0.08);
 
   return (
-    <section className="relative h-[68vh] min-h-[520px] flex items-end overflow-hidden">
+    <section className="relative h-[70vh] min-h-[600px] flex items-end overflow-hidden">
       <img
         src={image}
         alt=""

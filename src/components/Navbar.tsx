@@ -27,7 +27,7 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-smooth ${scrolled ? "glass" : "bg-transparent"
+      className={`fixed top-0 inset-x-0 z-50 transition-smooth ${scrolled ? "glass" : "glass"
         }`}
     >
       <nav className="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
