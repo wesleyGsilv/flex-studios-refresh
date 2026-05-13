@@ -4,3 +4,7 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function mensagemWhatsapp(mensagem: string) {
+  return `https://wa.me/31993939536?text=${encodeURIComponent(mensagem)}`;
+}

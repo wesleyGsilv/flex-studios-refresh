@@ -2,6 +2,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
+import { mensagemWhatsapp } from "@/lib/utils";
 
 const links = [
   { to: "/produtora", label: "A produtora" },
@@ -26,9 +27,8 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-smooth ${
-        scrolled ? "glass" : "bg-transparent"
-      }`}
+      className={`fixed top-0 inset-x-0 z-50 transition-smooth ${scrolled ? "glass" : "bg-transparent"
+        }`}
     >
       <nav className="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
         <Link to="/" aria-label="Flex Studios — Home">
@@ -42,9 +42,8 @@ export function Navbar() {
               <Link
                 key={l.to}
                 to={l.to}
-                className={`relative px-4 py-2 text-sm transition-smooth ${
-                  isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-                }`}
+                className={`relative px-4 py-2 text-sm transition-smooth ${isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  }`}
               >
                 {l.label}
                 {isActive && (
@@ -53,13 +52,16 @@ export function Navbar() {
               </Link>
             );
           })}
-          <Link
-            to="/"
-            hash="contato"
+          <a
+            href={mensagemWhatsapp(
+              `Olá, tenho interesse em saber mais sobre os serviços da Flex Studios. Poderiam me fornecer mais informações?`
+            )}
+            target="_blank"
+            rel="noreferrer"
             className="ml-4 inline-flex items-center rounded-full bg-gradient-brand px-5 py-2 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
           >
             Fale conosco
-          </Link>
+          </a>
         </div>
 
         <button

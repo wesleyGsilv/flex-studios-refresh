@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Check, Music2, Mic, Headphones, Sparkles } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
 import { PageHero } from "@/components/PageHero";
 import heroPlanos from "@/assets/hero-servicos.jpg";
+import { mensagemWhatsapp } from "@/lib/utils";
 
 export const Route = createFileRoute("/planos")({
   component: Planos,
@@ -194,9 +195,12 @@ function Planos() {
                   ))}
                 </ul>
 
-                <Link
-                  to="/"
-                  hash="contato"
+                <a
+                  href={mensagemWhatsapp(
+                    `Olá, tenho interesse no plano ${plan.name} (${billing}). Gostaria de saber mais detalhes e como contratar.`
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
                   className={`mt-8 inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-smooth ${
                     plan.highlight
                       ? "bg-gradient-brand text-primary-foreground shadow-glow hover:scale-[1.02]"
@@ -204,7 +208,7 @@ function Planos() {
                   }`}
                 >
                   Quero esse plano
-                </Link>
+                </a>
               </article>
             );
           })}

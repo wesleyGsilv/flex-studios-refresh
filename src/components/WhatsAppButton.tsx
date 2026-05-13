@@ -1,13 +1,16 @@
+import { mensagemWhatsapp } from "@/lib/utils";
+
 const PHONE = "5531999999999"; // troque pelo número real
 const MESSAGE = "Olá! Gostaria de saber mais sobre o Flex Studios.";
 
 export function WhatsAppButton() {
-  const href = `https://wa.me/${PHONE}?text=${encodeURIComponent(MESSAGE)}`;
   return (
     <a
-      href={href}
+      href={mensagemWhatsapp(
+        `Olá, tenho interesse em saber mais sobre os serviços da Flex Studios. Poderiam me fornecer mais informações?`
+      )}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="noreferrer"
       aria-label="Fale conosco no WhatsApp"
       className="group fixed bottom-6 right-6 z-50 inline-flex items-center justify-center h-14 w-14 rounded-full bg-gradient-brand text-primary-foreground shadow-glow hover:scale-110 transition-smooth"
     >
