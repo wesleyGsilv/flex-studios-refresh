@@ -110,7 +110,7 @@
 
 @layer utilities {
   .text-gradient-brand {
-    color: hsl(var(--foreground));
+    color: var(--foreground);
   }
   .bg-gradient-brand { background: var(--gradient-brand); }
   .bg-gradient-radial { background: var(--gradient-radial); }
