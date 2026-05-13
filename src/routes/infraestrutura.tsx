@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown, Music2, Lightbulb, Cpu, Camera, Mic2, Snowflake, BookAudio, Video } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -7,6 +7,16 @@ import { ContactForm } from "@/components/ContactForm";
 import { PageHero } from "@/components/PageHero";
 import heroInfra from "@/assets/hero-infra.jpg";
 import equipmentGuitar from "@/assets/equipment-guitar.jpg";
+import equipmentDrums from "@/assets/equipment-drums.jpg";
+import equipmentViolao from "@/assets/equipment-violao.jpg";
+import equipmentBass from "@/assets/equipment-bass.jpg";
+
+const carouselSlides = [
+  { src: equipmentDrums, label: "Bateria RMV" },
+  { src: equipmentGuitar, label: "Guitarra" },
+  { src: equipmentViolao, label: "Violão" },
+  { src: equipmentBass, label: "Baixo" },
+];
 
 export const Route = createFileRoute("/infraestrutura")({
   component: Infraestrutura,
@@ -97,6 +107,12 @@ const amenities = [
 
 function Infraestrutura() {
   const [open, setOpen] = useState<number | null>(0);
+  const [slide, setSlide] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setSlide((p) => (p + 1) % carouselSlides.length), 4000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -200,20 +216,39 @@ function Infraestrutura() {
 
           <div className="lg:sticky lg:top-28">
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-card">
-              <img
-                src={equipmentGuitar}
-                alt="Equipamentos do estúdio"
-                className="h-full w-full object-cover"
-                loading="lazy"
-                width={1280}
-                height={896}
-              />
+              {carouselSlides.map((s, idx) => (
+                <img
+                  key={s.src}
+                  src={s.src}
+                  alt={s.label}
+                  className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+                    idx === slide ? "opacity-100" : "opacity-0"
+                  }`}
+                  loading="lazy"
+                  width={1024}
+                  height={1280}
+                />
+              ))}
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6">
-                <p className="text-xs uppercase tracking-wider text-primary">Estúdio A</p>
-                <p className="text-xl font-bold text-foreground mt-1">
-                  Tratamento acústico profissional
-                </p>
+              <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4">
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-primary">Estúdio A</p>
+                  <p className="text-xl font-bold text-foreground mt-1">
+                    {carouselSlides[slide].label}
+                  </p>
+                </div>
+                <div className="flex gap-1.5 pb-1">
+                  {carouselSlides.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSlide(idx)}
+                      className={`h-1 rounded-full transition-smooth ${
+                        idx === slide ? "w-6 bg-gradient-brand" : "w-3 bg-muted"
+                      }`}
+                      aria-label={`Slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
