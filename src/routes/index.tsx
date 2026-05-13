@@ -9,6 +9,11 @@ import heroHome from "@/assets/hero-home.jpg";
 import heroProdutora from "@/assets/hero-produtora.jpg";
 import heroServicos from "@/assets/hero-servicos.jpg";
 import heroInfra from "@/assets/hero-infra.jpg";
+import clientEscola from "@/assets/clients/escola.svg";
+import clientUniverso from "@/assets/clients/universo.svg";
+import clientGoverno from "@/assets/clients/governo.svg";
+import clientAG from "@/assets/clients/ag.svg";
+import clientICFG from "@/assets/clients/icfg.svg";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -35,7 +40,13 @@ const slides = [
   { img: heroInfra, title: "Estúdio à altura do seu projeto", sub: "Infraestrutura completa para áudio, vídeo e transmissão." },
 ];
 
-const clients = ["TC/UFRJ", "Andrade Gutierrez", "Minas Gerais", "Universo", "Itaú Cultural"];
+const clients = [
+  { name: "Escola", src: clientEscola },
+  { name: "Universo", src: clientUniverso },
+  { name: "Governo de Minas Gerais", src: clientGoverno },
+  { name: "Andrade Gutierrez", src: clientAG },
+  { name: "ICFG", src: clientICFG },
+];
 
 function Home() {
   const [i, setI] = useState(0);
@@ -138,10 +149,15 @@ function Home() {
           <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
             {clients.map((c) => (
               <div
-                key={c}
-                className="h-20 rounded-xl border border-border bg-background/40 flex items-center justify-center text-muted-foreground font-display font-semibold tracking-tight hover:border-primary/40 hover:text-foreground transition-smooth"
+                key={c.name}
+                className="h-20 rounded-xl border border-border bg-background/40 flex items-center justify-center px-4 hover:border-primary/40 transition-smooth group"
               >
-                {c}
+                <img
+                  src={c.src}
+                  alt={c.name}
+                  loading="lazy"
+                  className="max-h-10 w-auto object-contain brightness-0 invert opacity-60 group-hover:opacity-100 transition-smooth"
+                />
               </div>
             ))}
           </div>
