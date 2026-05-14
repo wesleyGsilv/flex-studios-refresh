@@ -39,7 +39,7 @@ export function Footer() {
         <div>
           <h4 className="text-sm font-semibold text-foreground mb-4">Contato</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>R. Monte Simplício, 1363</li>
+            <li>R. Monte Simplon, 1363</li>
             <li>Salgado Filho — BH/MG</li>
             <li>30550-160</li>
             <li className="pt-2 text-foreground">contato@flexstudios.com</li>

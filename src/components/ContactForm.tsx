@@ -78,7 +78,7 @@ export function ContactForm() {
           </p>
 
           <div className="mt-10 space-y-5">
-            <Info icon={MapPin} title="Estúdio" value="R. Monte Simplício, 1363 — BH/MG" />
+            <Info icon={MapPin} title="Estúdio" value="R. Monte Simplon, 1363 — BH/MG" />
             <Info icon={Mail} title="E-mail" value="contato@flexstudios.com" />
             <Info icon={Phone} title="Telefone" value="+55 (31) 0000-0000" />
           </div>
