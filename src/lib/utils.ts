@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function mensagemWhatsapp(mensagem: string) {
-  return `https://wa.me/31993939536?text=${encodeURIComponent(mensagem)}`;
+  return `https://wa.me/31986641213?text=${encodeURIComponent(mensagem)}`;
 }

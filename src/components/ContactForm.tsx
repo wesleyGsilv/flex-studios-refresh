@@ -1,21 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Send, MapPin, Mail, Phone } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import {
+  contactMailSchema,
+  sendContactEmail,
+  type ContactMailInput,
+} from "@/lib/contact-mail";
 
-type ContactFormData = {
-  nome: string;
-  sobrenome: string;
-  email: string;
-  celular: string;
-  assunto: string;
-  mensagem: string;
-};
-
-const initialFormData: ContactFormData = {
+const initialFormData: ContactMailInput = {
   nome: "",
   sobrenome: "",
   email: "",
   celular: "",
-  assunto: "orcamento",
   mensagem: "",
 };
 
@@ -42,12 +38,27 @@ function normalizeEmail(value: string) {
 }
 
 export function ContactForm() {
-  const [sent, setSent] = useState(false);
+  const sendContactEmailFn = useServerFn(sendContactEmail);
   const [formData, setFormData] = useState(initialFormData);
+  const [submitState, setSubmitState] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
 
-  function updateField<K extends keyof ContactFormData>(field: K, value: ContactFormData[K]) {
+  function updateField<K extends keyof ContactMailInput>(field: K, value: ContactMailInput[K]) {
     setFormData((current) => ({ ...current, [field]: value }));
   }
+
+  useEffect(() => {
+    if (submitState !== "success") {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setSubmitState("idle");
+      setFeedbackMessage(null);
+    }, 4000);
+
+    return () => window.clearTimeout(timeout);
+  }, [submitState]);
 
   return (
     <section id="contato" className="relative py-24 md:py-32 overflow-hidden">
@@ -67,18 +78,29 @@ export function ContactForm() {
           </p>
 
           <div className="mt-10 space-y-5">
-            <Info icon={MapPin} title="Estúdio" value="R. Monte Simplício, 1393 — BH/MG" />
+            <Info icon={MapPin} title="Estúdio" value="R. Monte Simplício, 1363 — BH/MG" />
             <Info icon={Mail} title="E-mail" value="contato@flexstudios.com" />
             <Info icon={Phone} title="Telefone" value="+55 (31) 0000-0000" />
           </div>
         </div>
 
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            setSent(true);
-            setFormData(initialFormData);
-            setTimeout(() => setSent(false), 4000);
+            setSubmitState("submitting");
+            setFeedbackMessage(null);
+
+            try {
+              const payload = contactMailSchema.parse(formData);
+              await sendContactEmailFn({ data: payload });
+              setSubmitState("success");
+              setFeedbackMessage("Mensagem enviada com sucesso. Retornaremos em breve.");
+              setFormData(initialFormData);
+            } catch (error) {
+              console.error(error);
+              setSubmitState("error");
+              setFeedbackMessage("Nao foi possivel enviar sua mensagem agora. Tente novamente em instantes.");
+            }
           }}
           className="glass rounded-2xl p-6 md:p-8 shadow-card"
         >
@@ -135,11 +157,25 @@ export function ContactForm() {
               placeholder="Conte sobre seu projeto…"
             />
           </label>
+          {feedbackMessage && (
+            <p
+              className={`mt-4 text-sm ${
+                submitState === "error" ? "text-red-300" : "text-primary"
+              }`}
+            >
+              {feedbackMessage}
+            </p>
+          )}
           <button
             type="submit"
+            disabled={submitState === "submitting"}
             className="mt-6 w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-gradient-brand px-7 py-3 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.02] transition-smooth"
           >
-            {sent ? "Mensagem enviada ✓" : <>Enviar <Send size={16} /></>}
+            {submitState === "submitting"
+              ? "Enviando..."
+              : submitState === "success"
+                ? "Mensagem enviada ✓"
+                : <>Enviar <Send size={16} /></>}
           </button>
         </form>
       </div>

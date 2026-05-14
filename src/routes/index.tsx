@@ -199,12 +199,12 @@ function Home() {
               e conversar pessoalmente sobre o seu projeto.
             </p>
             <div className="mt-8 space-y-2 text-sm">
-              <p className="text-foreground font-medium">R. Monte Simplício, 1393</p>
+              <p className="text-foreground font-medium">R. Monte Simplício, 1363</p>
               <p className="text-muted-foreground">Salgado Filho, Belo Horizonte — MG</p>
               <p className="text-muted-foreground">CEP 30550-160</p>
             </div>
             <a
-              href="https://maps.google.com/?q=R.+Monte+Simplicio,+1393,+Belo+Horizonte"
+              href="https://maps.google.com/?q=R.+Monte+Simplicio,+1363,+Belo+Horizonte"
               target="_blank"
               rel="noreferrer"
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
@@ -215,7 +215,7 @@ function Home() {
           <div className="relative aspect-[5/4] rounded-2xl overflow-hidden border border-border shadow-card">
             <iframe
               title="Mapa Flex Studios"
-              src="https://www.google.com/maps?q=R.+Monte+Simplicio,+1393,+Belo+Horizonte&output=embed"
+              src="https://www.google.com/maps?q=R.+Monte+Simplicio,+1363,+Belo+Horizonte&output=embed"
               className="absolute inset-0 w-full h-full grayscale contrast-110"
               loading="lazy"
             />
