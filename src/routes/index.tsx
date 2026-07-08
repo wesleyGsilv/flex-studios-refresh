@@ -36,7 +36,7 @@ export const Route = createFileRoute("/")({
 });
 
 const slides = [
-  { img: heroHome, title: "Som que move pessoas", sub: "Áudio profissional com a precisão que sua marca merece." },
+  { img: heroHome, title: "O clima é de casa. A estrutura é de estúdio.", sub: "Um ambiente pensado para acolher artistas, criadores e produtores, com a qualidade técnica que grandes projetos exigem." },
   { img: heroProdutora, title: "Imagem com propósito", sub: "Produção audiovisual da concepção ao corte final." },
   { img: heroServicos, title: "Tecnologia + criatividade", sub: "Mais de 20 anos transformando ideias em obras." },
   { img: heroInfra, title: "Estúdio à altura do seu projeto", sub: "Infraestrutura completa para áudio, vídeo e transmissão." },
@@ -163,7 +163,7 @@ function Home() {
       <MotionReveal as="section" className="py-20 border-y border-border bg-surface/40" distance={30}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground text-center">
-            Clientes que confiam no nosso trabalho
+            "Amigo é coisa pra se guardar" — do lado esquerdo do peito
           </p>
           <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
             {clients.map((c) => (
