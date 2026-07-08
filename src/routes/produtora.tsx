@@ -60,22 +60,10 @@ export const Route = createFileRoute("/produtora")({
 
 const testimonials = [
   {
-    name: "Fulano de Tal",
-    role: "Gerente · Empresa X",
+    name: "Fábio Oliveira",
+    role: "Saxofonista · Black Bones Brass Band",
     text:
       "A Flex entregou muito mais que produção: virou parceira de conceito. Equipe técnica impecável e processo criativo claro do briefing à entrega.",
-  },
-  {
-    name: "Mariana Souza",
-    role: "Diretora de Marketing · Marca Y",
-    text:
-      "Estrutura de primeira e atendimento humano. Conseguimos rodar três campanhas em paralelo no mesmo trimestre, com qualidade consistente.",
-  },
-  {
-    name: "Rafael Lima",
-    role: "Produtor Musical · Selo Z",
-    text:
-      "O estúdio é referência em BH. Acústica tratada, equipamentos top de linha e gente que entende de música — não só de gravação.",
   },
 ];
 
@@ -211,8 +199,8 @@ function Produtora() {
 
       <PageHero
         eyebrow="A produtora"
-        title={<>Tecnologia, criatividade e <span className="text-gradient-brand">talento.</span></>}
-        subtitle="Há mais de duas décadas transformando ideias em obras audiovisuais e musicais."
+        title={<>Onde <span className="text-gradient-brand">boas ideias</span> se sentem em casa.</>}
+        subtitle="Cada canto foi pensado para que as suas ideias fiquem à vontade."
         image={heroProdutora}
       />
 
@@ -230,22 +218,21 @@ function Produtora() {
             </h2>
             <div className="mt-8 space-y-5 text-muted-foreground leading-relaxed">
               <p>
-                Fundada em 2007, a Flex Studio nasceu com a proposta de oferecer soluções
-                profissionais em audiovisual, música e produção artística, tornando-se ao
-                longo dos anos um espaço reconhecido pela qualidade, criatividade e dedicação
-                em cada projeto realizado.
+                A Flex existe desde 2007. De lá para cá, muita coisa passou por esta casa:
+                músicas, filmes, podcasts, shows, ensaios, gravações e ideias que começaram
+                pequenas e ganharam o mundo.
               </p>
               <p>
-                Durante nossa trajetória, tivemos a oportunidade de receber diversos artistas
-                e participar de importantes produções ao lado de grandes clientes e instituições,
-                como o Governo de Minas Gerais, Andrade Gutierrez, Universo Produção, Escola
-                Livre de Cinema de Belo Horizonte e Instituto Cultural Flávio Gutierrez.
+                Ao longo dessa trajetória, tivemos a oportunidade de trabalhar ao lado de
+                artistas, produtoras, instituições e grandes parceiros como Governo de Minas
+                Gerais, Andrade Gutierrez, Universo Produção, Escola Livre de Cinema de Belo
+                Horizonte e Instituto Cultural Flávio Gutierrez.
               </p>
               <p>
-                Em 2026, a Flex Studio entra em um novo ciclo, marcado por excelência e
-                mestria, mantendo nossa essência através de uma renovação na direção e visão
-                de futuro. Essa nova fase chega com fôlego renovado, estrutura modernizada e
-                experiência cada vez mais profissional para artistas, bandas, produtores e criadores.
+                Agora, a Flex vive um novo capítulo. A mesma paixão pela criação, com ainda
+                mais estrutura, experiência e vontade de fazer acontecer. Porque algumas coisas
+                mudam com o tempo. Outras permanecem. E a nossa missão continua a mesma:
+                criar um lugar onde boas ideias se sintam em casa.
               </p>
             </div>
           </div>
@@ -351,8 +338,9 @@ function Produtora() {
             <span className="h-px w-8 bg-primary" /> Depoimentos
           </span>
           <h2 className="mt-4 text-4xl md:text-5xl font-bold">
-            O que dizem <span className="text-gradient-brand">nossos clientes</span>
+            Não é a gente que tá <span className="text-gradient-brand">dizendo, heim.</span>
           </h2>
+
 
           <div className="mt-14 relative glass rounded-3xl p-8 md:p-14 shadow-card text-left">
             <Quote className="absolute -top-5 left-8 text-primary" size={48} />

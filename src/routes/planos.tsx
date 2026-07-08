@@ -101,11 +101,11 @@ function Planos() {
         eyebrow="Planos & Assinaturas"
         title={
           <>
-            Estúdio recorrente,{" "}
-            <span className="text-gradient-brand">preço inteligente</span>
+            Tem uma ideia grande aí?{" "}
+            <span className="text-gradient-brand">Tem um preço baixo aqui.</span>
           </>
         }
-        subtitle="Escolha entre uso avulso ou economize com nossos planos mensais. Estrutura completa, equipe técnica e flexibilidade para artistas, bandas e criadores."
+        subtitle="Agora que você já conhece a casa, é hora de escolher seu plano."
         image={heroPlanos}
       />
 

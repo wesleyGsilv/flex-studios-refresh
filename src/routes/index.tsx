@@ -36,7 +36,7 @@ export const Route = createFileRoute("/")({
 });
 
 const slides = [
-  { img: heroHome, title: "Som que move pessoas", sub: "Áudio profissional com a precisão que sua marca merece." },
+  { img: heroHome, title: "O clima é de casa. A estrutura é de estúdio.", sub: "Um ambiente pensado para acolher artistas, criadores e produtores, com a qualidade técnica que grandes projetos exigem." },
   { img: heroProdutora, title: "Imagem com propósito", sub: "Produção audiovisual da concepção ao corte final." },
   { img: heroServicos, title: "Tecnologia + criatividade", sub: "Mais de 20 anos transformando ideias em obras." },
   { img: heroInfra, title: "Estúdio à altura do seu projeto", sub: "Infraestrutura completa para áudio, vídeo e transmissão." },
@@ -159,11 +159,57 @@ function Home() {
         </div>
       </section>
 
+      {/* Qual sala escolher */}
+      <MotionReveal as="section" className="py-24 md:py-32" distance={30}>
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="text-center max-w-2xl mx-auto">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="h-px w-8 bg-primary" /> Qual sala escolher?
+            </span>
+            <h2 className="mt-4 text-4xl md:text-5xl font-bold leading-[1.05]">
+              Calma que a gente <span className="text-gradient-brand">te ajuda.</span>
+            </h2>
+            <p className="mt-5 text-muted-foreground leading-relaxed">
+              O Flex tem 3 salas diferentes, cada uma pensada para um tipo de projeto. Quer
+              gravar um podcast ou produzir conteúdo? Tá precisando registrar instrumentos? Ou
+              a ideia é montar uma superprodução com iluminação e cenário? Aqui tem espaço
+              pra tudo.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {[
+              { badge: "Sala de ensaio", title: "Sala de ensaio", desc: "Sala completa para sua banda evoluir com qualidade de estúdio." },
+              { badge: "Sala de podcast", title: "Sala de podcast", desc: "Serviço completo: gravação multicâmera, áudio tratado e material pronto para publicar." },
+              { badge: "Estúdio B", title: "Estúdio B", desc: "Estrutura premium para gravação, mixagem e produção em ambiente acústico de alto padrão." },
+            ].map((s) => (
+              <article
+                key={s.title}
+                className="group rounded-2xl border border-border bg-surface p-8 hover:border-primary/50 hover:-translate-y-1 transition-smooth shadow-card"
+              >
+                <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
+                  {s.badge}
+                </span>
+                <h3 className="mt-3 text-2xl font-bold">{s.title}</h3>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              </article>
+            ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Link
+              to="/planos"
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
+            >
+              Vem ver os planos <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </MotionReveal>
+
       {/* Clientes */}
       <MotionReveal as="section" className="py-20 border-y border-border bg-surface/40" distance={30}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground text-center">
-            Clientes que confiam no nosso trabalho
+            "Amigo é coisa pra se guardar" — do lado esquerdo do peito
           </p>
           <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
             {clients.map((c) => (

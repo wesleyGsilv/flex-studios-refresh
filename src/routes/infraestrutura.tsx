@@ -120,8 +120,8 @@ function Infraestrutura() {
 
       <PageHero
         eyebrow="Infraestrutura"
-        title={<>Seu projeto merece um <span className="text-gradient-brand">estúdio à altura</span>.</>}
-        subtitle="Estrutura moderna, técnica e versátil para áudio, vídeo, ensaios e produções profissionais."
+        title={<>Na moral? Nossa estrutura é <span className="text-gradient-brand">f*da.</span></>}
+        subtitle="Desculpa o palavreado. Mas depois de ver a acústica, a iluminação, os equipamentos e a qualidade dos nossos profissionais, você vai entender."
         image={heroInfra}
       />
 
@@ -129,10 +129,9 @@ function Infraestrutura() {
       <section className="py-20 md:py-28">
         <div className="max-w-4xl mx-auto px-6 md:px-10 text-center">
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-            O Flex Studios conta com uma estrutura moderna e preparada para atender produções
-            musicais e audiovisuais de diferentes portes. Nossos espaços foram desenvolvidos
-            para oferecer conforto, qualidade técnica e versatilidade — o ambiente ideal para
-            ensaios profissionais, gravações e projetos criativos com alto nível de produção.
+            Tem espaço para ensaiar, gravar, filmar, produzir e experimentar. Tudo isso em
+            ambientes que combinam conforto, versatilidade e uma estrutura profissional
+            pronta para acompanhar a sua ideia.
           </p>
         </div>
       </section>
