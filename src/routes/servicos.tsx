@@ -105,8 +105,8 @@ function Servicos() {
 
       <PageHero
         eyebrow="Serviços"
-        title={<>Tudo que seu projeto <span className="text-gradient-brand">precisa</span>, em um só lugar.</>}
-        subtitle="Pacotes flexíveis para áudio, vídeo, transmissão e ensino a distância."
+        title={<>O que não dá pra fazer <span className="text-gradient-brand">no Flex?</span></>}
+        subtitle="Pois é, a gente ainda não sabe. Por aqui tem música, podcasts, vídeos, ensaios, locuções, captação de instrumentos e mais uma porção de ideias que ainda nem têm nome."
         image={heroServicos}
       />
 
@@ -142,10 +142,10 @@ function Servicos() {
               <span className="h-px w-8 bg-primary" /> Portfolio
             </span>
             <h2 className="mt-4 text-4xl md:text-5xl font-bold">
-              Veja alguns dos nossos <span className="text-gradient-brand">trabalhos</span>
+              Aqui as paredes têm <span className="text-gradient-brand">ouvidos.</span> Ainda bem.
             </h2>
             <p className="mt-5 text-muted-foreground">
-              Uma amostra de produções recentes em estúdio e captação externa.
+              Dá o play pra conhecer um pouco de tudo que já passou pela nossa casa.
             </p>
           </div>
 
@@ -179,7 +179,7 @@ function Servicos() {
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
             >
-              <Youtube size={18} /> Acesse nosso canal no YouTube
+              <Youtube size={18} /> Vem ver o Flex no YouTube
             </a>
           </div>
         </div>
