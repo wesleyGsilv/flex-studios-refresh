@@ -229,6 +229,12 @@ function Home() {
                   key={i}
                   className={`group relative overflow-hidden rounded-2xl border border-border shadow-card ${spans[i]}`}
                 >
+                  <button
+                    type="button"
+                    onClick={() => setLightbox(i)}
+                    aria-label={`Ampliar imagem: ${g.alt}`}
+                    className="absolute inset-0 z-10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  />
                   <img
                     src={g.src}
                     alt={g.alt}
@@ -240,6 +246,7 @@ function Home() {
                     {g.alt}
                   </figcaption>
                 </figure>
+
               );
             })}
           </div>
