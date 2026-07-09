@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, MapPin, Sparkles } from "lucide-react";
+import { ArrowRight, MapPin, Sparkles, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
@@ -65,10 +66,38 @@ function Home() {
   const heroOffset = useParallax(0.18);
   const markOffset = useParallax(0.34);
   const contentOffset = useParallax(0.1);
+  const [lightbox, setLightbox] = useState<number | null>(null);
+
+  const closeLightbox = useCallback(() => setLightbox(null), []);
+  const nextImg = useCallback(
+    () => setLightbox((i) => (i === null ? i : (i + 1) % gallery.length)),
+    []
+  );
+  const prevImg = useCallback(
+    () => setLightbox((i) => (i === null ? i : (i - 1 + gallery.length) % gallery.length)),
+    []
+  );
+
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+      else if (e.key === "ArrowRight") nextImg();
+      else if (e.key === "ArrowLeft") prevImg();
+    };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [lightbox, closeLightbox, nextImg, prevImg]);
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
+
 
       {/* Hero */}
       <section className="relative h-screen min-h-[640px] overflow-hidden">
@@ -200,6 +229,12 @@ function Home() {
                   key={i}
                   className={`group relative overflow-hidden rounded-2xl border border-border shadow-card ${spans[i]}`}
                 >
+                  <button
+                    type="button"
+                    onClick={() => setLightbox(i)}
+                    aria-label={`Ampliar imagem: ${g.alt}`}
+                    className="absolute inset-0 z-10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  />
                   <img
                     src={g.src}
                     alt={g.alt}
@@ -211,6 +246,7 @@ function Home() {
                     {g.alt}
                   </figcaption>
                 </figure>
+
               );
             })}
           </div>
@@ -285,6 +321,58 @@ function Home() {
 
       <ContactForm />
       <Footer />
+
+      {lightbox !== null && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Galeria de fotos ampliada"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-md animate-in fade-in"
+          onClick={closeLightbox}
+        >
+          <button
+            type="button"
+            onClick={closeLightbox}
+            aria-label="Fechar"
+            className="absolute top-5 right-5 z-10 rounded-full border border-border bg-surface/80 p-2.5 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <X size={20} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); prevImg(); }}
+            aria-label="Foto anterior"
+            className="absolute left-3 md:left-6 z-10 rounded-full border border-border bg-surface/80 p-3 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <ChevronLeft size={22} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); nextImg(); }}
+            aria-label="Próxima foto"
+            className="absolute right-3 md:right-6 z-10 rounded-full border border-border bg-surface/80 p-3 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <ChevronRight size={22} />
+          </button>
+          <figure
+            className="relative max-w-[92vw] max-h-[86vh] flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={gallery[lightbox].src}
+              alt={gallery[lightbox].alt}
+              className="max-w-[92vw] max-h-[80vh] object-contain rounded-xl shadow-glow"
+            />
+            <figcaption className="mt-4 text-sm text-muted-foreground text-center">
+              {gallery[lightbox].alt}
+              <span className="ml-2 text-xs opacity-70">
+                {lightbox + 1} / {gallery.length}
+              </span>
+            </figcaption>
+          </figure>
+        </div>
+      )}
     </div>
+
   );
 }
