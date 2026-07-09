@@ -12,6 +12,28 @@ import clientUniverso from "@/assets/clients/universo.svg";
 import clientGoverno from "@/assets/clients/governo.svg";
 import clientAG from "@/assets/clients/ag.svg";
 import clientICFG from "@/assets/clients/icfg.svg";
+import gControlRoom from "@/assets/gallery/control-room-1.jpg";
+import gStudioMixer from "@/assets/gallery/studio-mixer.jpg";
+import gLiveRoom from "@/assets/gallery/live-room.jpg";
+import gDrumRoom from "@/assets/gallery/drum-room.jpg";
+import gGarden from "@/assets/gallery/garden.jpg";
+import gExterior from "@/assets/gallery/exterior.jpg";
+import gStudioB from "@/assets/gallery/studio-b.jpg";
+import gSingerAcoustic from "@/assets/gallery/singer-acoustic.jpg";
+import gTrioRecording from "@/assets/gallery/trio-recording.jpg";
+
+const gallery = [
+  { src: gStudioMixer, alt: "Sala de controle com mesa de mixagem" },
+  { src: gLiveRoom, alt: "Sala de gravação ao vivo" },
+  { src: gControlRoom, alt: "Engenheiro em sessão de mix" },
+  { src: gDrumRoom, alt: "Sala de bateria com tratamento acústico" },
+  { src: gStudioB, alt: "Estúdio B — locução e audiobooks" },
+  { src: gSingerAcoustic, alt: "Cantor em sessão acústica" },
+  { src: gTrioRecording, alt: "Trio em gravação ao vivo" },
+  { src: gGarden, alt: "Área de convivência externa" },
+  { src: gExterior, alt: "Fachada e jardim do estúdio" },
+];
+
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -143,7 +165,60 @@ function Home() {
         </div>
       </MotionReveal>
 
+      {/* Galeria */}
+      <MotionReveal as="section" className="relative py-24 md:py-32 border-t border-border bg-surface/30" distance={30}>
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="flex items-end justify-between gap-6 flex-wrap">
+            <div className="max-w-xl">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+                <span className="h-px w-8 bg-primary" /> Galeria
+              </span>
+              <h2 className="mt-4 text-4xl md:text-5xl font-bold">
+                Repara na <span className="text-gradient-brand">bagunça.</span>
+              </h2>
+            </div>
+            <p className="text-muted-foreground max-w-md">
+              Tem gente ensaiando. Tem gente gravando. Tem gente tendo ideia. Dá uma volta pela casa e conheça os espaços onde a mágica acontece.
+            </p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 [grid-auto-flow:dense]">
+            {gallery.map((g, i) => {
+              const spans = [
+                "col-span-2 row-span-2 aspect-square",
+                "aspect-square",
+                "aspect-square",
+                "col-span-2 aspect-[2/1]",
+                "aspect-square",
+                "aspect-square",
+                "aspect-square",
+                "aspect-square",
+                "col-span-2 aspect-[2/1]",
+              ];
+              return (
+                <figure
+                  key={i}
+                  className={`group relative overflow-hidden rounded-2xl border border-border shadow-card ${spans[i]}`}
+                >
+                  <img
+                    src={g.src}
+                    alt={g.alt}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/0 to-transparent opacity-0 group-hover:opacity-100 transition-smooth" />
+                  <figcaption className="absolute bottom-3 left-4 right-4 text-xs text-foreground/90 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-smooth">
+                    {g.alt}
+                  </figcaption>
+                </figure>
+              );
+            })}
+          </div>
+        </div>
+      </MotionReveal>
+
       {/* Clientes */}
+
       <MotionReveal as="section" className="py-20 border-y border-border bg-surface/40" distance={30}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground text-center">
