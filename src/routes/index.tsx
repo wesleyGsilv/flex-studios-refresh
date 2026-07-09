@@ -31,13 +31,6 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-const slides = [
-  { img: heroHome, title: "O clima é de casa. A estrutura é de estúdio.", sub: "Um ambiente pensado para acolher artistas, criadores e produtores, com a qualidade técnica que grandes projetos exigem." },
-  { img: heroProdutora, title: "Imagem com propósito", sub: "Produção audiovisual da concepção ao corte final." },
-  { img: heroServicos, title: "Tecnologia + criatividade", sub: "Mais de 20 anos transformando ideias em obras." },
-  { img: heroInfra, title: "Estúdio à altura do seu projeto", sub: "Infraestrutura completa para áudio, vídeo e transmissão." },
-];
-
 const clients = [
   { name: "Escola", src: clientEscola },
   { name: "Universo", src: clientUniverso },
