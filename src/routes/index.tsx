@@ -40,42 +40,26 @@ const clients = [
 ];
 
 function Home() {
-  const [i, setI] = useState(0);
   const heroOffset = useParallax(0.18);
   const markOffset = useParallax(0.34);
   const contentOffset = useParallax(0.1);
-
-  useEffect(() => {
-    const id = setInterval(() => setI((p) => (p + 1) % slides.length), 5500);
-    return () => clearInterval(id);
-  }, []);
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* Hero carrossel */}
+      {/* Hero */}
       <section className="relative h-screen min-h-[640px] overflow-hidden">
-        {slides.map((s, idx) => (
-          <div
-            key={idx}
-            className={`absolute inset-0 transition-opacity duration-[1200ms] ${
-              idx === i ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <img
-              src={s.img}
-              alt=""
-              className="absolute inset-0 h-[126%] w-full object-cover will-change-transform"
-              style={{ transform: `translate3d(0, ${heroOffset}px, 0) scale(1.14)` }}
-              width={1920}
-              height={1080}
-              loading={idx === 0 ? undefined : "lazy"}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/56 to-background/18" />
-            <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(29,245,192,0.16),transparent_28%,transparent_52%,rgba(41,170,225,0.2))] mix-blend-screen" />
-          </div>
-        ))}
+        <img
+          src={heroHome}
+          alt=""
+          className="absolute inset-0 h-[126%] w-full object-cover will-change-transform"
+          style={{ transform: `translate3d(0, ${heroOffset}px, 0) scale(1.14)` }}
+          width={1920}
+          height={1080}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/56 to-background/18" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(29,245,192,0.16),transparent_28%,transparent_52%,rgba(41,170,225,0.2))] mix-blend-screen" />
 
         <div
           className="absolute inset-0 pointer-events-none"
@@ -89,61 +73,26 @@ function Home() {
         <div className="absolute inset-x-0 bottom-0 h-56 bg-[radial-gradient(circle_at_center,rgba(29,245,192,0.3),transparent_64%)] blur-3xl" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 h-full flex flex-col justify-end pb-32">
-          <MotionReveal key={i} className="max-w-3xl" distance={42}>
+          <MotionReveal className="max-w-3xl" distance={42}>
             <div style={{ transform: `translate3d(0, ${-contentOffset}px, 0)` }}>
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
               <Sparkles size={14} /> Flex Studios · BH
             </span>
             <h1 className="mt-5 text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.98]">
-              {slides[i].title}
+              O clima é de casa. A estrutura é de estúdio.
             </h1>
             <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
-              {slides[i].sub}
+              Criamos um ambiente totalmente pensado para acolher artistas, criadores e produtores, com a qualidade técnica que grandes projetos exigem.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
-                to="/servicos"
+                to="/infraestrutura"
                 className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
               >
-                Conheça os serviços <ArrowRight size={16} />
-              </Link>
-              <Link
-                to="/produtora"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/40 backdrop-blur px-7 py-3.5 text-sm font-semibold text-foreground hover:border-primary/60 transition-smooth"
-              >
-                Nossa história
+                DÁ UMA OLHADA NA ESTRUTURA <ArrowRight size={16} />
               </Link>
             </div>
             </div>
-          </MotionReveal>
-
-          <MotionReveal className="mt-12 flex items-center gap-3" delay={140} distance={24}>
-            <button
-              onClick={() => setI((p) => (p - 1 + slides.length) % slides.length)}
-              className="p-3 rounded-full glass hover:border-primary/50 transition-smooth"
-              aria-label="Anterior"
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <div className="flex gap-2">
-              {slides.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setI(idx)}
-                  className={`h-1 rounded-full transition-smooth ${
-                    idx === i ? "w-10 bg-gradient-brand" : "w-5 bg-muted"
-                  }`}
-                  aria-label={`Slide ${idx + 1}`}
-                />
-              ))}
-            </div>
-            <button
-              onClick={() => setI((p) => (p + 1) % slides.length)}
-              className="p-3 rounded-full glass hover:border-primary/50 transition-smooth"
-              aria-label="Próximo"
-            >
-              <ChevronRight size={16} />
-            </button>
           </MotionReveal>
         </div>
       </section>
