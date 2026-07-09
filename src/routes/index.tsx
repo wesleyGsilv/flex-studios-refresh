@@ -321,6 +321,58 @@ function Home() {
 
       <ContactForm />
       <Footer />
+
+      {lightbox !== null && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Galeria de fotos ampliada"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-md animate-in fade-in"
+          onClick={closeLightbox}
+        >
+          <button
+            type="button"
+            onClick={closeLightbox}
+            aria-label="Fechar"
+            className="absolute top-5 right-5 z-10 rounded-full border border-border bg-surface/80 p-2.5 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <X size={20} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); prevImg(); }}
+            aria-label="Foto anterior"
+            className="absolute left-3 md:left-6 z-10 rounded-full border border-border bg-surface/80 p-3 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <ChevronLeft size={22} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); nextImg(); }}
+            aria-label="Próxima foto"
+            className="absolute right-3 md:right-6 z-10 rounded-full border border-border bg-surface/80 p-3 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <ChevronRight size={22} />
+          </button>
+          <figure
+            className="relative max-w-[92vw] max-h-[86vh] flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={gallery[lightbox].src}
+              alt={gallery[lightbox].alt}
+              className="max-w-[92vw] max-h-[80vh] object-contain rounded-xl shadow-glow"
+            />
+            <figcaption className="mt-4 text-sm text-muted-foreground text-center">
+              {gallery[lightbox].alt}
+              <span className="ml-2 text-xs opacity-70">
+                {lightbox + 1} / {gallery.length}
+              </span>
+            </figcaption>
+          </figure>
+        </div>
+      )}
     </div>
+
   );
 }
