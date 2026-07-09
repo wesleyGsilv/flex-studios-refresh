@@ -66,10 +66,38 @@ function Home() {
   const heroOffset = useParallax(0.18);
   const markOffset = useParallax(0.34);
   const contentOffset = useParallax(0.1);
+  const [lightbox, setLightbox] = useState<number | null>(null);
+
+  const closeLightbox = useCallback(() => setLightbox(null), []);
+  const nextImg = useCallback(
+    () => setLightbox((i) => (i === null ? i : (i + 1) % gallery.length)),
+    []
+  );
+  const prevImg = useCallback(
+    () => setLightbox((i) => (i === null ? i : (i - 1 + gallery.length) % gallery.length)),
+    []
+  );
+
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+      else if (e.key === "ArrowRight") nextImg();
+      else if (e.key === "ArrowLeft") prevImg();
+    };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [lightbox, closeLightbox, nextImg, prevImg]);
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
+
 
       {/* Hero */}
       <section className="relative h-screen min-h-[640px] overflow-hidden">
