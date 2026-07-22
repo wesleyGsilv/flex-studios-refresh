@@ -256,14 +256,12 @@ function Home() {
       {/* Galeria */}
       <MotionReveal as="section" className="relative py-24 md:py-32 border-t border-border bg-surface/30" distance={30}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="flex items-end justify-between gap-6 flex-wrap">
-            <div className="max-w-xl">
-              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-                <span className="h-px w-8 bg-primary" /> {galeriaEyebrow}
-              </span>
-              <h2 className="mt-4 text-4xl md:text-5xl font-bold">{galeriaTitulo}</h2>
-            </div>
-            <p className="text-muted-foreground max-w-md">{galeriaDescricao}</p>
+          <div className="max-w-3xl">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="h-px w-8 bg-primary" /> {galeriaEyebrow}
+            </span>
+            <h2 className="mt-4 text-4xl md:text-5xl font-bold">{galeriaTitulo}</h2>
+            <p className="mt-5 text-muted-foreground max-w-2xl leading-relaxed">{galeriaDescricao}</p>
           </div>
 
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 [grid-auto-flow:dense]">
