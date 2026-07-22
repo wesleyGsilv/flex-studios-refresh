@@ -1,12 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, MapPin, Sparkles, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
 import { BrandX } from "@/components/BrandX";
 import { MotionReveal } from "@/components/MotionReveal";
 import { useParallax } from "@/hooks/use-parallax";
+import { homeQueryOptions, stripHtml, type HomeData } from "@/lib/api-home";
 import heroHome from "@/assets/hero-home.jpg";
 import clientEscola from "@/assets/clients/escola.svg";
 import clientUniverso from "@/assets/clients/universo.svg";
@@ -23,7 +25,7 @@ import gStudioB from "@/assets/gallery/studio-b.jpg";
 import gSingerAcoustic from "@/assets/gallery/singer-acoustic.jpg";
 import gTrioRecording from "@/assets/gallery/trio-recording.jpg";
 
-const gallery = [
+const fallbackGallery = [
   { src: gStudioMixer, alt: "Sala de controle com mesa de mixagem" },
   { src: gLiveRoom, alt: "Sala de gravação ao vivo" },
   { src: gControlRoom, alt: "Engenheiro em sessão de mix" },
@@ -35,9 +37,25 @@ const gallery = [
   { src: gExterior, alt: "Fachada e jardim do estúdio" },
 ];
 
+const fallbackClients = [
+  { name: "Escola", src: clientEscola },
+  { name: "Universo", src: clientUniverso },
+  { name: "Governo de Minas Gerais", src: clientGoverno },
+  { name: "Andrade Gutierrez", src: clientAG },
+  { name: "ICFG", src: clientICFG },
+];
+
+const fallbackSalas = [
+  { titulo: "Sala de ensaio", descricao: "Sala completa para sua banda evoluir com qualidade de estúdio." },
+  { titulo: "Sala de podcast", descricao: "Serviço completo: gravação multicâmera, áudio tratado e material pronto para publicar." },
+  { titulo: "Estúdio B", descricao: "Estrutura premium para gravação, mixagem e produção em ambiente acústico de alto padrão." },
+];
 
 export const Route = createFileRoute("/")({
   component: Home,
+  loader: ({ context }) => {
+    context.queryClient.prefetchQuery(homeQueryOptions);
+  },
   head: () => ({
     meta: [
       { title: "Flex Studios — Estúdio de produção audiovisual e musical em BH" },
@@ -54,13 +72,15 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-const clients = [
-  { name: "Escola", src: clientEscola },
-  { name: "Universo", src: clientUniverso },
-  { name: "Governo de Minas Gerais", src: clientGoverno },
-  { name: "Andrade Gutierrez", src: clientAG },
-  { name: "ICFG", src: clientICFG },
-];
+function getBannerImage(data: HomeData | undefined): string {
+  const banner = data?.itens_banner?.[0];
+  if (!banner) return heroHome;
+  const celular =
+    typeof banner.imagem_celular === "string"
+      ? banner.imagem_celular
+      : banner.imagem_celular?.url;
+  return banner.imagem_desktop || banner.imagem_tablete || celular || heroHome;
+}
 
 function Home() {
   const heroOffset = useParallax(0.18);
@@ -68,14 +88,63 @@ function Home() {
   const contentOffset = useParallax(0.1);
   const [lightbox, setLightbox] = useState<number | null>(null);
 
+  const { data } = useQuery(homeQueryOptions);
+
+  const banner = data?.itens_banner?.[0];
+  const heroImage = getBannerImage(data);
+  const heroTitle = banner?.titulo ?? "O clima é de casa. A estrutura é de estúdio.";
+  const heroSubtitle = banner?.subtitulo ?? "Flex Studios · BH";
+  const heroDescription =
+    banner?.descricao ??
+    "Criamos um ambiente totalmente pensado para acolher artistas, criadores e produtores, com a qualidade técnica que grandes projetos exigem.";
+
+  const salaEyebrow = data?.sala_subtitulo ?? "Qual sala escolher?";
+  const salaTitulo = data?.sala_titulo ?? "Calma que a gente te ajuda.";
+  const salaDescricao = data
+    ? stripHtml(data.sala_descricao)
+    : "O Flex tem 3 salas diferentes, cada uma pensada para um tipo de projeto. Quer gravar um podcast ou produzir conteúdo? Tá precisando registrar instrumentos? Ou a ideia é montar uma superprodução com iluminação e cenário? Aqui tem espaço pra tudo.";
+  const salas = data?.sala?.length ? data.sala : fallbackSalas;
+
+  const galeriaEyebrow = data?.galeirs_ubtitulo ?? "Galeria";
+  const galeriaTitulo = data?.galeria_titulo ?? "Repara na bagunça.";
+  const galeriaDescricao = data
+    ? stripHtml(data.galeria_descricao)
+    : "Tem gente ensaiando. Tem gente gravando. Tem gente tendo ideia. Dá uma volta pela casa e conheça os espaços onde a mágica acontece.";
+
+  const gallery = useMemo(() => {
+    if (data?.galeria_fotos?.length) {
+      return data.galeria_fotos.map((g, i) => ({
+        src: g.url,
+        alt: g.legenda || fallbackGallery[i]?.alt || `Foto ${i + 1}`,
+      }));
+    }
+    return fallbackGallery;
+  }, [data]);
+
+  const clientesTitulo =
+    (data?.cliente_titulo && stripHtml(data.cliente_titulo)) ||
+    '"Amigo é coisa pra se guardar" — do lado esquerdo do peito';
+  const clientes = data?.clientes_itens?.length
+    ? data.clientes_itens.map((c) => ({ name: c.nome, src: c.logo }))
+    : fallbackClients;
+
+  const localidadeEyebrow = data?.localidade_subtitulo ?? "Onde estamos";
+  const localidadeTitulo = data?.localidade_titulo ?? "No coração de Belo Horizonte.";
+  const localidadeDescricao = data
+    ? stripHtml(data.localidade_descricao)
+    : "Estúdio aberto para visitas com hora marcada. Venha conhecer a estrutura e conversar pessoalmente sobre o seu projeto. R. Monte Simplon, 1363 Salgado Filho, Belo Horizonte — MG CEP 30550-160";
+  const rota =
+    (data?.rota && data.rota.replace(/"$/g, "")) ||
+    "https://maps.google.com/?q=R.+Monte+Simplon,+1363,+Belo+Horizonte";
+
   const closeLightbox = useCallback(() => setLightbox(null), []);
   const nextImg = useCallback(
     () => setLightbox((i) => (i === null ? i : (i + 1) % gallery.length)),
-    []
+    [gallery.length]
   );
   const prevImg = useCallback(
     () => setLightbox((i) => (i === null ? i : (i - 1 + gallery.length) % gallery.length)),
-    []
+    [gallery.length]
   );
 
   useEffect(() => {
@@ -98,11 +167,10 @@ function Home() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-
       {/* Hero */}
       <section className="relative h-screen min-h-[640px] overflow-hidden">
         <img
-          src={heroHome}
+          src={heroImage}
           alt=""
           className="absolute inset-0 h-[126%] w-full object-cover will-change-transform"
           style={{ transform: `translate3d(0, ${heroOffset}px, 0) scale(1.14)` }}
@@ -126,23 +194,23 @@ function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 h-full flex flex-col justify-end pb-32">
           <MotionReveal className="max-w-3xl" distance={42}>
             <div style={{ transform: `translate3d(0, ${-contentOffset}px, 0)` }}>
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-              <Sparkles size={14} /> Flex Studios · BH
-            </span>
-            <h1 className="mt-5 text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.98]">
-              O clima é de casa. A estrutura é de estúdio.
-            </h1>
-            <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
-              Criamos um ambiente totalmente pensado para acolher artistas, criadores e produtores, com a qualidade técnica que grandes projetos exigem.
-            </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Link
-                to="/infraestrutura"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
-              >
-                DÁ UMA OLHADA NA ESTRUTURA <ArrowRight size={16} />
-              </Link>
-            </div>
+              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+                <Sparkles size={14} /> {heroSubtitle}
+              </span>
+              <h1 className="mt-5 text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.98]">
+                {heroTitle}
+              </h1>
+              <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
+                {heroDescription}
+              </p>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <Link
+                  to="/infraestrutura"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
+                >
+                  DÁ UMA OLHADA NA ESTRUTURA <ArrowRight size={16} />
+                </Link>
+              </div>
             </div>
           </MotionReveal>
         </div>
@@ -153,33 +221,24 @@ function Home() {
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="text-center max-w-2xl mx-auto">
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-              <span className="h-px w-8 bg-primary" /> Qual sala escolher?
+              <span className="h-px w-8 bg-primary" /> {salaEyebrow}
             </span>
             <h2 className="mt-4 text-4xl md:text-5xl font-bold leading-[1.05]">
-              Calma que a gente <span className="text-gradient-brand">te ajuda.</span>
+              {salaTitulo}
             </h2>
-            <p className="mt-5 text-muted-foreground leading-relaxed">
-              O Flex tem 3 salas diferentes, cada uma pensada para um tipo de projeto. Quer
-              gravar um podcast ou produzir conteúdo? Tá precisando registrar instrumentos? Ou
-              a ideia é montar uma superprodução com iluminação e cenário? Aqui tem espaço
-              pra tudo.
-            </p>
+            <p className="mt-5 text-muted-foreground leading-relaxed">{salaDescricao}</p>
           </div>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {[
-              { badge: "Sala de ensaio", title: "Sala de ensaio", desc: "Sala completa para sua banda evoluir com qualidade de estúdio." },
-              { badge: "Sala de podcast", title: "Sala de podcast", desc: "Serviço completo: gravação multicâmera, áudio tratado e material pronto para publicar." },
-              { badge: "Estúdio B", title: "Estúdio B", desc: "Estrutura premium para gravação, mixagem e produção em ambiente acústico de alto padrão." },
-            ].map((s) => (
+            {salas.map((s) => (
               <article
-                key={s.title}
+                key={s.titulo}
                 className="group rounded-2xl border border-border bg-surface p-8 hover:border-primary/50 hover:-translate-y-1 transition-smooth shadow-card"
               >
                 <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
-                  {s.badge}
+                  {s.titulo}
                 </span>
-                <h3 className="mt-3 text-2xl font-bold">{s.title}</h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+                <h3 className="mt-3 text-2xl font-bold">{s.titulo}</h3>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.descricao}</p>
               </article>
             ))}
           </div>
@@ -200,15 +259,11 @@ function Home() {
           <div className="flex items-end justify-between gap-6 flex-wrap">
             <div className="max-w-xl">
               <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-                <span className="h-px w-8 bg-primary" /> Galeria
+                <span className="h-px w-8 bg-primary" /> {galeriaEyebrow}
               </span>
-              <h2 className="mt-4 text-4xl md:text-5xl font-bold">
-                Repara na <span className="text-gradient-brand">bagunça.</span>
-              </h2>
+              <h2 className="mt-4 text-4xl md:text-5xl font-bold">{galeriaTitulo}</h2>
             </div>
-            <p className="text-muted-foreground max-w-md">
-              Tem gente ensaiando. Tem gente gravando. Tem gente tendo ideia. Dá uma volta pela casa e conheça os espaços onde a mágica acontece.
-            </p>
+            <p className="text-muted-foreground max-w-md">{galeriaDescricao}</p>
           </div>
 
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 [grid-auto-flow:dense]">
@@ -226,8 +281,8 @@ function Home() {
               ];
               return (
                 <figure
-                  key={i}
-                  className={`group relative overflow-hidden rounded-2xl border border-border shadow-card ${spans[i]}`}
+                  key={`${g.src}-${i}`}
+                  className={`group relative overflow-hidden rounded-2xl border border-border shadow-card ${spans[i % spans.length]}`}
                 >
                   <button
                     type="button"
@@ -246,7 +301,6 @@ function Home() {
                     {g.alt}
                   </figcaption>
                 </figure>
-
               );
             })}
           </div>
@@ -254,14 +308,13 @@ function Home() {
       </MotionReveal>
 
       {/* Clientes */}
-
       <MotionReveal as="section" className="py-20 border-y border-border bg-surface/40" distance={30}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground text-center">
-            "Amigo é coisa pra se guardar" — do lado esquerdo do peito
+            {clientesTitulo}
           </p>
           <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
-            {clients.map((c) => (
+            {clientes.map((c) => (
               <div
                 key={c.name}
                 className="h-20 rounded-xl border border-border bg-white flex items-center justify-center px-4 hover:border-primary/40 transition-smooth group"
@@ -284,22 +337,16 @@ function Home() {
         <div className="relative max-w-7xl mx-auto px-6 md:px-10 grid gap-12 lg:grid-cols-2 items-center">
           <div>
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-              <MapPin size={14} /> Onde estamos
+              <MapPin size={14} /> {localidadeEyebrow}
             </span>
             <h2 className="mt-4 text-4xl md:text-5xl font-bold leading-[1.05]">
-              No coração de <span className="text-gradient-brand">Belo Horizonte</span>.
+              {localidadeTitulo}
             </h2>
             <p className="mt-5 text-muted-foreground max-w-md leading-relaxed">
-              Estúdio aberto para visitas com hora marcada. Venha conhecer a estrutura
-              e conversar pessoalmente sobre o seu projeto.
+              {localidadeDescricao}
             </p>
-            <div className="mt-8 space-y-2 text-sm">
-              <p className="text-foreground font-medium">R. Monte Simplon, 1363</p>
-              <p className="text-muted-foreground">Salgado Filho, Belo Horizonte — MG</p>
-              <p className="text-muted-foreground">CEP 30550-160</p>
-            </div>
             <a
-              href="https://maps.google.com/?q=R.+Monte+Simplon,+1363,+Belo+Horizonte"
+              href={rota}
               target="_blank"
               rel="noreferrer"
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
@@ -373,6 +420,5 @@ function Home() {
         </div>
       )}
     </div>
-
   );
 }
