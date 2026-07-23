@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Send, MapPin, Mail, Phone } from "lucide-react";
-import { useServerFn } from "@tanstack/react-start";
 import {
   contactMailSchema,
   sendContactEmail,
   type ContactMailInput,
 } from "@/lib/contact-mail";
+import type { DobraFormulario, ContatoItem } from "@/lib/api-home";
 
 const initialFormData: ContactMailInput = {
   nome: "",
@@ -17,19 +17,10 @@ const initialFormData: ContactMailInput = {
 
 function formatPhone(value: string) {
   const digits = value.replace(/\D/g, "").slice(0, 11);
-
-  if (digits.length <= 2) {
-    return digits;
-  }
-
-  if (digits.length <= 7) {
-    return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-  }
-
-  if (digits.length <= 10) {
+  if (digits.length <= 2) return digits;
+  if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  if (digits.length <= 10)
     return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
-  }
-
   return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
 }
 
@@ -37,26 +28,36 @@ function normalizeEmail(value: string) {
   return value.replace(/\s+/g, "").toLowerCase();
 }
 
-export function ContactForm() {
-  const sendContactEmailFn = useServerFn(sendContactEmail);
+const fallbackContatos: ContatoItem[] = [
+  { titulo: "Estúdio", descricao: "R. Monte Simplon, 1363 — BH/MG" },
+  { titulo: "E-mail", descricao: "contato@flexstudios.com" },
+  { titulo: "Telefone", descricao: "+55 (31) 0000-0000" },
+];
+
+const fallbackIcons = [MapPin, Mail, Phone];
+
+export function ContactForm({ dobra }: { dobra?: DobraFormulario }) {
   const [formData, setFormData] = useState(initialFormData);
   const [submitState, setSubmitState] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
+
+  const title = dobra?.title ?? "Vamos transformar sua ideia em obra.";
+  const eyebrow = dobra?.data?.contato_subtitulo ?? "Contato";
+  const contatos =
+    dobra?.data?.contato_lista && dobra.data.contato_lista.length > 0
+      ? dobra.data.contato_lista
+      : fallbackContatos;
 
   function updateField<K extends keyof ContactMailInput>(field: K, value: ContactMailInput[K]) {
     setFormData((current) => ({ ...current, [field]: value }));
   }
 
   useEffect(() => {
-    if (submitState !== "success") {
-      return;
-    }
-
+    if (submitState !== "success") return;
     const timeout = window.setTimeout(() => {
       setSubmitState("idle");
       setFeedbackMessage(null);
     }, 4000);
-
     return () => window.clearTimeout(timeout);
   }, [submitState]);
 
@@ -66,11 +67,10 @@ export function ContactForm() {
       <div className="relative max-w-7xl mx-auto px-6 md:px-10 grid gap-12 lg:grid-cols-2">
         <div>
           <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-            <span className="h-px w-8 bg-primary" /> Contato
+            <span className="h-px w-8 bg-primary" /> {eyebrow}
           </span>
           <h2 className="mt-4 text-4xl md:text-5xl font-bold leading-[1.05]">
-            Vamos transformar sua{" "}
-            <span className="text-gradient-brand">ideia em obra</span>.
+            {title}
           </h2>
           <p className="mt-5 text-muted-foreground max-w-md leading-relaxed">
             Preencha o formulário e nossa equipe entra em contato para tirar dúvidas,
@@ -78,9 +78,15 @@ export function ContactForm() {
           </p>
 
           <div className="mt-10 space-y-5">
-            <Info icon={MapPin} title="Estúdio" value="R. Monte Simplon, 1363 — BH/MG" />
-            <Info icon={Mail} title="E-mail" value="contato@flexstudios.com" />
-            <Info icon={Phone} title="Telefone" value="+55 (31) 0000-0000" />
+            {contatos.map((c, i) => (
+              <Info
+                key={`${c.titulo}-${i}`}
+                icon={c.icone}
+                FallbackIcon={fallbackIcons[i % fallbackIcons.length]}
+                title={c.titulo}
+                value={c.descricao}
+              />
+            ))}
           </div>
         </div>
 
@@ -92,57 +98,27 @@ export function ContactForm() {
 
             try {
               const payload = contactMailSchema.parse(formData);
-              await sendContactEmailFn({ data: payload });
+              await sendContactEmail(payload);
               setSubmitState("success");
               setFeedbackMessage("Mensagem enviada com sucesso. Retornaremos em breve.");
               setFormData(initialFormData);
             } catch (error) {
               console.error(error);
               setSubmitState("error");
-              setFeedbackMessage("Nao foi possivel enviar sua mensagem agora. Tente novamente em instantes.");
+              const message =
+                error instanceof Error && error.message
+                  ? error.message
+                  : "Nao foi possivel enviar sua mensagem agora. Tente novamente em instantes.";
+              setFeedbackMessage(message);
             }
           }}
           className="glass rounded-2xl p-6 md:p-8 shadow-card"
         >
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field
-              label="Nome"
-              name="nome"
-              value={formData.nome}
-              onChange={(value) => updateField("nome", value)}
-              required
-              autoComplete="given-name"
-            />
-            <Field
-              label="Sobrenome"
-              name="sobrenome"
-              value={formData.sobrenome}
-              onChange={(value) => updateField("sobrenome", value)}
-              required
-              autoComplete="family-name"
-            />
-            <Field
-              label="E-mail"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={(value) => updateField("email", normalizeEmail(value))}
-              autoComplete="email"
-              inputMode="email"
-              placeholder="voce@exemplo.com"
-            />
-            <Field
-              label="Celular"
-              name="celular"
-              type="tel"
-              value={formData.celular}
-              onChange={(value) => updateField("celular", formatPhone(value))}
-              required
-              autoComplete="tel"
-              inputMode="tel"
-              maxLength={15}
-              placeholder="(31) 99999-9999"
-            />
+            <Field label="Nome" name="nome" value={formData.nome} onChange={(v) => updateField("nome", v)} required autoComplete="given-name" />
+            <Field label="Sobrenome" name="sobrenome" value={formData.sobrenome} onChange={(v) => updateField("sobrenome", v)} required autoComplete="family-name" />
+            <Field label="E-mail" name="email" type="email" value={formData.email} onChange={(v) => updateField("email", normalizeEmail(v))} autoComplete="email" inputMode="email" placeholder="voce@exemplo.com" />
+            <Field label="Celular" name="celular" type="tel" value={formData.celular} onChange={(v) => updateField("celular", formatPhone(v))} required autoComplete="tel" inputMode="tel" maxLength={15} placeholder="(31) 99999-9999" />
           </div>
           <label className="block mt-4">
             <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
@@ -158,11 +134,7 @@ export function ContactForm() {
             />
           </label>
           {feedbackMessage && (
-            <p
-              className={`mt-4 text-sm ${
-                submitState === "error" ? "text-red-300" : "text-primary"
-              }`}
-            >
+            <p className={`mt-4 text-sm ${submitState === "error" ? "text-red-300" : "text-primary"}`}>
               {feedbackMessage}
             </p>
           )}
@@ -184,16 +156,7 @@ export function ContactForm() {
 }
 
 function Field({
-  label,
-  name,
-  type = "text",
-  value,
-  onChange,
-  required = false,
-  autoComplete,
-  inputMode,
-  maxLength,
-  placeholder,
+  label, name, type = "text", value, onChange, required = false, autoComplete, inputMode, maxLength, placeholder,
 }: {
   label: string;
   name: string;
@@ -227,11 +190,25 @@ function Field({
   );
 }
 
-function Info({ icon: Icon, title, value }: { icon: React.ComponentType<{ size?: number }>; title: string; value: string }) {
+function Info({
+  icon,
+  FallbackIcon,
+  title,
+  value,
+}: {
+  icon?: string;
+  FallbackIcon: React.ComponentType<{ size?: number }>;
+  title: string;
+  value: string;
+}) {
   return (
     <div className="flex items-start gap-4">
-      <div className="p-3 rounded-xl bg-gradient-brand text-primary-foreground shadow-glow shrink-0">
-        <Icon size={18} />
+      <div className="p-3 rounded-xl bg-gradient-brand text-primary-foreground shadow-glow shrink-0 flex items-center justify-center">
+        {icon ? (
+          <img src={icon} alt="" width={18} height={18} className="h-[18px] w-[18px] object-contain [filter:brightness(0)_invert(1)]" />
+        ) : (
+          <FallbackIcon size={18} />
+        )}
       </div>
       <div>
         <p className="text-xs uppercase tracking-wider text-muted-foreground">{title}</p>
