@@ -15,6 +15,19 @@ export type HomeGaleriaFoto = { url: string; legenda?: string };
 
 export type HomeCliente = { nome: string; logo: string };
 
+export type ContatoItem = { titulo: string; descricao: string; icone?: string };
+
+export type DobraFormulario = {
+  id: number;
+  title: string;
+  slug: string;
+  type: string;
+  data: {
+    contato_subtitulo?: string;
+    contato_lista?: ContatoItem[];
+  };
+};
+
 export type HomeData = {
   sala_titulo: string;
   sala_subtitulo: string;
@@ -37,16 +50,22 @@ export type HomeData = {
 export type HomeResponse = {
   success: boolean;
   data: HomeData;
+  dobra_formulario?: DobraFormulario[];
+};
+
+export type HomePayload = {
+  data: HomeData;
+  dobra_formulario: DobraFormulario[];
 };
 
 const HOME_URL =
   "https://www.flex.apigwrconstruct.com.br/wp-json/api-flex/v1/pages/home";
 
-export async function fetchHomeData(): Promise<HomeData> {
+export async function fetchHomeData(): Promise<HomePayload> {
   const res = await fetch(HOME_URL);
   if (!res.ok) throw new Error("Falha ao carregar dados da home");
   const json = (await res.json()) as HomeResponse;
-  return json.data;
+  return { data: json.data, dobra_formulario: json.dobra_formulario ?? [] };
 }
 
 export const homeQueryOptions = queryOptions({
