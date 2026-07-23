@@ -367,7 +367,7 @@ function Home() {
         </div>
       </MotionReveal>
 
-      <ContactForm />
+      <ContactForm dobra={dobraFormulario} />
       <Footer />
 
       {lightbox !== null && (
