@@ -88,7 +88,10 @@ function Home() {
   const contentOffset = useParallax(0.1);
   const [lightbox, setLightbox] = useState<number | null>(null);
 
-  const { data } = useQuery(homeQueryOptions);
+  const { data: payload } = useQuery(homeQueryOptions);
+  const data = payload?.data;
+  const dobraFormulario = payload?.dobra_formulario?.[0];
+
 
   const banner = data?.itens_banner?.[0];
   const heroImage = getBannerImage(data);
