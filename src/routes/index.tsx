@@ -258,7 +258,8 @@ function Home() {
 
       {/* Galeria */}
       <MotionReveal as="section" className="relative py-24 md:py-32 border-t border-border bg-surface/30" distance={30}>
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
+        <div className="absolute inset-0 bg-gradient-radial opacity-40 pointer-events-none" />
+        <div className="relative max-w-7xl mx-auto px-6 md:px-10">
           <div className="max-w-3xl">
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
               <span className="h-px w-8 bg-primary" /> {galeriaEyebrow}
@@ -267,23 +268,23 @@ function Home() {
             <p className="mt-5 text-muted-foreground max-w-2xl leading-relaxed">{galeriaDescricao}</p>
           </div>
 
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 [grid-auto-flow:dense]">
+          <div className="mt-12 grid grid-cols-2 gap-3 md:gap-6 auto-rows-[150px] md:auto-rows-[200px]">
             {gallery.map((g, i) => {
               const spans = [
-                "col-span-2 row-span-2 aspect-square",
-                "aspect-square",
-                "aspect-square",
-                "col-span-2 aspect-[2/1]",
-                "aspect-square",
-                "aspect-square",
-                "aspect-square",
-                "aspect-square",
-                "col-span-2 aspect-[2/1]",
+                "row-span-2",
+                "",
+                "",
+                "row-span-2",
+                "",
+                "",
+                "col-span-2",
+                "",
+                "",
               ];
               return (
                 <figure
                   key={`${g.src}-${i}`}
-                  className={`group relative overflow-hidden rounded-2xl border border-border shadow-card ${spans[i % spans.length]}`}
+                  className={`group relative overflow-hidden rounded-2xl border border-border bg-surface shadow-card hover:border-primary/40 hover:shadow-blue transition-smooth ${spans[i % spans.length]}`}
                 >
                   <button
                     type="button"
@@ -297,9 +298,14 @@ function Home() {
                     loading="lazy"
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/0 to-transparent opacity-0 group-hover:opacity-100 transition-smooth" />
-                  <figcaption className="absolute bottom-3 left-4 right-4 text-xs text-foreground/90 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-smooth">
-                    {g.alt}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-smooth" />
+                  <figcaption className="absolute bottom-0 left-0 right-0 p-3 md:p-4 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-smooth">
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-primary">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <p className="mt-0.5 text-xs md:text-sm font-medium text-foreground/90 leading-snug line-clamp-2">
+                      {g.alt}
+                    </p>
                   </figcaption>
                 </figure>
               );
