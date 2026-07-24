@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
 import { BrandX } from "@/components/BrandX";
 import { MotionReveal } from "@/components/MotionReveal";
+import { GallerySection } from "@/components/GallerySection";
 import { useParallax } from "@/hooks/use-parallax";
 import { homeQueryOptions, stripHtml, type HomeData } from "@/lib/api-home";
 import heroHome from "@/assets/hero-home.jpg";
