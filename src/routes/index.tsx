@@ -260,56 +260,58 @@ function Home() {
       <MotionReveal as="section" className="relative py-24 md:py-32 border-t border-border bg-surface/30" distance={30}>
         <div className="absolute inset-0 bg-gradient-radial opacity-40 pointer-events-none" />
         <div className="relative max-w-7xl mx-auto px-6 md:px-10">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-              <span className="h-px w-8 bg-primary" /> {galeriaEyebrow}
-            </span>
-            <h2 className="mt-4 text-4xl md:text-5xl font-bold">{galeriaTitulo}</h2>
-            <p className="mt-5 text-muted-foreground max-w-2xl leading-relaxed">{galeriaDescricao}</p>
-          </div>
+          <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] items-start">
+            <div className="lg:sticky lg:top-28">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+                <span className="h-px w-8 bg-primary" /> {galeriaEyebrow}
+              </span>
+              <h2 className="mt-4 text-4xl md:text-5xl font-bold">{galeriaTitulo}</h2>
+              <p className="mt-5 text-muted-foreground leading-relaxed">{galeriaDescricao}</p>
+            </div>
 
-          <div className="mt-12 grid grid-cols-2 gap-3 md:gap-6 auto-rows-[150px] md:auto-rows-[200px]">
-            {gallery.map((g, i) => {
-              const spans = [
-                "row-span-2",
-                "",
-                "",
-                "row-span-2",
-                "",
-                "",
-                "col-span-2",
-                "",
-                "",
-              ];
-              return (
-                <figure
-                  key={`${g.src}-${i}`}
-                  className={`group relative overflow-hidden rounded-2xl border border-border bg-surface shadow-card hover:border-primary/40 hover:shadow-blue transition-smooth ${spans[i % spans.length]}`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setLightbox(i)}
-                    aria-label={`Ampliar imagem: ${g.alt}`}
-                    className="absolute inset-0 z-10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  />
-                  <img
-                    src={g.src}
-                    alt={g.alt}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-smooth" />
-                  <figcaption className="absolute bottom-0 left-0 right-0 p-3 md:p-4 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-smooth">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-primary">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <p className="mt-0.5 text-xs md:text-sm font-medium text-foreground/90 leading-snug line-clamp-2">
-                      {g.alt}
-                    </p>
-                  </figcaption>
-                </figure>
-              );
-            })}
+            <div className="grid grid-cols-2 gap-3 md:gap-6 auto-rows-[150px] md:auto-rows-[200px]">
+              {gallery.map((g, i) => {
+                const spans = [
+                  "row-span-2",
+                  "",
+                  "",
+                  "row-span-2",
+                  "",
+                  "",
+                  "col-span-2",
+                  "",
+                  "",
+                ];
+                return (
+                  <figure
+                    key={`${g.src}-${i}`}
+                    className={`group relative overflow-hidden rounded-2xl border border-border bg-surface shadow-card hover:border-primary/40 hover:shadow-blue transition-smooth ${spans[i % spans.length]}`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setLightbox(i)}
+                      aria-label={`Ampliar imagem: ${g.alt}`}
+                      className="absolute inset-0 z-10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    />
+                    <img
+                      src={g.src}
+                      alt={g.alt}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-smooth" />
+                    <figcaption className="absolute bottom-0 left-0 right-0 p-3 md:p-4 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-smooth">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-primary">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <p className="mt-0.5 text-xs md:text-sm font-medium text-foreground/90 leading-snug line-clamp-2">
+                        {g.alt}
+                      </p>
+                    </figcaption>
+                  </figure>
+                );
+              })}
+            </div>
           </div>
         </div>
       </MotionReveal>
