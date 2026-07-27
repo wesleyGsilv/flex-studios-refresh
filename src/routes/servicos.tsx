@@ -80,17 +80,15 @@ export const Route = createFileRoute("/servicos")({
   }),
 });
 
-function getBannerImage(banner: ReturnType<typeof pickBanner>): string {
+import type { HomeBannerItem } from "@/lib/api-home";
+
+function getBannerImage(banner: HomeBannerItem | undefined): string {
   if (!banner) return heroServicos;
   const celular =
     typeof banner.imagem_celular === "string"
       ? banner.imagem_celular
       : banner.imagem_celular?.url;
   return banner.imagem_desktop || banner.imagem_tablete || celular || heroServicos;
-}
-
-function pickBanner(payload: ReturnType<typeof useQuery<ReturnType<typeof servicosQueryOptions>["queryFn"] extends () => Promise<infer T> ? T : never>>["data"]) {
-  return payload?.data?.itens_banner?.[0];
 }
 
 function Servicos() {
