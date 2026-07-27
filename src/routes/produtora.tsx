@@ -200,7 +200,10 @@ const TimelineSection = ({
                 {current.mes} · {current.ano}
               </div>
               <h3 className="mt-3 text-2xl md:text-3xl font-bold font-display">{current.titulo}</h3>
-              <p className="mt-3 text-muted-foreground leading-relaxed">{stripHtml(current.descricao)}</p>
+              <div
+                className="mt-3 text-muted-foreground leading-relaxed space-y-3 [&_p]:leading-relaxed [&_p+p]:mt-3"
+                dangerouslySetInnerHTML={{ __html: current.descricao }}
+              />
             </div>
           </div>
         </div>
