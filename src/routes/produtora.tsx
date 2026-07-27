@@ -422,7 +422,7 @@ function Produtora() {
         </div>
       </section>
 
-      <ContactForm dobraFormulario={payload?.dobra_formulario} />
+      <ContactForm dobra={payload?.dobra_formulario?.[0]} />
       <Footer />
     </div>
   );
