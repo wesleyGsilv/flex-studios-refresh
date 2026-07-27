@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   GraduationCap,
   Video,
@@ -10,6 +11,8 @@ import {
   Play,
   Youtube,
   X,
+  Sparkles,
+  type LucideIcon,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -21,14 +24,14 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { stripHtml } from "@/lib/api-home";
+import {
+  servicosQueryOptions,
+  extractYoutubeId,
+  type ServicoItem,
+  type ServicoProjeto,
+} from "@/lib/api-servicos";
 import heroServicos from "@/assets/hero-servicos.jpg";
-import portfolioSinger from "@/assets/portfolio-singer.jpg";
-import belezaSemAlma from "@/assets/portfolio-img/beleza-sem-alma.png";
-import alemDoInfinito from "@/assets/portfolio-img/alem-do-infinito.webp";
-import diraDaniel from "@/assets/portfolio-img/dira-daniel.webp";
-import cassioGonzaga from "@/assets/portfolio-img/cassio-gonzaga.webp";
-import alexandrePeixe from "@/assets/portfolio-img/alexandre-peixe.webp";
-
 
 type PortfolioItem = {
   id: string;
@@ -38,17 +41,31 @@ type PortfolioItem = {
   youtubeId: string;
 };
 
-const portfolio: PortfolioItem[] = [
-  { id: "p1", title: "Alexandre Peixe", category: "Gravação DVD · 2012", thumb: alexandrePeixe, youtubeId: "1Us695OcnRU" },
-
-  { id: "p2", title: "Beleza Sem Alma - Marcelo Bhering", category: "Web Clip · 2018", thumb: belezaSemAlma, youtubeId: "s6rnhZVufu4" },
-  { id: "p3", title: "Além do infinito - Lucas Costa", category: "Web Clip · 2018", thumb: alemDoInfinito, youtubeId: "nC6qLamq_LE" },
-  { id: "p4", title: "Julieta e Romeu - Dira Daniel", category: "Web Clip · 2018", thumb: diraDaniel, youtubeId: "ZQrNSnHbdmQ" },
-  { id: "p5", title: "Aonde Eu Sempre Quis Estar - Cássio Gonzaga", category: "Web Clip · 2018", thumb: cassioGonzaga, youtubeId: "yU5UZY7zIwA" },
+const fallbackServices: ServicoItem[] = [
+  { titulo: "Assessoria para EAD", descricao: "Ensino a distância em sala de aula virtual. Interaja com seus alunos, faça avaliações adversárias e tenha um registro em tempo real." },
+  { titulo: "Produções em vídeo", descricao: "Apresente seus produtos e propostas ao vivo com cenário virtual e ferramentas de transmissão Full HD." },
+  { titulo: "Web clip", descricao: "Alcance seu público alvo onde quer que ele esteja: Facebook, YouTube, LiveStream e plataformas customizadas." },
+  { titulo: "Produções em áudio", descricao: "Em protocolos HD3 até 48 canais com utilização de timbres virtuais simples e loops de percussão." },
+  { titulo: "Pré-produção digital", descricao: "Reduza os custos de produção do seu trabalho com a utilização de plugins virtuais e via hardware." },
+  { titulo: "Unidade móvel de transmissão", descricao: "Transmissão de vídeo para Web (Full HD). Captação externa de áudio e vídeo com até 64 canais e 6 vídeos, 4 câmeras em replay." },
 ];
+
+function iconForService(titulo: string): LucideIcon {
+  const t = titulo.toLowerCase();
+  if (t.includes("ead") || t.includes("ensino")) return GraduationCap;
+  if (t.includes("vídeo") || t.includes("video")) return Video;
+  if (t.includes("web")) return Globe;
+  if (t.includes("áudio") || t.includes("audio") || t.includes("música") || t.includes("musica")) return Music;
+  if (t.includes("pré") || t.includes("pre-") || t.includes("digital")) return Mic;
+  if (t.includes("transmissão") || t.includes("móvel") || t.includes("movel") || t.includes("radio")) return Radio;
+  return Sparkles;
+}
 
 export const Route = createFileRoute("/servicos")({
   component: Servicos,
+  loader: ({ context }) => {
+    context.queryClient.prefetchQuery(servicosQueryOptions);
+  },
   head: () => ({
     meta: [
       { title: "Serviços — Flex Studios" },
@@ -63,129 +80,148 @@ export const Route = createFileRoute("/servicos")({
   }),
 });
 
-const services = [
-  {
-    icon: GraduationCap,
-    title: "Assessoria para EAD",
-    desc: "Ensino a distância em sala de aula virtual. Interaja com seus alunos, faça avaliações adversárias e tenha um registro em tempo real.",
-  },
-  {
-    icon: Video,
-    title: "Produções em vídeo",
-    desc: "Apresente seus produtos e propostas ao vivo com cenário virtual e ferramentas de transmissão Full HD.",
-  },
-  {
-    icon: Globe,
-    title: "Web clip",
-    desc: "Alcance seu público alvo onde quer que ele esteja: Facebook, YouTube, LiveStream e plataformas customizadas.",
-  },
-  {
-    icon: Music,
-    title: "Produções em áudio",
-    desc: "Em protocolos HD3 até 48 canais com utilização de timbres virtuais simples e loops de percussão.",
-  },
-  {
-    icon: Mic,
-    title: "Pré-produção digital",
-    desc: "Reduza os custos de produção do seu trabalho com a utilização de plugins virtuais e via hardware.",
-  },
-  {
-    icon: Radio,
-    title: "Unidade móvel de transmissão",
-    desc: "Transmissão de vídeo para Web (Full HD). Captação externa de áudio e vídeo com até 64 canais e 6 vídeos, 4 câmeras em replay.",
-  },
-];
+import type { HomeBannerItem } from "@/lib/api-home";
+
+function getBannerImage(banner: HomeBannerItem | undefined): string {
+  if (!banner) return heroServicos;
+  const celular =
+    typeof banner.imagem_celular === "string"
+      ? banner.imagem_celular
+      : banner.imagem_celular?.url;
+  return banner.imagem_desktop || banner.imagem_tablete || celular || heroServicos;
+}
 
 function Servicos() {
   const [active, setActive] = useState<PortfolioItem | null>(null);
+  const { data: payload } = useQuery(servicosQueryOptions);
+  const data = payload?.data;
+  const dobraFormulario = payload?.dobra_formulario?.[0];
+
+  const banner = data?.itens_banner?.[0];
+  const heroImage = getBannerImage(banner);
+  const heroEyebrow = banner?.subtitulo || "Serviços";
+  const heroTitle = banner?.titulo || "O que não dá pra fazer no Flex?";
+  const heroSubtitle = banner?.descricao
+    ? stripHtml(banner.descricao)
+    : "Pois é, a gente ainda não sabe. Por aqui tem música, podcasts, vídeos, ensaios, locuções, captação de instrumentos e mais uma porção de ideias que ainda nem têm nome.";
+
+  const services = data?.itens?.length ? data.itens : fallbackServices;
+
+  const portfolioEyebrow = data?.subtitulo || "Portfolio";
+  const portfolioTitulo = data?.titulo || "Aqui as paredes têm ouvidos. Ainda bem.";
+  const portfolioDescricao = data?.descricao
+    ? stripHtml(data.descricao)
+    : "Dá o play pra conhecer um pouco de tudo que já passou pela nossa casa.";
+
+  const portfolio: PortfolioItem[] = useMemo(() => {
+    const list: ServicoProjeto[] = data?.projetos?.length ? data.projetos : [];
+    return list
+      .map((p, i): PortfolioItem | null => {
+        const youtubeId = extractYoutubeId(p.link_do_video);
+        if (!youtubeId) return null;
+        return {
+          id: `p${i}`,
+          title: p.nome,
+          category: p.descricao,
+          thumb: p.thumbnail,
+          youtubeId,
+        };
+      })
+      .filter((v): v is PortfolioItem => v !== null);
+  }, [data]);
+
+  const youtubeUrl = data?.link_do_canal_youtube || "https://www.youtube.com/@FlexStudios";
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
 
       <PageHero
-        eyebrow="Serviços"
-        title={<>O que não dá pra fazer <span className="text-gradient-brand">no Flex?</span></>}
-        subtitle="Pois é, a gente ainda não sabe. Por aqui tem música, podcasts, vídeos, ensaios, locuções, captação de instrumentos e mais uma porção de ideias que ainda nem têm nome."
-        image={heroServicos}
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        subtitle={heroSubtitle}
+        image={heroImage}
       />
 
       {/* Cards */}
       <section className="py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((s) => (
-              <article
-                key={s.title}
-                className="group relative rounded-2xl border border-border bg-surface p-8 hover:border-primary/50 hover:-translate-y-1 transition-smooth shadow-card overflow-hidden"
-              >
-                <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-gradient-brand opacity-0 blur-3xl group-hover:opacity-30 transition-smooth" />
-                <div className="relative">
-                  <div className="inline-flex p-3 rounded-xl bg-gradient-brand text-primary-foreground shadow-glow">
-                    <s.icon size={22} />
+            {services.map((s) => {
+              const Icon = iconForService(s.titulo);
+              return (
+                <article
+                  key={s.titulo}
+                  className="group relative rounded-2xl border border-border bg-surface p-8 hover:border-primary/50 hover:-translate-y-1 transition-smooth shadow-card overflow-hidden"
+                >
+                  <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-gradient-brand opacity-0 blur-3xl group-hover:opacity-30 transition-smooth" />
+                  <div className="relative">
+                    <div className="inline-flex p-3 rounded-xl bg-gradient-brand text-primary-foreground shadow-glow">
+                      <Icon size={22} />
+                    </div>
+                    <h3 className="mt-6 text-xl font-bold">{s.titulo}</h3>
+                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                      {stripHtml(s.descricao)}
+                    </p>
                   </div>
-                  <h3 className="mt-6 text-xl font-bold">{s.title}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Portfolio */}
-      <section className="relative py-24 md:py-32 border-t border-border overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-radial opacity-50" />
-        <div className="relative max-w-7xl mx-auto px-6 md:px-10">
-          <div className="text-center max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-              <span className="h-px w-8 bg-primary" /> Portfolio
-            </span>
-            <h2 className="mt-4 text-4xl md:text-5xl font-bold">
-              Aqui as paredes têm <span className="text-gradient-brand">ouvidos.</span> Ainda bem.
-            </h2>
-            <p className="mt-5 text-muted-foreground">
-              Dá o play pra conhecer um pouco de tudo que já passou pela nossa casa.
-            </p>
-          </div>
+      {portfolio.length > 0 && (
+        <section className="relative py-24 md:py-32 border-t border-border overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-radial opacity-50" />
+          <div className="relative max-w-7xl mx-auto px-6 md:px-10">
+            <div className="text-center max-w-2xl mx-auto">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+                <span className="h-px w-8 bg-primary" /> {portfolioEyebrow}
+              </span>
+              <h2 className="mt-4 text-4xl md:text-5xl font-bold">{portfolioTitulo}</h2>
+              <p className="mt-5 text-muted-foreground">{portfolioDescricao}</p>
+            </div>
 
-          {/* Desktop / tablet grid */}
-          <div className="mt-14 hidden sm:grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {portfolio.map((item) => (
-              <PortfolioCard key={item.id} item={item} onPlay={() => setActive(item)} />
-            ))}
-          </div>
+            {/* Desktop / tablet grid */}
+            <div className="mt-14 hidden sm:grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {portfolio.map((item) => (
+                <PortfolioCard key={item.id} item={item} onPlay={() => setActive(item)} />
+              ))}
+            </div>
 
-          {/* Mobile carousel */}
-          <div className="mt-12 sm:hidden -mx-6">
-            <Carousel opts={{ align: "start", loop: true }} className="px-6">
-              <CarouselContent className="-ml-4">
-                {portfolio.map((item) => (
-                  <CarouselItem key={item.id} className="pl-4 basis-[85%]">
-                    <PortfolioCard item={item} onPlay={() => setActive(item)} />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-            <p className="mt-4 text-center text-xs text-muted-foreground">
-              Arraste para o lado para ver mais
-            </p>
-          </div>
+            {/* Mobile carousel */}
+            <div className="mt-12 sm:hidden -mx-6">
+              <Carousel opts={{ align: "start", loop: true }} className="px-6">
+                <CarouselContent className="-ml-4">
+                  {portfolio.map((item) => (
+                    <CarouselItem key={item.id} className="pl-4 basis-[85%]">
+                      <PortfolioCard item={item} onPlay={() => setActive(item)} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+              <p className="mt-4 text-center text-xs text-muted-foreground">
+                Arraste para o lado para ver mais
+              </p>
+            </div>
 
-          <div className="mt-12 text-center">
-            <a
-              href="https://www.youtube.com/@FlexStudios"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
-            >
-              <Youtube size={18} /> Vem ver o Flex no YouTube
-            </a>
+            <div className="mt-12 text-center">
+              <a
+                href={youtubeUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
+              >
+                <Youtube size={18} /> Vem ver o Flex no YouTube
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      <ContactForm />
+      <ContactForm dobra={dobraFormulario} />
       <Footer />
 
       {/* Lightbox */}
