@@ -68,6 +68,8 @@ function Planos() {
   const dobraFormulario = payload?.dobra_formulario?.[0];
 
   const [billing, setBilling] = useState<"avulso" | "mensal">("mensal");
+  const config = useConfig();
+  const phone = config?.whatsapp ?? "31986641213";
 
   const heroImage =
     getPlanosBannerImage(data?.banner_desktop) ||
