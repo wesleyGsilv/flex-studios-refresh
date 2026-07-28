@@ -2,7 +2,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
-import { mensagemWhatsapp } from "@/lib/utils";
+import { useWhatsappLink } from "@/hooks/use-config";
 
 const links = [
   { to: "/produtora", label: "A produtora" },
@@ -15,6 +15,9 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const whatsappHref = useWhatsappLink(
+    "Olá, tenho interesse em saber mais sobre os serviços da Flex Studios. Poderiam me fornecer mais informações?"
+  );
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -53,9 +56,7 @@ export function Navbar() {
             );
           })}
           <a
-            href={mensagemWhatsapp(
-              `Olá, tenho interesse em saber mais sobre os serviços da Flex Studios. Poderiam me fornecer mais informações?`
-            )}
+            href={whatsappHref}
             target="_blank"
             rel="noreferrer"
             className="ml-4 inline-flex items-center rounded-full bg-gradient-brand px-5 py-2 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"

@@ -1,14 +1,14 @@
-import { mensagemWhatsapp } from "@/lib/utils";
-
-const PHONE = "5531999999999"; // troque pelo número real
-const MESSAGE = "Olá! Gostaria de saber mais sobre o Flex Studios.";
+import { useConfig, useWhatsappLink } from "@/hooks/use-config";
 
 export function WhatsAppButton() {
+  const link = useWhatsappLink(
+    "Olá, tenho interesse em saber mais sobre os serviços da Flex Studios. Poderiam me fornecer mais informações?"
+  );
+  useConfig(); // garante prefetch
+
   return (
     <a
-      href={mensagemWhatsapp(
-        `Olá, tenho interesse em saber mais sobre os serviços da Flex Studios. Poderiam me fornecer mais informações?`
-      )}
+      href={link}
       target="_blank"
       rel="noreferrer"
       aria-label="Fale conosco no WhatsApp"
