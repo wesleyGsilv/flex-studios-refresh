@@ -7,7 +7,8 @@ import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
 import { PageHero } from "@/components/PageHero";
 import heroPlanosFallback from "@/assets/hero-servicos.jpg";
-import { mensagemWhatsapp } from "@/lib/utils";
+import { useConfig } from "@/hooks/use-config";
+import { whatsappLink } from "@/lib/api-config";
 import { stripHtml } from "@/lib/api-home";
 import {
   planosQueryOptions,
@@ -200,7 +201,8 @@ function Planos() {
                 </ul>
 
                 <a
-                  href={mensagemWhatsapp(
+                  href={whatsappLink(
+                    phone,
                     `Olá, tenho interesse no plano ${plan.titulo} (${billing}). Gostaria de saber mais detalhes e como contratar.`
                   )}
                   target="_blank"
