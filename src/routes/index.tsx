@@ -181,19 +181,20 @@ function Home() {
           width={1920}
           height={1080}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/56 to-background/18" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(29,245,192,0.16),transparent_28%,transparent_52%,rgba(41,170,225,0.2))] mix-blend-screen" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/46 to-background/10" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(29,245,192,0.08),transparent_30%,transparent_55%,rgba(41,170,225,0.1))] mix-blend-screen" />
 
         <div
           className="absolute inset-0 pointer-events-none"
           style={{ transform: `translate3d(0, ${-markOffset}px, 0)` }}
         >
-          <BrandX className="absolute -right-28 -bottom-16 w-[760px] opacity-16 animate-float-slow" />
+          <BrandX className="absolute -right-28 -bottom-16 w-[760px] opacity-10 animate-float-slow" />
         </div>
 
-        <div className="absolute left-[7%] top-[16%] h-44 w-44 rounded-full border border-primary/30 bg-primary/18 blur-3xl animate-pulse-soft" />
-        <div className="absolute right-[10%] top-[19%] h-56 w-56 rounded-full border border-secondary/30 bg-secondary/16 blur-3xl animate-pulse-soft [animation-delay:900ms]" />
-        <div className="absolute inset-x-0 bottom-0 h-56 bg-[radial-gradient(circle_at_center,rgba(29,245,192,0.3),transparent_64%)] blur-3xl" />
+        <div className="absolute left-[7%] top-[16%] h-44 w-44 rounded-full border border-primary/20 bg-primary/8 blur-3xl animate-pulse-soft" />
+        <div className="absolute right-[10%] top-[19%] h-56 w-56 rounded-full border border-secondary/20 bg-secondary/8 blur-3xl animate-pulse-soft [animation-delay:900ms]" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-[radial-gradient(circle_at_center,rgba(29,245,192,0.14),transparent_64%)] blur-3xl" />
+
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 h-full flex flex-col justify-end pb-32">
           <MotionReveal className="max-w-3xl" distance={42}>
