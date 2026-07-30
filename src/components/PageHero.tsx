@@ -27,20 +27,21 @@ export function PageHero({
         width={1920}
         height={1080}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/56 to-background/14" />
-      <div className="absolute inset-0 bg-gradient-radial opacity-40" />
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(29,245,192,0.08),transparent_30%,transparent_60%,rgba(41,170,225,0.1))] mix-blend-screen" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/42 to-background/10" />
+      <div className="absolute inset-0 bg-gradient-radial opacity-25" />
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(29,245,192,0.04),transparent_32%,transparent_62%,rgba(41,170,225,0.06))] mix-blend-screen" />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ transform: `translate3d(0, ${-brandOffset}px, 0)` }}
       >
-        <BrandX className="absolute -right-12 top-14 w-[500px] opacity-15 animate-float-slow" />
+        <BrandX className="absolute -right-12 top-14 w-[500px] opacity-8 animate-float-slow" />
       </div>
 
-      <div className="absolute left-[6%] top-[22%] h-36 w-36 rounded-full border border-primary/20 bg-primary/8 blur-3xl animate-pulse-soft" />
-      <div className="absolute right-[10%] top-[18%] h-52 w-52 rounded-full border border-secondary/20 bg-secondary/7 blur-3xl animate-pulse-soft [animation-delay:700ms]" />
+      <div className="absolute left-[6%] top-[22%] h-36 w-36 rounded-full border border-primary/12 bg-primary/4 blur-3xl animate-pulse-soft" />
+      <div className="absolute right-[10%] top-[18%] h-52 w-52 rounded-full border border-secondary/12 bg-secondary/3 blur-3xl animate-pulse-soft [animation-delay:700ms]" />
 
-      <div className="absolute inset-x-0 bottom-0 h-48 bg-[radial-gradient(circle_at_center,rgba(29,245,192,0.16),transparent_68%)] blur-3xl" />
+      <div className="absolute inset-x-0 bottom-0 h-48 bg-[radial-gradient(circle_at_center,rgba(29,245,192,0.09),transparent_68%)] blur-3xl" />
+
 
 
       <MotionReveal
