@@ -390,15 +390,7 @@ function Infraestrutura() {
                   />
                 ))}
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-primary">
-                      Estúdio A
-                    </p>
-                    <p className="text-xl font-bold text-foreground mt-1">
-                      {carouselSlides[slide]?.label}
-                    </p>
-                  </div>
+                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-end gap-4">
                   <div className="flex gap-1.5 pb-1">
                     {carouselSlides.map((_, idx) => (
                       <button
