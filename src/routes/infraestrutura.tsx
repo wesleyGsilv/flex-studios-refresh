@@ -23,18 +23,6 @@ import {
   infraestruturaQueryOptions,
   type InfraCategoria,
 } from "@/lib/api-infra";
-import heroInfra from "@/assets/hero-infra.jpg";
-import equipmentGuitar from "@/assets/equipment-guitar.jpg";
-import equipmentDrums from "@/assets/equipment-drums.jpg";
-import equipmentViolao from "@/assets/equipment-violao.jpg";
-import equipmentBass from "@/assets/equipment-bass.jpg";
-
-const fallbackCarousel = [
-  { src: equipmentDrums, label: "Bateria RMV" },
-  { src: equipmentGuitar, label: "Guitarra" },
-  { src: equipmentViolao, label: "Violão" },
-  { src: equipmentBass, label: "Baixo" },
-];
 
 const fallbackCategories: InfraCategoria[] = [
   {
@@ -145,7 +133,7 @@ function parseDiferencial(html: string): { titulo: string; descricao: string } {
 }
 
 function getBannerImage(banner: HomeBannerItem | undefined): string {
-  if (!banner) return heroInfra;
+  if (!banner) return "";
   const pick = (v: unknown): string | undefined => {
     if (!v) return undefined;
     if (typeof v === "string") return v;
@@ -158,15 +146,13 @@ function getBannerImage(banner: HomeBannerItem | undefined): string {
     pick(banner.imagem_desktop) ||
     pick(banner.imagem_tablete) ||
     pick(banner.imagem_celular) ||
-    heroInfra
+    ""
   );
 }
 
 export const Route = createFileRoute("/infraestrutura")({
   component: Infraestrutura,
-  loader: ({ context }) => {
-    context.queryClient.prefetchQuery(infraestruturaQueryOptions);
-  },
+  loader: ({ context }) => context.queryClient.ensureQueryData(infraestruturaQueryOptions),
   head: () => ({
     meta: [
       { title: "Infraestrutura — Flex Studios" },
@@ -176,7 +162,6 @@ export const Route = createFileRoute("/infraestrutura")({
           "Conheça a infraestrutura do Flex Studios: instrumentos musicais, equipamentos de luz, hardwares, câmeras e estúdio de podcast.",
       },
       { property: "og:title", content: "Infraestrutura — Flex Studios" },
-      { property: "og:image", content: heroInfra },
     ],
   }),
 });
@@ -242,15 +227,14 @@ function Infraestrutura() {
     });
   }, [data]);
 
-  const carouselSlides = useMemo(() => {
-    if (data?.fotos?.length) {
-      return data.fotos.map((f) => ({
+  const carouselSlides = useMemo(
+    () =>
+      (data?.fotos ?? []).map((f) => ({
         src: f.url,
         label: f.title ? f.title.replace(/[-_]/g, " ") : "",
-      }));
-    }
-    return fallbackCarousel;
-  }, [data]);
+      })),
+    [data]
+  );
 
   const [open, setOpen] = useState<number | null>(0);
   const [slide, setSlide] = useState(0);

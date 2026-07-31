@@ -11,7 +11,7 @@ export function PageHero({
   eyebrow: string;
   title: React.ReactNode;
   subtitle?: string;
-  image: string;
+  image?: string;
 }) {
   const imageOffset = useParallax(0.22);
   const brandOffset = useParallax(0.38);
@@ -19,14 +19,19 @@ export function PageHero({
 
   return (
     <section className="relative h-[70vh] min-h-[600px] flex items-end overflow-hidden">
-      <img
-        src={image}
-        alt=""
-        className="absolute inset-0 h-[124%] w-full object-cover will-change-transform"
-        style={{ transform: `translate3d(0, ${imageOffset}px, 0) scale(1.14)` }}
-        width={1920}
-        height={1080}
-      />
+      {image ? (
+        <img
+          src={image}
+          alt=""
+          className="absolute inset-0 h-[124%] w-full object-cover will-change-transform"
+          style={{ transform: `translate3d(0, ${imageOffset}px, 0) scale(1.14)` }}
+          width={1920}
+          height={1080}
+        />
+      ) : (
+        <div className="absolute inset-0 bg-surface" />
+      )}
+
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/42 to-background/10" />
       <div className="absolute inset-0 bg-gradient-radial opacity-25" />
       <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(29,245,192,0.04),transparent_32%,transparent_62%,rgba(41,170,225,0.06))] mix-blend-screen" />
