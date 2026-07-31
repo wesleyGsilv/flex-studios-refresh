@@ -186,11 +186,11 @@ function Produtora() {
   const { data: payload } = useQuery(produtoraQueryOptions);
   const data = payload?.data;
 
-  const heroImage = (typeof data?.banner_desktop === "string" && data.banner_desktop) || heroProdutora;
+  const heroImage = (typeof data?.banner_desktop === "string" && data.banner_desktop) || "";
   const heroTitle = data?.titulo_banner || "Onde boas ideias se sentem em casa.";
   const heroSubtitle = data?.descricao_banner || "Cada canto foi pensado para que as suas ideias fiquem à vontade.";
 
-  const sobreImage = data?.imagem || historia;
+  const sobreImage = data?.imagem || "";
   const sobreHtml = data?.descricao_sobre || "";
 
   const numeros = data?.numeros?.length ? data.numeros : fallbackNumeros;
@@ -200,9 +200,11 @@ function Produtora() {
   const eyebrowLinha = data?.sub_titulo_linha || "Nossa trajetória";
   const descLinha = data?.descricao_linha || "Mais de duas décadas construindo som, imagem e história ao lado de quem cria.";
 
-  const gallery = data?.itens_galeria?.length
-    ? data.itens_galeria.map((g) => ({ url: g.url, alt: g.alt || g.caption || g.title || "" }))
-    : fallbackGallery;
+  const gallery = (data?.itens_galeria ?? []).map((g) => ({
+    url: g.url,
+    alt: g.alt || g.caption || g.title || "",
+  }));
+
   const galleryTitle = data?.titulo_da_galeria || "Bastidores e momentos";
   const galleryEyebrow = data?.subtitulo_da_galeria || "Galeria";
   const galleryDesc = stripHtml(
