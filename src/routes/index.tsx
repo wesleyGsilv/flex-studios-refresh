@@ -9,7 +9,7 @@ import { BrandX } from "@/components/BrandX";
 import { MotionReveal } from "@/components/MotionReveal";
 import { GallerySection } from "@/components/GallerySection";
 import { useParallax } from "@/hooks/use-parallax";
-import { homeQueryOptions, stripHtml, type HomeData } from "@/lib/api-home";
+import { homeQueryOptions, stripHtml, imageUrl, type HomeData } from "@/lib/api-home";
 import heroHome from "@/assets/hero-home.jpg";
 import clientEscola from "@/assets/clients/escola.svg";
 import clientUniverso from "@/assets/clients/universo.svg";
