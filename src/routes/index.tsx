@@ -134,14 +134,19 @@ function Home() {
 
       {/* Hero */}
       <section className="relative h-screen min-h-[640px] overflow-hidden">
-        <img
-          src={heroImage}
-          alt=""
-          className="absolute inset-0 h-[126%] w-full object-cover will-change-transform"
-          style={{ transform: `translate3d(0, ${heroOffset}px, 0) scale(1.14)` }}
-          width={1920}
-          height={1080}
-        />
+        {heroImage ? (
+          <img
+            src={heroImage}
+            alt=""
+            className="absolute inset-0 h-[126%] w-full object-cover will-change-transform"
+            style={{ transform: `translate3d(0, ${heroOffset}px, 0) scale(1.14)` }}
+            width={1920}
+            height={1080}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-surface" />
+        )}
+
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/38 to-background/8" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(29,245,192,0.04),transparent_32%,transparent_58%,rgba(41,170,225,0.06))] mix-blend-screen" />
 
