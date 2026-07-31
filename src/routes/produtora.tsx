@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote, X } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
@@ -183,7 +183,9 @@ const TimelineSection = ({
 
 function Produtora() {
   const [t, setT] = useState(0);
+  const [lightbox, setLightbox] = useState<number | null>(null);
   const { data: payload } = useQuery(produtoraQueryOptions);
+
   const data = payload?.data;
 
   const heroImage = (typeof data?.banner_desktop === "string" && data.banner_desktop) || "";
@@ -345,14 +347,16 @@ function Produtora() {
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/0 to-transparent opacity-0 group-hover:opacity-100 transition-smooth" />
-                {g.alt && (
-                  <figcaption className="absolute bottom-3 left-4 right-4 text-xs text-foreground/90 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-smooth">
-                    {g.alt}
-                  </figcaption>
-                )}
+                <button
+                  type="button"
+                  onClick={() => setLightbox(i)}
+                  aria-label={`Ampliar imagem ${i + 1}`}
+                  className="absolute inset-0 z-10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                />
               </figure>
             ))}
           </div>
+
         </div>
       </section>
 
@@ -401,6 +405,55 @@ function Produtora() {
 
       <ContactForm dobra={payload?.dobra_formulario?.[0]} />
       <Footer />
+
+      {lightbox !== null && gallery[lightbox] && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Galeria de fotos ampliada"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-md"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Fechar"
+            className="absolute top-5 right-5 z-10 rounded-full border border-border bg-surface/80 p-2.5 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <X size={20} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i === null ? i : (i - 1 + gallery.length) % gallery.length)); }}
+            aria-label="Foto anterior"
+            className="absolute left-3 md:left-6 z-10 rounded-full border border-border bg-surface/80 p-3 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <ChevronLeft size={22} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i === null ? i : (i + 1) % gallery.length)); }}
+            aria-label="Próxima foto"
+            className="absolute right-3 md:right-6 z-10 rounded-full border border-border bg-surface/80 p-3 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <ChevronRight size={22} />
+          </button>
+          <figure
+            className="relative max-w-[92vw] max-h-[86vh] flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={gallery[lightbox].url}
+              alt={gallery[lightbox].alt}
+              className="max-w-[92vw] max-h-[80vh] object-contain rounded-xl shadow-glow"
+            />
+            <figcaption className="mt-4 text-xs text-muted-foreground text-center opacity-70">
+              {lightbox + 1} / {gallery.length}
+            </figcaption>
+          </figure>
+        </div>
+      )}
     </div>
+
   );
 }

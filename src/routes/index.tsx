@@ -337,12 +337,10 @@ function Home() {
               alt={gallery[lightbox].alt}
               className="max-w-[92vw] max-h-[80vh] object-contain rounded-xl shadow-glow"
             />
-            <figcaption className="mt-4 text-sm text-muted-foreground text-center">
-              {gallery[lightbox].alt}
-              <span className="ml-2 text-xs opacity-70">
-                {lightbox + 1} / {gallery.length}
-              </span>
+            <figcaption className="mt-4 text-xs text-muted-foreground text-center opacity-70">
+              {lightbox + 1} / {gallery.length}
             </figcaption>
+
           </figure>
         </div>
       )}

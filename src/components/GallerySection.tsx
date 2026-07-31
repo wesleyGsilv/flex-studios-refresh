@@ -78,15 +78,8 @@ export function GallerySection({
                   width={1024}
                   height={1280}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
-                <figcaption className="absolute bottom-0 left-0 right-0 p-5 md:p-6 z-10">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-primary">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="mt-1 text-sm md:text-base font-medium text-foreground/90 leading-snug">
-                    {g.alt}
-                  </p>
-                </figcaption>
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+
               </figure>
             ))}
 
