@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote, X } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
@@ -405,6 +405,55 @@ function Produtora() {
 
       <ContactForm dobra={payload?.dobra_formulario?.[0]} />
       <Footer />
+
+      {lightbox !== null && gallery[lightbox] && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Galeria de fotos ampliada"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-md"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Fechar"
+            className="absolute top-5 right-5 z-10 rounded-full border border-border bg-surface/80 p-2.5 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <X size={20} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i === null ? i : (i - 1 + gallery.length) % gallery.length)); }}
+            aria-label="Foto anterior"
+            className="absolute left-3 md:left-6 z-10 rounded-full border border-border bg-surface/80 p-3 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <ChevronLeft size={22} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i === null ? i : (i + 1) % gallery.length)); }}
+            aria-label="Próxima foto"
+            className="absolute right-3 md:right-6 z-10 rounded-full border border-border bg-surface/80 p-3 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <ChevronRight size={22} />
+          </button>
+          <figure
+            className="relative max-w-[92vw] max-h-[86vh] flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={gallery[lightbox].url}
+              alt={gallery[lightbox].alt}
+              className="max-w-[92vw] max-h-[80vh] object-contain rounded-xl shadow-glow"
+            />
+            <figcaption className="mt-4 text-xs text-muted-foreground text-center opacity-70">
+              {lightbox + 1} / {gallery.length}
+            </figcaption>
+          </figure>
+        </div>
+      )}
     </div>
+
   );
 }
