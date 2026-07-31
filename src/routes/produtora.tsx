@@ -10,46 +10,17 @@ import { PageHero } from "@/components/PageHero";
 import { BrandX } from "@/components/BrandX";
 import { produtoraQueryOptions } from "@/lib/api-produtora";
 import { stripHtml } from "@/lib/api-home";
-import heroProdutora from "@/assets/hero-produtora.jpg";
-import historia from "@/assets/historia.jpg";
-import gControlRoom from "@/assets/gallery/control-room-1.jpg";
-import gStudioMixer from "@/assets/gallery/studio-mixer.jpg";
-import gLiveRoom from "@/assets/gallery/live-room.jpg";
-import gDrumRoom from "@/assets/gallery/drum-room.jpg";
-import gGarden from "@/assets/gallery/garden.jpg";
-import gExterior from "@/assets/gallery/exterior.jpg";
-import gStudioB from "@/assets/gallery/studio-b.jpg";
-import gSingerAcoustic from "@/assets/gallery/singer-acoustic.jpg";
-import gTrioRecording from "@/assets/gallery/trio-recording.jpg";
-
-const fallbackTimeline = [
-  { ano: "2007", mes: "Janeiro", titulo: "O início", descricao: "Nasce a Flex Studio com foco em produção musical e audiovisual." },
-  { ano: "2008", mes: "Março", titulo: "Expansão musical", descricao: "Novas salas de gravação e parcerias com artistas regionais." },
-  { ano: "2014", mes: "Agosto", titulo: "Era do vídeo", descricao: "Estruturamos a produtora para vídeo, publicidade e documentários." },
-  { ano: "2019", mes: "Outubro", titulo: "Estúdios premium", descricao: "Inauguração de cabines tratadas para locução e audiobooks." },
-  { ano: "2023", mes: "Maio", titulo: "Reconhecimento", descricao: "Projetos premiados ao lado de grandes marcas e instituições." },
-  { ano: "2024", mes: "Dezembro", titulo: "Modernização", descricao: "Renovação completa da infraestrutura técnica e tratamento acústico." },
-  { ano: "2025", mes: "Julho", titulo: "Nova direção", descricao: "Início de um novo ciclo com gestão renovada e visão de futuro." },
-  { ano: "2026", mes: "Janeiro", titulo: "Novo ciclo", descricao: "Estrutura modernizada e experiência ainda mais profissional." },
-];
-
-const fallbackGallery = [
-  { url: gStudioMixer, alt: "Sala de controle com mesa de mixagem" },
-  { url: gLiveRoom, alt: "Sala de gravação ao vivo" },
-  { url: gControlRoom, alt: "Engenheiro em sessão de mix" },
-  { url: gDrumRoom, alt: "Sala de bateria com tratamento acústico" },
-  { url: gStudioB, alt: "Estúdio B — locução e audiobooks" },
-  { url: gSingerAcoustic, alt: "Cantor em sessão acústica" },
-  { url: gTrioRecording, alt: "Trio em gravação ao vivo" },
-  { url: gGarden, alt: "Área de convivência externa" },
-  { url: gExterior, alt: "Fachada e jardim do estúdio" },
-];
 
 const fallbackNumeros = [
   { valor: "20+", descricao: "Anos de história" },
   { valor: "500+", descricao: "Projetos entregues" },
   { valor: "120", descricao: "Artistas atendidos" },
   { valor: "8", descricao: "Salas e estúdios" },
+];
+
+const fallbackTimeline = [
+  { ano: "2007", mes: "Janeiro", titulo: "O início", descricao: "Nasce a Flex Studio com foco em produção musical e audiovisual." },
+  { ano: "2026", mes: "Janeiro", titulo: "Novo ciclo", descricao: "Estrutura modernizada e experiência ainda mais profissional." },
 ];
 
 const fallbackDepoimentos = [
@@ -63,9 +34,7 @@ const fallbackDepoimentos = [
 
 export const Route = createFileRoute("/produtora")({
   component: Produtora,
-  loader: ({ context }) => {
-    context.queryClient.prefetchQuery(produtoraQueryOptions);
-  },
+  loader: ({ context }) => context.queryClient.ensureQueryData(produtoraQueryOptions),
   head: () => ({
     meta: [
       { title: "A produtora — Flex Studios" },
@@ -75,10 +44,10 @@ export const Route = createFileRoute("/produtora")({
           "Conheça a história da Flex Studios: mais de 20 anos produzindo áudio, vídeo e conteúdo audiovisual em Belo Horizonte.",
       },
       { property: "og:title", content: "A produtora — Flex Studios" },
-      { property: "og:image", content: heroProdutora },
     ],
   }),
 });
+
 
 type TimelineItem = { ano: string; mes: string; titulo: string; descricao: string };
 
