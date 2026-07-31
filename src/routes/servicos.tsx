@@ -24,7 +24,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { stripHtml } from "@/lib/api-home";
+import { stripHtml, imageUrl } from "@/lib/api-home";
 import {
   servicosQueryOptions,
   extractYoutubeId,
@@ -84,11 +84,12 @@ import type { HomeBannerItem } from "@/lib/api-home";
 
 function getBannerImage(banner: HomeBannerItem | undefined): string {
   if (!banner) return heroServicos;
-  const celular =
-    typeof banner.imagem_celular === "string"
-      ? banner.imagem_celular
-      : banner.imagem_celular?.url;
-  return banner.imagem_desktop || banner.imagem_tablete || celular || heroServicos;
+  return (
+    imageUrl(banner.imagem_desktop) ||
+    imageUrl(banner.imagem_tablete) ||
+    imageUrl(banner.imagem_celular) ||
+    heroServicos
+  );
 }
 
 function Servicos() {
