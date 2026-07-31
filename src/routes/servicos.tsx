@@ -31,7 +31,6 @@ import {
   type ServicoItem,
   type ServicoProjeto,
 } from "@/lib/api-servicos";
-import heroServicos from "@/assets/hero-servicos.jpg";
 
 type PortfolioItem = {
   id: string;
@@ -63,9 +62,7 @@ function iconForService(titulo: string): LucideIcon {
 
 export const Route = createFileRoute("/servicos")({
   component: Servicos,
-  loader: ({ context }) => {
-    context.queryClient.prefetchQuery(servicosQueryOptions);
-  },
+  loader: ({ context }) => context.queryClient.ensureQueryData(servicosQueryOptions),
   head: () => ({
     meta: [
       { title: "Serviços — Flex Studios" },
@@ -75,7 +72,6 @@ export const Route = createFileRoute("/servicos")({
           "EAD, produção de vídeo, web clip, áudio, pré-produção digital e unidade móvel de transmissão. Tudo em um só estúdio.",
       },
       { property: "og:title", content: "Serviços — Flex Studios" },
-      { property: "og:image", content: heroServicos },
     ],
   }),
 });
@@ -83,12 +79,12 @@ export const Route = createFileRoute("/servicos")({
 import type { HomeBannerItem } from "@/lib/api-home";
 
 function getBannerImage(banner: HomeBannerItem | undefined): string {
-  if (!banner) return heroServicos;
+  if (!banner) return "";
   return (
     imageUrl(banner.imagem_desktop) ||
     imageUrl(banner.imagem_tablete) ||
     imageUrl(banner.imagem_celular) ||
-    heroServicos
+    ""
   );
 }
 

@@ -6,7 +6,6 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
 import { PageHero } from "@/components/PageHero";
-import heroPlanosFallback from "@/assets/hero-servicos.jpg";
 import { useConfig } from "@/hooks/use-config";
 import { whatsappLink } from "@/lib/api-config";
 import { stripHtml } from "@/lib/api-home";
@@ -18,9 +17,7 @@ import {
 
 export const Route = createFileRoute("/planos")({
   component: Planos,
-  loader: ({ context }) => {
-    context.queryClient.prefetchQuery(planosQueryOptions);
-  },
+  loader: ({ context }) => context.queryClient.ensureQueryData(planosQueryOptions),
   head: () => ({
     meta: [
       { title: "Planos e Assinaturas — Flex Studios" },
@@ -75,7 +72,7 @@ function Planos() {
     getPlanosBannerImage(data?.banner_desktop) ||
     getPlanosBannerImage(data?.banner_tablete) ||
     getPlanosBannerImage(data?.banner_celular) ||
-    heroPlanosFallback;
+    "";
 
   const heroEyebrow = data?.subtitulo || "Planos & Assinaturas";
   const heroTitle = data?.titulo_banner || "Tem uma ideia grande aí? Tem um preço baixo aqui.";
