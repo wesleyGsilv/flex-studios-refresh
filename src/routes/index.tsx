@@ -76,11 +76,12 @@ export const Route = createFileRoute("/")({
 function getBannerImage(data: HomeData | undefined): string {
   const banner = data?.itens_banner?.[0];
   if (!banner) return heroHome;
-  const celular =
-    typeof banner.imagem_celular === "string"
-      ? banner.imagem_celular
-      : banner.imagem_celular?.url;
-  return banner.imagem_desktop || banner.imagem_tablete || celular || heroHome;
+  return (
+    imageUrl(banner.imagem_desktop) ||
+    imageUrl(banner.imagem_tablete) ||
+    imageUrl(banner.imagem_celular) ||
+    heroHome
+  );
 }
 
 function Home() {
