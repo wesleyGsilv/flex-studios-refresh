@@ -345,14 +345,16 @@ function Produtora() {
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/0 to-transparent opacity-0 group-hover:opacity-100 transition-smooth" />
-                {g.alt && (
-                  <figcaption className="absolute bottom-3 left-4 right-4 text-xs text-foreground/90 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-smooth">
-                    {g.alt}
-                  </figcaption>
-                )}
+                <button
+                  type="button"
+                  onClick={() => setLightbox(i)}
+                  aria-label={`Ampliar imagem ${i + 1}`}
+                  className="absolute inset-0 z-10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                />
               </figure>
             ))}
           </div>
+
         </div>
       </section>
 
