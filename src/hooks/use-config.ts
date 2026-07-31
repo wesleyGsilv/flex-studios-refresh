@@ -1,9 +1,17 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { configQueryOptions, whatsappLink, type ConfigData } from "@/lib/api-config";
 
+function useHydrated() {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  return hydrated;
+}
+
 export function useConfig(): ConfigData | undefined {
   const { data } = useQuery(configQueryOptions);
-  return data;
+  const hydrated = useHydrated();
+  return hydrated ? data : undefined;
 }
 
 export function useWhatsappLink(message: string): string {

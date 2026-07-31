@@ -4,10 +4,19 @@ export type HomeBannerItem = {
   titulo: string;
   subtitulo: string;
   descricao: string;
-  imagem_desktop?: string;
-  imagem_tablete?: string;
-  imagem_celular?: { url?: string } | string;
+  imagem_desktop?: WpImage;
+  imagem_tablete?: WpImage;
+  imagem_celular?: WpImage;
 };
+
+/** A API pode retornar a imagem como string (URL), objeto ACF ou false. */
+export type WpImage = { url?: string } | string | false | null;
+
+export function imageUrl(value: WpImage | undefined): string | undefined {
+  if (!value) return undefined;
+  if (typeof value === "string") return value || undefined;
+  return value.url || undefined;
+}
 
 export type HomeSala = { titulo: string; descricao: string };
 
