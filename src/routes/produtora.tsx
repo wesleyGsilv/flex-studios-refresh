@@ -183,7 +183,9 @@ const TimelineSection = ({
 
 function Produtora() {
   const [t, setT] = useState(0);
+  const [lightbox, setLightbox] = useState<number | null>(null);
   const { data: payload } = useQuery(produtoraQueryOptions);
+
   const data = payload?.data;
 
   const heroImage = (typeof data?.banner_desktop === "string" && data.banner_desktop) || "";
