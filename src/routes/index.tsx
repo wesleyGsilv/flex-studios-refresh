@@ -78,22 +78,20 @@ function Home() {
     ? stripHtml(data.galeria_descricao)
     : "Tem gente ensaiando. Tem gente gravando. Tem gente tendo ideia. Dá uma volta pela casa e conheça os espaços onde a mágica acontece.";
 
-  const gallery = useMemo(() => {
-    if (data?.galeria_fotos?.length) {
-      return data.galeria_fotos.map((g, i) => ({
+  const gallery = useMemo(
+    () =>
+      (data?.galeria_fotos ?? []).map((g, i) => ({
         src: g.url,
-        alt: g.legenda || fallbackGallery[i]?.alt || `Foto ${i + 1}`,
-      }));
-    }
-    return fallbackGallery;
-  }, [data]);
+        alt: g.legenda || `Foto ${i + 1}`,
+      })),
+    [data]
+  );
 
   const clientesTitulo =
     (data?.cliente_titulo && stripHtml(data.cliente_titulo)) ||
     '"Amigo é coisa pra se guardar" — do lado esquerdo do peito';
-  const clientes = data?.clientes_itens?.length
-    ? data.clientes_itens.map((c) => ({ name: c.nome, src: c.logo }))
-    : fallbackClients;
+  const clientes = (data?.clientes_itens ?? []).map((c) => ({ name: c.nome, src: c.logo }));
+
 
   const localidadeEyebrow = data?.localidade_subtitulo ?? "Onde estamos";
   const localidadeTitulo = data?.localidade_titulo ?? "No coração de Belo Horizonte.";
