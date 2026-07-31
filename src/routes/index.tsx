@@ -10,41 +10,6 @@ import { MotionReveal } from "@/components/MotionReveal";
 import { GallerySection } from "@/components/GallerySection";
 import { useParallax } from "@/hooks/use-parallax";
 import { homeQueryOptions, stripHtml, imageUrl, type HomeData } from "@/lib/api-home";
-import heroHome from "@/assets/hero-home.jpg";
-import clientEscola from "@/assets/clients/escola.svg";
-import clientUniverso from "@/assets/clients/universo.svg";
-import clientGoverno from "@/assets/clients/governo.svg";
-import clientAG from "@/assets/clients/ag.svg";
-import clientICFG from "@/assets/clients/icfg.svg";
-import gControlRoom from "@/assets/gallery/control-room-1.jpg";
-import gStudioMixer from "@/assets/gallery/studio-mixer.jpg";
-import gLiveRoom from "@/assets/gallery/live-room.jpg";
-import gDrumRoom from "@/assets/gallery/drum-room.jpg";
-import gGarden from "@/assets/gallery/garden.jpg";
-import gExterior from "@/assets/gallery/exterior.jpg";
-import gStudioB from "@/assets/gallery/studio-b.jpg";
-import gSingerAcoustic from "@/assets/gallery/singer-acoustic.jpg";
-import gTrioRecording from "@/assets/gallery/trio-recording.jpg";
-
-const fallbackGallery = [
-  { src: gStudioMixer, alt: "Sala de controle com mesa de mixagem" },
-  { src: gLiveRoom, alt: "Sala de gravação ao vivo" },
-  { src: gControlRoom, alt: "Engenheiro em sessão de mix" },
-  { src: gDrumRoom, alt: "Sala de bateria com tratamento acústico" },
-  { src: gStudioB, alt: "Estúdio B — locução e audiobooks" },
-  { src: gSingerAcoustic, alt: "Cantor em sessão acústica" },
-  { src: gTrioRecording, alt: "Trio em gravação ao vivo" },
-  { src: gGarden, alt: "Área de convivência externa" },
-  { src: gExterior, alt: "Fachada e jardim do estúdio" },
-];
-
-const fallbackClients = [
-  { name: "Escola", src: clientEscola },
-  { name: "Universo", src: clientUniverso },
-  { name: "Governo de Minas Gerais", src: clientGoverno },
-  { name: "Andrade Gutierrez", src: clientAG },
-  { name: "ICFG", src: clientICFG },
-];
 
 const fallbackSalas = [
   { titulo: "Sala de ensaio", descricao: "Sala completa para sua banda evoluir com qualidade de estúdio." },
@@ -54,9 +19,7 @@ const fallbackSalas = [
 
 export const Route = createFileRoute("/")({
   component: Home,
-  loader: ({ context }) => {
-    context.queryClient.prefetchQuery(homeQueryOptions);
-  },
+  loader: ({ context }) => context.queryClient.ensureQueryData(homeQueryOptions),
   head: () => ({
     meta: [
       { title: "Flex Studios — Estúdio de produção audiovisual e musical em BH" },
@@ -67,22 +30,21 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:title", content: "Flex Studios — Produção audiovisual e musical" },
       { property: "og:description", content: "Estúdio completo em Belo Horizonte. Áudio, vídeo, EAD e transmissão." },
-      { property: "og:image", content: heroHome },
-      { name: "twitter:image", content: heroHome },
     ],
   }),
 });
 
 function getBannerImage(data: HomeData | undefined): string {
   const banner = data?.itens_banner?.[0];
-  if (!banner) return heroHome;
+  if (!banner) return "";
   return (
     imageUrl(banner.imagem_desktop) ||
     imageUrl(banner.imagem_tablete) ||
     imageUrl(banner.imagem_celular) ||
-    heroHome
+    ""
   );
 }
+
 
 function Home() {
   const heroOffset = useParallax(0.18);
