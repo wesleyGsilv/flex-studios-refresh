@@ -276,17 +276,20 @@ function Produtora() {
           </div>
 
           <div className="relative">
-            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-card">
-              <img
-                src={sobreImage}
-                alt="Flex Studios"
-                className="h-full w-full object-cover"
-                loading="lazy"
-                width={1280}
-                height={896}
-              />
+            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-card bg-surface">
+              {sobreImage && (
+                <img
+                  src={sobreImage}
+                  alt="Flex Studios"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                  width={1280}
+                  height={896}
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
             </div>
+
             <div className="absolute -bottom-6 -left-6 glass rounded-2xl px-6 py-5 shadow-card">
               <p className="text-3xl font-bold text-gradient-brand font-display">2007</p>
               <p className="text-xs uppercase tracking-wider text-muted-foreground mt-1">
