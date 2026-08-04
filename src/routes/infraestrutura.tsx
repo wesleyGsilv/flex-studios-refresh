@@ -359,7 +359,12 @@ function Infraestrutura() {
 
           {carouselSlides.length > 0 && (
             <div className="lg:sticky lg:top-28">
-              <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-card">
+              <button
+                type="button"
+                onClick={() => setLightbox(slide)}
+                aria-label="Ampliar foto"
+                className="group relative block w-full aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-card cursor-zoom-in"
+              >
                 {carouselSlides.map((s, idx) => (
                   <img
                     key={s.src}
@@ -373,13 +378,21 @@ function Infraestrutura() {
                     height={1280}
                   />
                 ))}
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-end gap-4">
-                  <div className="flex gap-1.5 pb-1">
+                <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4">
+                  {carouselSlides[slide]?.label && (
+                    <span className="text-left text-sm font-medium text-foreground capitalize">
+                      {carouselSlides[slide].label}
+                    </span>
+                  )}
+                  <div className="flex gap-1.5 pb-1 ml-auto">
                     {carouselSlides.map((_, idx) => (
-                      <button
+                      <span
                         key={idx}
-                        onClick={() => setSlide(idx)}
+                        role="button"
+                        tabIndex={0}
+                        onClick={(e) => { e.stopPropagation(); setSlide(idx); }}
+                        onKeyDown={(e) => { if (e.key === "Enter") { e.stopPropagation(); setSlide(idx); } }}
                         className={`h-1 rounded-full transition-smooth ${
                           idx === slide ? "w-6 bg-gradient-brand" : "w-3 bg-muted"
                         }`}
@@ -388,7 +401,7 @@ function Infraestrutura() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </button>
             </div>
           )}
         </div>
