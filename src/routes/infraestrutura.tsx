@@ -238,6 +238,7 @@ function Infraestrutura() {
 
   const [open, setOpen] = useState<number | null>(0);
   const [slide, setSlide] = useState(0);
+  const [lightbox, setLightbox] = useState<number | null>(null);
 
   useEffect(() => {
     if (!carouselSlides.length) return;
