@@ -410,6 +410,61 @@ function Infraestrutura() {
 
       <ContactForm dobra={dobraFormulario} />
       <Footer />
+
+      {lightbox !== null && carouselSlides[lightbox] && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Foto ampliada"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-md"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Fechar"
+            className="absolute top-5 right-5 z-10 rounded-full border border-border bg-surface/80 p-2.5 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <X size={20} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i === null ? i : (i - 1 + carouselSlides.length) % carouselSlides.length)); }}
+            aria-label="Foto anterior"
+            className="absolute left-3 md:left-6 z-10 rounded-full border border-border bg-surface/80 p-3 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <ChevronLeft size={22} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i === null ? i : (i + 1) % carouselSlides.length)); }}
+            aria-label="Próxima foto"
+            className="absolute right-3 md:right-6 z-10 rounded-full border border-border bg-surface/80 p-3 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+          >
+            <ChevronRight size={22} />
+          </button>
+          <figure
+            className="relative max-w-[92vw] max-h-[86vh] flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={carouselSlides[lightbox].src}
+              alt={carouselSlides[lightbox].label}
+              className="max-w-[92vw] max-h-[78vh] object-contain rounded-xl shadow-glow"
+            />
+            <figcaption className="mt-4 text-center">
+              {carouselSlides[lightbox].label && (
+                <span className="block text-sm font-medium text-foreground capitalize">
+                  {carouselSlides[lightbox].label}
+                </span>
+              )}
+              <span className="block mt-1 text-xs text-muted-foreground opacity-70">
+                {lightbox + 1} / {carouselSlides.length}
+              </span>
+            </figcaption>
+          </figure>
+        </div>
+      )}
     </div>
   );
 }
