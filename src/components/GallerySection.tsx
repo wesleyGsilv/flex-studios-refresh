@@ -1,5 +1,3 @@
-import { useEffect, useState, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { MotionReveal } from "@/components/MotionReveal";
 
 type GalleryItem = {
@@ -15,6 +13,18 @@ type GallerySectionProps = {
   onOpenLightbox: (index: number) => void;
 };
 
+const spans = [
+  "col-span-2 row-span-2 aspect-square",
+  "aspect-square",
+  "aspect-square",
+  "col-span-2 aspect-[2/1]",
+  "aspect-square",
+  "aspect-square",
+  "aspect-square",
+  "aspect-square",
+  "col-span-2 aspect-[2/1]",
+];
+
 export function GallerySection({
   eyebrow,
   title,
@@ -22,98 +32,44 @@ export function GallerySection({
   gallery,
   onOpenLightbox,
 }: GallerySectionProps) {
-  const [slide, setSlide] = useState(0);
-
-  const next = useCallback(
-    () => setSlide((p) => (p + 1) % gallery.length),
-    [gallery.length]
-  );
-  const prev = useCallback(
-    () => setSlide((p) => (p - 1 + gallery.length) % gallery.length),
-    [gallery.length]
-  );
-
-  useEffect(() => {
-    if (gallery.length <= 1) return;
-    const id = setInterval(next, 5000);
-    return () => clearInterval(id);
-  }, [gallery.length, next]);
-
   return (
     <MotionReveal
       as="section"
       className="relative py-24 md:py-32 border-t border-border bg-surface/30"
       distance={30}
     >
-      <div className="absolute inset-0 bg-gradient-radial opacity-40 pointer-events-none" />
       <div className="relative max-w-7xl mx-auto px-6 md:px-10">
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] items-start">
-          <div className="lg:sticky lg:top-28">
+        <div className="flex items-end justify-between gap-6 flex-wrap">
+          <div className="max-w-xl">
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
               <span className="h-px w-8 bg-primary" /> {eyebrow}
             </span>
             <h2 className="mt-4 text-4xl md:text-5xl font-bold">{title}</h2>
-            <p className="mt-5 text-muted-foreground leading-relaxed">{description}</p>
           </div>
+          <p className="text-muted-foreground max-w-md">{description}</p>
+        </div>
 
-          <div className="relative aspect-[4/3] md:aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-card bg-surface">
-            {gallery.map((g, i) => (
-              <figure
-                key={`${g.src}-${i}`}
-                className={`absolute inset-0 transition-opacity duration-700 ${
-                  i === slide ? "opacity-100 z-10" : "opacity-0 z-0"
-                }`}
-              >
-                <button
-                  type="button"
-                  onClick={() => onOpenLightbox(i)}
-                  aria-label={`Ampliar imagem: ${g.alt}`}
-                  className="absolute inset-0 z-20 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                />
-                <img
-                  src={g.src}
-                  alt={g.alt}
-                  loading="lazy"
-                  className="h-full w-full object-cover"
-                  width={1024}
-                  height={1280}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-
-              </figure>
-            ))}
-
-            <button
-              type="button"
-              onClick={prev}
-              aria-label="Foto anterior"
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-20 rounded-full border border-border bg-surface/80 p-2.5 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
+        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 [grid-auto-flow:dense]">
+          {gallery.map((g, i) => (
+            <figure
+              key={`${g.src}-${i}`}
+              className={`group relative overflow-hidden rounded-2xl border border-border shadow-card ${spans[i % spans.length]}`}
             >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              type="button"
-              onClick={next}
-              aria-label="Próxima foto"
-              className="absolute right-3 top-1/2 -translate-y-1/2 z-20 rounded-full border border-border bg-surface/80 p-2.5 text-foreground hover:bg-surface hover:border-primary/50 transition-smooth"
-            >
-              <ChevronRight size={20} />
-            </button>
-
-            <div className="absolute bottom-5 right-5 md:bottom-6 md:right-6 z-20 flex gap-1.5">
-              {gallery.map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setSlide(idx)}
-                  className={`h-1.5 rounded-full transition-smooth ${
-                    idx === slide ? "w-6 bg-gradient-brand" : "w-3 bg-muted"
-                  }`}
-                  aria-label={`Slide ${idx + 1}`}
-                />
-              ))}
-            </div>
-          </div>
+              <img
+                src={g.src}
+                alt={g.alt}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/0 to-transparent opacity-0 group-hover:opacity-100 transition-smooth" />
+              <button
+                type="button"
+                onClick={() => onOpenLightbox(i)}
+                aria-label={`Ampliar imagem ${i + 1}`}
+                className="absolute inset-0 z-10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              />
+            </figure>
+          ))}
         </div>
       </div>
     </MotionReveal>
