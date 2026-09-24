@@ -16,7 +16,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   const whatsappHref = useWhatsappLink(
-    "Olá, tenho interesse em saber mais sobre os serviços da Flex Studios. Poderiam me fornecer mais informações?"
+    "Olá, tenho interesse em saber mais sobre os serviços do Flex Studios. Poderiam me fornecer mais informações?"
   );
 
   useEffect(() => {
