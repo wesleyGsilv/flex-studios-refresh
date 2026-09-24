@@ -2,7 +2,7 @@ import { useConfig, useWhatsappLink } from "@/hooks/use-config";
 
 export function WhatsAppButton() {
   const link = useWhatsappLink(
-    "Olá, tenho interesse em saber mais sobre os serviços da Flex Studios. Poderiam me fornecer mais informações?"
+    "Olá, tenho interesse em saber mais sobre os serviços do Flex Studios. Poderiam me fornecer mais informações?"
   );
   useConfig(); // garante prefetch
 
