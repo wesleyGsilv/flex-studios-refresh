@@ -21,7 +21,7 @@ const CONFIG_URL =
   "https://www.flex.apigwrconstruct.com.br/wp-json/api-flex/v1/pages/configuracao";
 
 const STORAGE_KEY = "flex:config:v1";
-const STORAGE_TTL = 1000 * 60 * 60 * 6; // 6h
+const STORAGE_TTL = 1000 * 60 * 60 * 6; // mantém a configuração disponível por 6h como contingência
 
 type Cached = { savedAt: number; data: ConfigData };
 
@@ -48,24 +48,11 @@ function writeCache(data: ConfigData) {
   }
 }
 
-function isFresh(): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return false;
-    const parsed = JSON.parse(raw) as Cached;
-    return Date.now() - (parsed.savedAt ?? 0) < STORAGE_TTL;
-  } catch {
-    return false;
-  }
-}
-
 export async function fetchConfigData(): Promise<ConfigData> {
   const cached = readCache();
-  if (cached && isFresh()) return cached;
 
   try {
-    const res = await fetch(CONFIG_URL);
+    const res = await fetch(CONFIG_URL, { cache: "no-store" });
     if (!res.ok) throw new Error("Falha ao carregar configuração");
     const json = (await res.json()) as ConfigResponse;
     writeCache(json.data);
@@ -82,6 +69,8 @@ export const configQueryOptions = queryOptions({
   staleTime: STORAGE_TTL,
   gcTime: STORAGE_TTL,
   initialData: () => readCache() ?? undefined,
+  // O cache aparece imediatamente, mas é sempre revalidado uma vez ao abrir o site.
+  initialDataUpdatedAt: 0,
 });
 
 /** Retorna apenas os dígitos do telefone (formato E.164 sem +). */
