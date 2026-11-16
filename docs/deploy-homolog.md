@@ -17,9 +17,15 @@ O que a pipeline faz a cada merge na `homolog`:
 
 1. Conecta na VPS via SSH.
 2. Atualiza o código (`git fetch` + `git reset --hard origin/homolog`).
-3. Instala as dependências (`bun install --frozen-lockfile`).
-4. **Roda o build** (`bun run build`) para validar que o projeto compila sem erros.
+3. Instala as dependências (`npm install`).
+4. **Roda o build** (`npm run build`) para validar que o projeto compila sem erros.
 5. Reinicia o processo da HML via PM2 (`pm2 startOrReload`).
+
+> O projeto usa `npm install` (não `npm ci`) porque o `package-lock.json`
+> está desatualizado em relação ao `package.json` (pré-existente, fora do
+> escopo desta pipeline). O [.npmrc](../.npmrc) com `legacy-peer-deps=true`
+> é necessário porque `@tanstack/react-start` declara peer dependency em
+> `vite >=8`, enquanto o projeto usa `vite ^7`.
 
 Se o build falhar, a pipeline para (`set -e`) e o processo da HML em execução
 **não é derrubado** — ele continua servindo a última versão que funcionou.
@@ -36,8 +42,8 @@ cd flex-studios-refresh-hml
 git checkout homolog
 
 # 2. Instalar dependências e validar o build
-bun install
-bun run build
+npm install
+npm run build
 
 # 3. Subir o processo com PM2 (lê o ecosystem.hml.config.cjs do próprio repo)
 pm2 start ecosystem.hml.config.cjs

@@ -21,7 +21,6 @@ jobs:
           script_stop: true
           script: |
             set -e
-            export PATH="$HOME/.bun/bin:$PATH"
 
             cd "${{ secrets.HML_APP_PATH }}"
 
@@ -30,10 +29,10 @@ jobs:
             git reset --hard origin/homolog
 
             echo "==> Instalando dependências"
-            bun install --frozen-lockfile
+            npm install --no-audit --no-fund
 
             echo "==> Rodando build de validação"
-            bun run build
+            npm run build
 
             echo "==> Reiniciando processo da HML via PM2"
             pm2 startOrReload ecosystem.hml.config.cjs --update-env
