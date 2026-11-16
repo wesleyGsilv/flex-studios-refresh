@@ -1,0 +1,40 @@
+name: Deploy HML
+
+# Dispara automaticamente a cada push/merge na branch "homolog".
+on:
+  push:
+    branches:
+      - homolog
+
+jobs:
+  deploy:
+    name: Atualizar e rebuildar ambiente de HML
+    runs-on: ubuntu-latest
+    steps:
+      - name: Conectar na VPS e atualizar o projeto
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HML_SSH_HOST }}
+          username: ${{ secrets.HML_SSH_USER }}
+          key: ${{ secrets.HML_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.HML_SSH_PORT }}
+          script_stop: true
+          script: |
+            set -e
+            export PATH="$HOME/.bun/bin:$PATH"
+
+            cd "${{ secrets.HML_APP_PATH }}"
+
+            echo "==> Atualizando código (branch homolog)"
+            git fetch origin homolog
+            git reset --hard origin/homolog
+
+            echo "==> Instalando dependências"
+            bun install --frozen-lockfile
+
+            echo "==> Rodando build de validação"
+            bun run build
+
+            echo "==> Reiniciando processo da HML via PM2"
+            pm2 startOrReload ecosystem.hml.config.cjs --update-env
+            pm2 save
