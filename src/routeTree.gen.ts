@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InfraestruturaRouteImport } from './routes/infraestrutura'
+import { Route as ParaEmpresasRouteImport } from './routes/para-empresas'
 import { Route as PlanosRouteImport } from './routes/planos'
 import { Route as ProdutoraRouteImport } from './routes/produtora'
 import { Route as ServicosRouteImport } from './routes/servicos'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const InfraestruturaRoute = InfraestruturaRouteImport.update({
   id: '/infraestrutura',
   path: '/infraestrutura',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParaEmpresasRoute = ParaEmpresasRouteImport.update({
+  id: '/para-empresas',
+  path: '/para-empresas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlanosRoute = PlanosRouteImport.update({
@@ -44,6 +50,7 @@ const ServicosRoute = ServicosRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/infraestrutura': typeof InfraestruturaRoute
+  '/para-empresas': typeof ParaEmpresasRoute
   '/planos': typeof PlanosRoute
   '/produtora': typeof ProdutoraRoute
   '/servicos': typeof ServicosRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/infraestrutura': typeof InfraestruturaRoute
+  '/para-empresas': typeof ParaEmpresasRoute
   '/planos': typeof PlanosRoute
   '/produtora': typeof ProdutoraRoute
   '/servicos': typeof ServicosRoute
@@ -59,19 +67,33 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/infraestrutura': typeof InfraestruturaRoute
+  '/para-empresas': typeof ParaEmpresasRoute
   '/planos': typeof PlanosRoute
   '/produtora': typeof ProdutoraRoute
   '/servicos': typeof ServicosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/infraestrutura' | '/planos' | '/produtora' | '/servicos'
+  fullPaths:
+    | '/'
+    | '/infraestrutura'
+    | '/para-empresas'
+    | '/planos'
+    | '/produtora'
+    | '/servicos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/infraestrutura' | '/planos' | '/produtora' | '/servicos'
+  to:
+    | '/'
+    | '/infraestrutura'
+    | '/para-empresas'
+    | '/planos'
+    | '/produtora'
+    | '/servicos'
   id:
     | '__root__'
     | '/'
     | '/infraestrutura'
+    | '/para-empresas'
     | '/planos'
     | '/produtora'
     | '/servicos'
@@ -80,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   InfraestruturaRoute: typeof InfraestruturaRoute
+  ParaEmpresasRoute: typeof ParaEmpresasRoute
   PlanosRoute: typeof PlanosRoute
   ProdutoraRoute: typeof ProdutoraRoute
   ServicosRoute: typeof ServicosRoute
@@ -99,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/infraestrutura'
       fullPath: '/infraestrutura'
       preLoaderRoute: typeof InfraestruturaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/para-empresas': {
+      id: '/para-empresas'
+      path: '/para-empresas'
+      fullPath: '/para-empresas'
+      preLoaderRoute: typeof ParaEmpresasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/planos': {
@@ -128,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   InfraestruturaRoute: InfraestruturaRoute,
+  ParaEmpresasRoute: ParaEmpresasRoute,
   PlanosRoute: PlanosRoute,
   ProdutoraRoute: ProdutoraRoute,
   ServicosRoute: ServicosRoute,
