@@ -138,7 +138,7 @@ function Planos() {
 
       {/* Plans grid */}
       <section className="max-w-7xl mx-auto px-6 md:px-10 py-16 md:py-24">
-        <div className="grid gap-6 md:gap-8 md:grid-cols-3">
+        <div className="grid gap-6 md:gap-8 md:grid-cols-2">
           {plans.map((plan) => {
             const Icon = iconForPlano(plan.nome);
             const raw = billing === "mensal" ? plan.valor_mensal : plan.valor_avulso;
@@ -227,62 +227,39 @@ function Planos() {
             );
           })}
           {/* Empresas e agências — no mesmo bloco dos planos */}
-          <article className="md:col-span-3 group relative rounded-2xl border border-primary/30 bg-gradient-to-br from-surface-elevated via-surface to-surface p-8 md:p-10 shadow-card overflow-hidden">
+          <article className="group relative flex flex-col rounded-2xl border border-primary/30 bg-gradient-to-br from-surface-elevated via-surface to-surface p-8 shadow-card overflow-hidden">
             <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-gradient-brand opacity-15 blur-3xl" />
-            <div className="relative grid gap-8 md:grid-cols-[1.1fr_1fr] md:items-start">
-              <div>
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-primary-foreground">
-                    <Building2 size={20} />
-                  </span>
-                  <span className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    Empresas e agências
-                  </span>
-                </div>
-
-                <h3 className="mt-5 text-2xl md:text-3xl font-bold">
-                  Produção para os seus clientes
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  O Flex abre a estrutura para empresas e agências de
-                  publicidade e marketing: salas reservadas, equipamento
-                  completo e equipe técnica de plantão. Os planos acima cobrem a
-                  locação; para campanha a proposta é montada sob medida.
-                </p>
-
-                <div className="mt-6 min-h-[72px]">
-                  <span className="text-3xl md:text-4xl font-bold text-gradient-brand leading-none">
-                    Sob medida
-                  </span>
-                  <span className="mt-2 block text-xs text-muted-foreground">
-                    Proposta a partir da sua demanda: hora, diária ou pacote
-                    mensal.
-                  </span>
-                </div>
-
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Link
-                    to="/para-empresas"
-                    className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
-                  >
-                    <Building2 size={16} /> Conhecer o serviço
-                    <ArrowRight size={16} />
-                  </Link>
-                  <a
-                    href={whatsappLink(
-                      phone,
-                      "Olá, sou de uma empresa/agência e quero uma proposta para produção de conteúdo no Flex Studios."
-                    )}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground hover:border-primary hover:bg-surface-elevated transition-smooth"
-                  >
-                    Pedir proposta
-                  </a>
-                </div>
+            <div className="relative flex flex-1 flex-col">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-primary-foreground">
+                  <Building2 size={20} />
+                </span>
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  Empresas e agências
+                </span>
               </div>
 
-              <ul className="grid gap-3">
+              <h3 className="mt-5 text-2xl font-bold">
+                Produção para os seus clientes
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                O Flex abre a estrutura para empresas e agências de publicidade
+                e marketing: salas reservadas, equipamento completo e equipe
+                técnica de plantão. Os planos acima cobrem a locação; para
+                campanha a proposta é montada sob medida.
+              </p>
+
+              <div className="mt-6 min-h-[72px]">
+                <span className="text-3xl font-bold text-gradient-brand leading-none">
+                  Sob medida
+                </span>
+                <span className="mt-2 block text-xs text-muted-foreground">
+                  Proposta a partir da sua demanda: hora, diária ou pacote
+                  mensal.
+                </span>
+              </div>
+
+              <ul className="mt-6 grid flex-1 gap-3">
                 {[
                   "Campanhas, spots e vídeos institucionais",
                   "Podcasts, videocasts e conteúdo para redes",
@@ -299,6 +276,27 @@ function Planos() {
                   </li>
                 ))}
               </ul>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  to="/para-empresas"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
+                >
+                  <Building2 size={16} /> Conhecer o serviço
+                  <ArrowRight size={16} />
+                </Link>
+                <a
+                  href={whatsappLink(
+                    phone,
+                    "Olá, sou de uma empresa/agência e quero uma proposta para produção de conteúdo no Flex Studios."
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground hover:border-primary hover:bg-surface-elevated transition-smooth"
+                >
+                  Pedir proposta
+                </a>
+              </div>
             </div>
           </article>
         </div>

@@ -15,3 +15,8 @@
 
 ## Pendente de resposta do usuário
 - [ ] Confirmar se o trabalho segue no draft "homolog" ou se você vai conectar Git sync e trocar a branch sincronizada
+
+## Página de planos / empresas
+- [x] Card "Empresas e agências" na grade de planos
+- [x] Grade de planos com 2 cards por linha (pedido do usuário)
+- [x] Bloco de perguntas e respostas sobre o serviço para empresas

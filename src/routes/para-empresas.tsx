@@ -112,6 +112,44 @@ const usos = [
   "Locuções, dublagens e audiobooks",
 ];
 
+const faqEmpresas = [
+  {
+    pergunta: "Preciso contratar um plano mensal para gravar com a agência?",
+    resposta:
+      "Não. Você pode locar por hora, fechar uma diária ou montar um pacote mensal quando a demanda é recorrente. A proposta sai do volume de gravações do seu time — sem contrato de fidelidade.",
+  },
+  {
+    pergunta: "Vocês atendem mais de um cliente ao mesmo tempo?",
+    resposta:
+      "A sala é reservada por período, então uma produção trabalha por vez. Se a sua agência precisa de duas gravações no mesmo dia, a gente agenda os estúdios em horários diferentes.",
+  },
+  {
+    pergunta: "O material da campanha fica protegido?",
+    resposta:
+      "Sim. Sala fechada, acesso controlado e sigilo total sobre o que é gravado. Nada do seu cliente vaza antes da veiculação — e o material pode ser apagado depois da entrega, se você pedir.",
+  },
+  {
+    pergunta: "Posso levar a minha equipe e o cliente?",
+    resposta:
+      "Pode. Você traz diretor, apresentador, equipe de criação e o cliente. Durante o período contratado o espaço é seu, com suporte técnico do Flex à disposição.",
+  },
+  {
+    pergunta: "Vocês cuidam da edição e da finalização?",
+    resposta:
+      "Cuidamos. Da captação à entrega: gravação, edição e finalização do material pronto para publicar em cada canal — TV, redes sociais, site ou plataforma interna.",
+  },
+  {
+    pergunta: "Qual sala usar para cada tipo de conteúdo?",
+    resposta:
+      "As salas de 16m² e 20m² atendem videocast, videoaula e vídeo de campanha, que pedem espaço para câmera e equipe. O Estúdio B é o mais indicado para locução, spot, dublagem e audiobook, pelo tratamento de áudio.",
+  },
+  {
+    pergunta: "Como funciona a reserva de agenda?",
+    resposta:
+      "Manda a data, o horário e o tipo de gravação no WhatsApp. A gente confirma a disponibilidade da sala, envia a proposta e, aprovado, bloqueia o horário para você.",
+  },
+];
+
 function ParaEmpresas() {
   const whatsappHref = useWhatsappLink(
     "Olá, sou de uma empresa/agência e quero saber mais sobre a estrutura do Flex Studios para produção de conteúdo."
@@ -259,6 +297,42 @@ function ParaEmpresas() {
               uma proposta sob medida.
             </p>
           </MotionReveal>
+        </div>
+      </section>
+
+      {/* Perguntas frequentes */}
+      <section className="py-24 md:py-32 border-t border-border">
+        <div className="max-w-4xl mx-auto px-6 md:px-10">
+          <MotionReveal className="text-center">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="h-px w-8 bg-primary" /> Perguntas frequentes
+            </span>
+            <h2 className="mt-4 text-4xl md:text-5xl font-bold">
+              Antes de fechar a gravação
+            </h2>
+            <p className="mt-5 text-muted-foreground">
+              O que as empresas e agências mais querem saber antes de trazer a
+              produção para o Flex.
+            </p>
+          </MotionReveal>
+
+          <div className="mt-12 space-y-4">
+            {faqEmpresas.map((f) => (
+              <MotionReveal key={f.pergunta}>
+                <details className="group rounded-xl border border-border bg-surface p-5 open:border-primary/40 transition-smooth">
+                  <summary className="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold">
+                    {f.pergunta}
+                    <span className="text-primary transition-transform group-open:rotate-45 text-2xl leading-none">
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                    {f.resposta}
+                  </p>
+                </details>
+              </MotionReveal>
+            ))}
+          </div>
         </div>
       </section>
 
