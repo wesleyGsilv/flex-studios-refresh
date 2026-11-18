@@ -36,9 +36,22 @@ export const Route = createFileRoute("/para-empresas")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        property: "og:image",
+        content:
+          "https://www.flex.apigwrconstruct.com.br/wp-content/uploads/2026/07/banner-hero-1-1.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://www.flex.apigwrconstruct.com.br/wp-content/uploads/2026/07/banner-hero-1-1.png",
+      },
     ],
   }),
 });
+
+const BANNER_EMPRESAS =
+  "https://www.flex.apigwrconstruct.com.br/wp-content/uploads/2026/07/banner-hero-1-1.png";
 
 const publicos = [
   {
@@ -163,6 +176,7 @@ function ParaEmpresas() {
         eyebrow="Para empresas e agências"
         title="Sua próxima campanha nasce aqui dentro."
         subtitle="O Flex abre as portas da sua estrutura para empresas e agências de publicidade e marketing que precisam gravar e produzir conteúdo para seus clientes — com qualidade de estúdio profissional e sem dor de cabeça."
+        image={BANNER_EMPRESAS}
       />
 
       {/* Para quem é */}
