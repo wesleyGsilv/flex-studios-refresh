@@ -9,25 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ServicosRouteImport } from './routes/servicos'
-import { Route as ProdutoraRouteImport } from './routes/produtora'
-import { Route as PlanosRouteImport } from './routes/planos'
-import { Route as InfraestruturaRouteImport } from './routes/infraestrutura'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InfraestruturaRouteImport } from './routes/infraestrutura'
+import { Route as PlanosRouteImport } from './routes/planos'
+import { Route as ProdutoraRouteImport } from './routes/produtora'
+import { Route as ServicosRouteImport } from './routes/servicos'
 
-const ServicosRoute = ServicosRouteImport.update({
-  id: '/servicos',
-  path: '/servicos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProdutoraRoute = ProdutoraRouteImport.update({
-  id: '/produtora',
-  path: '/produtora',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlanosRoute = PlanosRouteImport.update({
-  id: '/planos',
-  path: '/planos',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InfraestruturaRoute = InfraestruturaRouteImport.update({
@@ -35,9 +25,19 @@ const InfraestruturaRoute = InfraestruturaRouteImport.update({
   path: '/infraestrutura',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const PlanosRoute = PlanosRouteImport.update({
+  id: '/planos',
+  path: '/planos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProdutoraRoute = ProdutoraRouteImport.update({
+  id: '/produtora',
+  path: '/produtora',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicosRoute = ServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -87,25 +87,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/servicos': {
-      id: '/servicos'
-      path: '/servicos'
-      fullPath: '/servicos'
-      preLoaderRoute: typeof ServicosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/produtora': {
-      id: '/produtora'
-      path: '/produtora'
-      fullPath: '/produtora'
-      preLoaderRoute: typeof ProdutoraRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/planos': {
-      id: '/planos'
-      path: '/planos'
-      fullPath: '/planos'
-      preLoaderRoute: typeof PlanosRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/infraestrutura': {
@@ -115,11 +101,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InfraestruturaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/planos': {
+      id: '/planos'
+      path: '/planos'
+      fullPath: '/planos'
+      preLoaderRoute: typeof PlanosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/produtora': {
+      id: '/produtora'
+      path: '/produtora'
+      fullPath: '/produtora'
+      preLoaderRoute: typeof ProdutoraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicos': {
+      id: '/servicos'
+      path: '/servicos'
+      fullPath: '/servicos'
+      preLoaderRoute: typeof ServicosRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
