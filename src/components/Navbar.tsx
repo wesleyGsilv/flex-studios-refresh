@@ -8,8 +8,8 @@ const links = [
   { to: "/produtora", label: "A produtora" },
   { to: "/servicos", label: "Serviços" },
   { to: "/infraestrutura", label: "Infraestrutura" },
-  { to: "/planos", label: "Planos" },
   { to: "/para-empresas", label: "Para empresas" },
+  { to: "/planos", label: "Planos" },
 ] as const;
 
 export function Navbar() {
