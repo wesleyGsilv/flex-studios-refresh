@@ -30,6 +30,16 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:title", content: "Flex Studios — Produção audiovisual e musical" },
       { property: "og:description", content: "Estúdio completo em Belo Horizonte. Áudio, vídeo, EAD e transmissão." },
+      {
+        property: "og:image",
+        content:
+          "https://www.flex.apigwrconstruct.com.br/wp-content/uploads/2026/07/banner-hero-1-1.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://www.flex.apigwrconstruct.com.br/wp-content/uploads/2026/07/banner-hero-1-1.png",
+      },
     ],
   }),
 });
