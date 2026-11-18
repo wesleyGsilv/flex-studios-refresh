@@ -1,7 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Check, Music2, Mic, Headphones, Sparkles, type LucideIcon } from "lucide-react";
+import {
+  Check,
+  Music2,
+  Mic,
+  Headphones,
+  Sparkles,
+  Building2,
+  ArrowRight,
+  type LucideIcon,
+} from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
@@ -231,6 +240,67 @@ function Planos() {
               <p className="mt-1 text-sm text-muted-foreground">{item.v}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Empresas e agências */}
+      <section className="max-w-7xl mx-auto px-6 md:px-10 pb-16 md:pb-24">
+        <div className="relative overflow-hidden rounded-2xl border border-primary/25 bg-gradient-to-br from-surface-elevated via-surface to-surface p-8 md:p-12 shadow-card">
+          <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-gradient-brand opacity-15 blur-3xl" />
+          <div className="relative grid gap-10 md:grid-cols-[1.1fr_1fr] md:items-center">
+            <div>
+              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+                <span className="h-px w-8 bg-primary" /> Empresas e agências
+              </span>
+              <h2 className="mt-4 text-3xl md:text-4xl font-bold">
+                Precisa produzir conteúdo para os seus clientes?
+              </h2>
+              <p className="mt-4 text-muted-foreground leading-relaxed">
+                O Flex abre a estrutura para empresas e agências de publicidade
+                e marketing: salas reservadas, equipamento completo e equipe
+                técnica de plantão. Os planos acima cobrem a locação; para
+                produção de campanha a proposta é montada sob medida.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  to="/para-empresas"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow hover:scale-[1.03] transition-smooth"
+                >
+                  <Building2 size={16} /> Conhecer o serviço para empresas
+                  <ArrowRight size={16} />
+                </Link>
+                <a
+                  href={whatsappLink(
+                    phone,
+                    "Olá, sou de uma empresa/agência e quero uma proposta para produção de conteúdo no Flex Studios."
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground hover:border-primary hover:bg-surface-elevated transition-smooth"
+                >
+                  Pedir proposta
+                </a>
+              </div>
+            </div>
+
+            <ul className="grid gap-3">
+              {[
+                "Campanhas, spots e vídeos institucionais",
+                "Podcasts, videocasts e conteúdo para redes",
+                "Treinamentos, videoaulas e locuções",
+                "Sigilo e exclusividade sobre o material",
+                "Locação por hora, diária ou pacote mensal",
+              ].map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-3 rounded-xl border border-border bg-background/40 px-4 py-3 text-sm"
+                >
+                  <Check size={16} className="mt-0.5 shrink-0 text-primary" />
+                  <span className="text-foreground/90">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
